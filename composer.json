@@ -1,0 +1,16 @@
+{
+    "name": "dpc-sdp/tide_media",
+    "type": "drupal-module",
+    "description": "Media entities and related configuration for Tide Drupal 8 distribution",
+    "license": "GPL-2.0+",
+    "require": {
+        "dpc-sdp/tide_core": "dev-master"
+    },
+    "repositories": {
+        "tide_core": {
+          "type": "vcs",
+          "no-api": true,
+          "url": "ssh://git@github.com:22/dpc-sdp/tide_core.git"
+        }
+    }
+}
