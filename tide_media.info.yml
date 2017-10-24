@@ -1,0 +1,8 @@
+name: Media
+description: 'Provides Media entities and related configuration.'
+type: module
+package: Tide
+core: 8.x
+version: 8.x-0.1
+dependencies:
+  - tide:tide_core
