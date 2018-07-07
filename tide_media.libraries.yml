@@ -1,0 +1,8 @@
+media_form:
+  version: 1.0
+  js:
+    js/media_form.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery

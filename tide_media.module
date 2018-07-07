@@ -1,0 +1,231 @@
+<?php
+
+/**
+ * @file
+ * Tide Media module functionality.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Drupal\Component\Utility\SafeMarkup;
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function tide_media_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+  if ($view->id() == 'media') {
+    // Add License field as a filter to the view.
+    $expose_array = [
+      'exposed' => TRUE,
+      'expose' => [
+        'operator_id' => 'field_media_license_value_op',
+        'label' => 'License',
+        'use_operator' => FALSE,
+        'operator' => 'field_media_license_value_op',
+        'identifier' => 'field_media_license_value',
+        'required' => FALSE,
+        'remember' => FALSE,
+        'multiple' => FALSE,
+      ],
+      'group_type' => 'group',
+      'operator' => 'or',
+      'group' => 1,
+      'type' => 'select',
+    ];
+    $view->addHandler('media_page_list', 'filter', 'media__field_media_license', 'field_media_license_value', $expose_array);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Hide the "Embedded with Transcript" view mode from some media embeds.
+  $allowed_entity_types = ["audio", "video", "embedded_video"];
+  if ($form_id == 'entity_embed_dialog' || $form_id == "entity_browser_tide_media_browser_iframe_form") {
+    $entity_browser = $form_state->getValue('entity_browser');
+    if (!empty($entity_browser['entities'])) {
+      /** @var \Drupal\media\Entity\Media $entity */
+      $entity = reset($entity_browser['entities']);
+      if ($entity && !in_array($entity->bundle(), $allowed_entity_types)) {
+        unset($form['attributes']['data-entity-embed-display']['#options']['view_mode:media.embedded_with_transcript']);
+      }
+    }
+  }
+
+  // Hide the "Embedded with Caption" view mode from some media embeds.
+  $allowed_entity_types = ["image"];
+  if ($form_id == 'entity_embed_dialog' || $form_id == "entity_browser_tide_media_browser_iframe_form") {
+    $entity_browser = $form_state->getValue('entity_browser');
+    if (!empty($entity_browser['entities'])) {
+      /** @var \Drupal\media\Entity\Media $entity */
+      $entity = reset($entity_browser['entities']);
+      if ($entity && !in_array($entity->bundle(), $allowed_entity_types)) {
+        unset($form['attributes']['data-entity-embed-display']['#options']['view_mode:media.embedded_with_caption']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tide_media_form_media_form_alter(&$form, FormStateInterface $form_state) {
+  $form['#attached']['library'][] = 'tide_media/media_form';
+}
+
+/**
+ * Implements template_preprocess_field().
+ */
+function tide_media_preprocess_field(&$variables) {
+  if ($variables['field_name'] == 'field_media_file') {
+    $element = $variables['element'];
+    if ($element['#entity_type'] == 'media' && $element['#bundle'] == 'document' && $element['#view_mode'] == 'embedded') {
+      foreach ($variables['items'] as $delta => &$item) {
+        /** @var \Drupal\media\Entity\Media $media */
+        $media = $element['#object'];
+        $document_name = $media->get('name')->getString();
+        if ($document_name) {
+          $item['content']['#description'] = $document_name;
+          $element[$delta] = $item;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_file_link().
+ */
+function tide_media_preprocess_file_link(&$variables) {
+  /** @var \Drupal\file\Entity\File $file */
+  $file = $variables['file'];
+
+  $config = \Drupal::config('tide_media.settings');
+  if ($config->get('file_absolute_url')) {
+    $url = file_create_url($file->getFileUri());
+    if ($config->get('force_https')) {
+      $url = str_replace('http://', 'https://', $url);
+    }
+  }
+
+  /** @var \Drupal\Core\GeneratedLink $link */
+  $link = $variables['link'];
+  $description = $variables['description'];
+  $file_size = format_size($file->getSize());
+
+  $mime_type = $file->getMimeType();
+  $mime_category = file_icon_class($mime_type);
+  switch ($mime_category) {
+    case 'application-pdf':
+      $file_type = 'PDF';
+      break;
+
+    case 'x-office-document':
+      $file_type = 'Word';
+      break;
+
+    case 'x-office-spreadsheet':
+      $file_type = 'Excel';
+      break;
+
+    case 'x-office-presentation':
+      $file_type = 'PPT';
+      break;
+
+    case 'text':
+      $file_type = 'Text';
+      break;
+
+    default:
+      $file_type = 'Other';
+  }
+
+  $link_text = SafeMarkup::format('<span class="file--title">@description</span>' .
+    '<span class="file--type">@file_type</span>' .
+    '<span class="file--size">@file_size</span>',
+    [
+      '@description' => $description,
+      '@file_type' => $file_type,
+      '@file_size' => $file_size,
+    ]);
+
+  $attributes['attributes'] = [
+    'class' => [
+      $mime_category,
+    ],
+    'aria-label' => [
+      $description . ' File type: ' . $file_type . '. Size: ' . $file_size . '.',
+    ],
+  ];
+
+  if (isset($url) && !empty($url)) {
+    $uri = Url::fromUri($url);
+    $uri->setOptions($attributes);
+    $link_html = Link::fromTextAndUrl($link_text, $uri)->toString();
+    $link->setGeneratedLink($link_html);
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ *
+ * @see jsonapi_entity_base_field_info()
+ */
+function tide_media_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+  if ($entity_type->id() == 'file') {
+    if (\Drupal::config('tide_media.settings')->get('file_absolute_url')) {
+      // Return absolute URL for all files, both in fields and wysiwyg.
+      $fields['url'] = BaseFieldDefinition::create('string')
+        ->setLabel(t('Download URL'))
+        ->setDescription(t('The download URL of the file.'))
+        ->setComputed(TRUE)
+        ->setCustomStorage(TRUE)
+        ->setClass('\Drupal\tide_media\Plugin\Field\FileAbsoluteUrl')
+        ->setDisplayOptions('view', [
+          'label' => 'above',
+          'weight' => -5,
+          'region' => 'hidden',
+        ])
+        ->setDisplayConfigurable('view', TRUE);
+    }
+  }
+  return $fields;
+}
+
+/**
+ * Implements hook_entity_base_field_info_alter().
+ *
+ * @see jsonapi_entity_base_field_info()
+ */
+function tide_media_entity_base_field_info_alter(&$fields, EntityTypeInterface $entity_type) {
+  if ($entity_type->id() == 'file') {
+    if (\Drupal::config('tide_media.settings')->get('file_absolute_url')) {
+      // The field maybe changed by jsonapi, reset it here.
+      $fields['url']->setClass('\Drupal\tide_media\Plugin\Field\FileAbsoluteUrl');
+    }
+  }
+}
+
+/**
+ * Implement template_preprocess_image().
+ *
+ * @see template_preprocess_image()
+ */
+function tide_media_preprocess_image(&$variables) {
+  // Return the absolute URL for images.
+  if (!empty($variables['uri'])) {
+    $config = \Drupal::config('tide_media.settings');
+    if ($config->get('file_absolute_url')) {
+      $variables['attributes']['src'] = file_create_url($variables['uri']);
+      if ($config->get('force_https')) {
+        $variables['attributes']['src'] = str_replace('http://', 'https://', $variables['attributes']['src']);
+      }
+    }
+  }
+}

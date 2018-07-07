@@ -1,16 +1,23 @@
 {
-    "name": "dpc-sdp/tide_media",
-    "type": "drupal-module",
-    "description": "Media entities and related configuration for Tide Drupal 8 distribution",
-    "license": "GPL-2.0+",
-    "require": {
-        "dpc-sdp/tide_core": "dev-master"
-    },
-    "repositories": {
-        "tide_core": {
-          "type": "vcs",
-          "no-api": true,
-          "url": "ssh://git@github.com:22/dpc-sdp/tide_core.git"
-        }
+  "name": "dpc-sdp/tide_media",
+  "description": "Media and related configuration for Tide Drupal 8 distribution",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "version": "0.0.1",
+  "require": {
+    "drupal/embed": "^1.0",
+    "drupal/entity_browser": "^1.4",
+    "drupal/entity_embed": "^1.0@beta",
+    "drupal/field_group": "^3.0-beta1",
+    "drupal/inline_entity_form": "^1.0@beta",
+    "drupal/video_embed_field": "^2.0",
+    "dpc-sdp/tide_core": "0.0.1"
+  },
+  "repositories": {
+    "tide_core": {
+      "type": "vcs",
+      "no-api": true,
+      "url": "ssh://git@github.com:22/dpc-sdp/tide_core.git"
     }
+  }
 }

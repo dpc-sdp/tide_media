@@ -1,8 +1,86 @@
-name: Media
-description: 'Provides Media entities and related configuration.'
+name: Tide Media
+description: 'Provides Media and related configuration. '
 type: module
 package: Tide
 core: 8.x
-version: 8.x-0.1
 dependencies:
-  - tide:tide_core
+  - drupal:field
+  - drupal:media
+  - drupal:path
+  - drupal:text
+  - drupal:user
+  - dpc-sdp:tide_core
+  - drupal:datetime
+  - field_group:field_group
+  - inline_entity_form:inline_entity_form
+  - embed:embed
+  - entity_embed:entity_embed
+  - entity_browser:entity_browser
+  - entity_browser:entity_browser_entity_form
+  - video_embed_field:video_embed_field
+  - video_embed_field:video_embed_media
+config_devel:
+  install:
+    - media.type.document
+    - media.type.audio
+    - media.type.video
+    - field.field.media.document.field_media_file
+    - core.entity_form_display.media.document.default
+    - core.entity_view_display.media.document.default
+    - core.entity_form_display.media.image.default
+    - core.entity_view_display.media.image.default
+    - core.entity_form_display.media.file.default
+    - core.entity_view_display.media.file.default
+    - core.entity_form_display.media.audio.default
+    - core.entity_view_display.media.audio.default
+    - core.entity_form_display.media.video.default
+    - core.entity_view_display.media.video.default
+    - taxonomy.vocabulary.audience
+    - taxonomy.vocabulary.department
+    - field.storage.media.field_media_audience
+    - field.storage.media.field_media_caption
+    - field.storage.media.field_media_alignment
+    - field.storage.media.field_media_department
+    - field.storage.media.field_media_length
+    - field.storage.media.field_media_license
+    - field.storage.media.field_media_restricted
+    - field.storage.media.field_media_summary
+    - field.storage.media.field_media_topic
+    - field.storage.media.field_media_transcript
+    - field.storage.media.field_media_show_transcript
+    - field.field.media.audio.field_media_license
+    - field.field.media.audio.field_media_audience
+    - field.field.media.audio.field_media_department
+    - field.field.media.audio.field_media_file
+    - field.field.media.audio.field_media_restricted
+    - field.field.media.audio.field_media_topic
+    - field.field.media.audio.field_media_length
+    - field.field.media.audio.field_media_summary
+    - field.field.media.audio.field_media_transcript
+    - field.field.media.audio.field_media_show_transcript
+    - field.field.media.document.field_media_license
+    - field.field.media.document.field_media_audience
+    - field.field.media.document.field_media_department
+    - field.field.media.document.field_media_restricted
+    - field.field.media.document.field_media_topic
+    - field.field.media.image.field_media_license
+    - field.field.media.image.field_media_caption
+    - field.field.media.image.field_media_alignment
+    - field.field.media.image.field_media_audience
+    - field.field.media.image.field_media_department
+    - field.field.media.image.field_media_restricted
+    - field.field.media.image.field_media_topic
+    - field.field.media.file.field_media_license
+    - field.field.media.file.field_media_audience
+    - field.field.media.file.field_media_department
+    - field.field.media.file.field_media_restricted
+    - field.field.media.file.field_media_topic
+    - field.field.media.video.field_media_license
+    - field.field.media.video.field_media_audience
+    - field.field.media.video.field_media_department
+    - field.field.media.video.field_media_file
+    - field.field.media.video.field_media_restricted
+    - field.field.media.video.field_media_topic
+    - field.field.media.video.field_media_length
+    - field.field.media.video.field_media_summary
+    - field.field.media.video.field_media_transcript

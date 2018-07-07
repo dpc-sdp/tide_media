@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Tide Media install.
+ */
+
+use Drupal\embed\Entity\EmbedButton;
+use Drupal\file\Entity\File;
+
+/**
+ * Implements hook_install().
+ */
+function tide_media_install() {
+  // Set the icon for Media Browser button in CKEditor.
+  $icon = \Drupal::moduleHandler()->getModule('tide_media')->getPath() . '/images/star.png';
+
+  $destination = \Drupal::config('media.settings')->get('icon_base_uri');
+  file_prepare_directory($destination, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+
+  /** @var \Drupal\Core\File\FileSystem $fs */
+  $fs = \Drupal::service('file_system');
+  $icon_destination = file_unmanaged_copy($icon, $destination . DIRECTORY_SEPARATOR . $fs->basename($icon));
+
+  if ($icon_destination) {
+    $file = File::create(['uri' => $icon_destination]);
+    $file->uid = 1;
+    $file->save();
+
+    EmbedButton::load('tide_media')
+      ->set('icon_uuid', $file->uuid())
+      ->save();
+  }
+}
