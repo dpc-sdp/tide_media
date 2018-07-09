@@ -12,12 +12,5 @@
     "drupal/inline_entity_form": "^1.0@beta",
     "drupal/video_embed_field": "^2.0",
     "dpc-sdp/tide_core": "dev-master"
-  },
-  "repositories": {
-    "tide_core": {
-      "type": "vcs",
-      "no-api": true,
-      "url": "ssh://git@github.com:22/dpc-sdp/tide_core.git"
-    }
   }
 }
