@@ -3,7 +3,7 @@ Feature: Fields for different Media types
 
   Ensure that all media types have the expected fields.
 
-  @api @javascript
+  @api @javascript @nosuggest
   Scenario: The Document media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/document"
@@ -36,7 +36,7 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api @javascript
+  @api @javascript @nosuggest
   Scenario: The Image media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/image"
@@ -81,7 +81,7 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api
+  @api @nosuggest
   Scenario: The Video media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/video"
@@ -128,7 +128,7 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api
+  @api @nosuggest
   Scenario: The Audio media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/audio"
@@ -175,7 +175,7 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api
+  @api @nosuggest
   Scenario: The Embedded Video media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/embedded_video"

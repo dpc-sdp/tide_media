@@ -3,7 +3,6 @@
   "description": "Media and related configuration for Tide Drupal 8 distribution",
   "type": "drupal-module",
   "license": "GPL-2.0+",
-  "version": "0.0.1",
   "require": {
     "drupal/embed": "^1.0",
     "drupal/entity_browser": "^1.4",
@@ -12,5 +11,20 @@
     "drupal/inline_entity_form": "^1.0@beta",
     "drupal/video_embed_field": "^2.0",
     "dpc-sdp/tide_core": "dev-master"
+  },
+  "repositories": {
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "platform": {
+      "php": "7.1"
+    },
+    "process-timeout": 0,
+    "sort-packages": true
   }
 }
