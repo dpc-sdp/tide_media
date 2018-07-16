@@ -12,6 +12,11 @@
     "drupal/video_embed_field": "^2.0",
     "dpc-sdp/tide_core": "dev-master"
   },
+  "suggest": {
+    "dpc-sdp/tide_page": "@dev",
+    "dpc-sdp/tide_landing_page": "@dev",
+    "dpc-sdp/tide_news": "@dev"
+  },
   "repositories": {
     "drupal": {
       "type": "composer",
