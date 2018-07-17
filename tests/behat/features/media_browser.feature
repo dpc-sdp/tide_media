@@ -12,7 +12,6 @@ Feature: Media browser
     Then I should see a "#cke_edit-body-0-value .cke_top .cke_button__tide_media" element
     And I click "Media"
     And I wait for AJAX to finish
-    And I wait for 5 seconds
     Then I should see the text "Select media to embed"
     And I press the "Close" button
 
