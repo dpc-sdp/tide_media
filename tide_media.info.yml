@@ -10,6 +10,7 @@ dependencies:
   - drupal:text
   - drupal:user
   - dpc-sdp:tide_core
+  - dpc-sdp:tide_test
   - drupal:datetime
   - field_group:field_group
   - inline_entity_form:inline_entity_form
