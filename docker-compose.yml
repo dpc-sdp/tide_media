@@ -31,3 +31,5 @@ services:
     image: amazeeio/centos7-mariadb10-drupal
   selenium:
     image: selenium/standalone-chrome
+    volumes:
+          - ./tests/behat/fixtures:/app/tests/behat/fixtures:delegated

@@ -12,6 +12,9 @@
     "drupal/video_embed_field": "^2.0",
     "dpc-sdp/tide_core": "dev-master"
   },
+  "require-dev": {
+    "dpc-sdp/tide_test": "@dev"
+  },
   "suggest": {
     "dpc-sdp/tide_page": "@dev",
     "dpc-sdp/tide_landing_page": "@dev",
