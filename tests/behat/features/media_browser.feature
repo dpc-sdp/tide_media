@@ -13,11 +13,4 @@ Feature: Media browser
     And I click "Media"
     And I wait for AJAX to finish
     Then I should see the text "Select media to embed"
-    Then I save screenshot
     And I press the "Close" button
-    Then I save screenshot
-
-    And I should see the text "Media"
-    And I press the "Select media" button
-    And I wait for AJAX to finish
-    Then I should see the text "Select media"
