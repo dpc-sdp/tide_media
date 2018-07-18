@@ -10,9 +10,7 @@
     "drupal/field_group": "^3.0-beta1",
     "drupal/inline_entity_form": "^1.0@beta",
     "drupal/video_embed_field": "^2.0",
-    "dpc-sdp/tide_core": "dev-master"
-  },
-  "require-dev": {
+    "dpc-sdp/tide_core": "dev-master",
     "dpc-sdp/tide_test": "@dev"
   },
   "suggest": {
