@@ -14,7 +14,10 @@ tide_media
 The Tide Media module provides the Media types and related configurations used in Tide.
 
 # REQUIREMENTS
-* [Tide Core Profile](https://github.com/dpc-sdp/tide)
+* [Tide Core](https://github.com/dpc-sdp/tide_core)
+
+# DEV REQUIREMENTS
+* [Tide Test](https://github.com/dpc-sdp/tide_test)
 
 # RECOMMENDED MODULES
 * [Tide Page](https://github.com/dpc-sdp/tide_page)
