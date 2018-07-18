@@ -13,7 +13,8 @@
     "dpc-sdp/tide_core": "dev-master"
   },
   "require-dev": {
-    "dpc-sdp/tide_test": "@dev"
+    "dpc-sdp/tide_test": "@dev",
+    "behat/mink-selenium2-driver": "1.3.x-dev"
   },
   "suggest": {
     "dpc-sdp/tide_page": "@dev",
