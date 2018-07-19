@@ -106,12 +106,16 @@ install-module:
 	# Enable current module.
 	$(call exec,docker-compose exec cli drush -r $(APP)/$(WEBROOT) en -y $(MODULE_NAME))
 
-
 ## Install site.
 install-site:
 	$(call title,Installing a site)
 	$(call exec,docker-compose exec cli drush -r $(APP)/$(WEBROOT) si testing -y --db-url=mysql://drupal:drupal@$(MYSQL_HOST)/drupal --account-name=admin --account-pass=admin install_configure_form.enable_update_status_module=NULL install_configure_form.enable_update_status_emails=NULL)
 	$(call exec,docker-compose exec cli bash -c "COMPOSER=$(COMPOSER_BUILD) composer --working-dir=$(APP)/$(BUILD) drupal-post-install")
+
+## Install dev modules.
+install-dev:
+	$(call title,Installing dev modules)
+	$(call exec,docker-compose exec cli drush en -y tide_test)
 
 ## Lint code.
 lint:
