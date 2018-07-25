@@ -17,6 +17,7 @@ dependencies:
   - entity_embed:entity_embed
   - entity_browser:entity_browser
   - entity_browser:entity_browser_entity_form
+  - svg_image:svg_image
   - video_embed_field:video_embed_field
   - video_embed_field:video_embed_media
 config_devel:

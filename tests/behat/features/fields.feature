@@ -46,7 +46,7 @@ Feature: Fields for different Media types
     And I should see "Image" in the "label[for=edit-field-media-image-0-upload]" element
     And I should see an "label[for=edit-field-media-image-0-upload].form-required" element
     And I should see an "input#edit-field-media-image-0-upload" element
-    And I should see "Allowed types: png gif jpg jpeg." in the "#edit-field-media-image-0-upload--description" element
+    And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0-upload--description" element
 
     And I attach the file "SampleJPGImage_50kbmb.jpg" to "Image"
     And I wait for AJAX to finish
