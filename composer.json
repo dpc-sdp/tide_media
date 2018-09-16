@@ -19,7 +19,7 @@
   },
   "suggest": {
     "dpc-sdp/tide_page": "@dev",
-    "dpc-sdp/tide_landing_page": "@dev",
+    "dpc-sdp/tide_landing_page": "dev-feature/SDPA-904-event-content-type",
     "dpc-sdp/tide_news": "@dev"
   },
   "repositories": {
