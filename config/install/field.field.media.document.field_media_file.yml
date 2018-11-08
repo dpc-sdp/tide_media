@@ -1,3 +1,4 @@
+uuid: 01b2ab71-ef42-405d-b7af-9dc52ad18b01
 langcode: en
 status: true
 dependencies:
@@ -9,6 +10,8 @@ dependencies:
       - media
   module:
     - file
+_core:
+  default_config_hash: ZdyuGo6pQddeWdWlPciyzty5MhqcMQI9Pj-fhV6QG5Y
 id: media.document.field_media_file
 field_name: field_media_file
 entity_type: media
@@ -21,7 +24,7 @@ default_value: {  }
 default_value_callback: ''
 settings:
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx'
+  file_extensions: 'pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx tiff tif eps zip'
   max_filesize: ''
   description_field: false
   handler: 'default:file'

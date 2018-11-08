@@ -14,7 +14,7 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
-    And I should see "Allowed types: pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx." in the "#edit-field-media-file-0-upload--description" element
+    And I should see "Allowed types: pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx tiff tif eps zip." in the "#edit-field-media-file-0-upload--description" element
 
     And I should see "License" in the "label[for=edit-field-media-license]" element
     And I should see an "label[for=edit-field-media-license].form-required" element
