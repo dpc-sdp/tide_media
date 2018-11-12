@@ -7,13 +7,10 @@ dependencies:
     - field.field.media.file.field_media_department
     - field.field.media.file.field_media_file
     - field.field.media.file.field_media_restricted
-    - field.field.media.file.field_media_site
     - field.field.media.file.field_media_topic
     - media.type.file
   module:
     - file
-_core:
-  default_config_hash: DMITcizVi9ZmE8gLeYxbBZrn-bHZ4HdTNdbQc2mKCds
 id: media.file.default
 targetEntityType: media
 bundle: file
@@ -78,6 +75,5 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
-  field_media_site: true
   thumbnail: true
   uid: true

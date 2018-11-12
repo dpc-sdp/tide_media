@@ -9,15 +9,12 @@ dependencies:
     - field.field.media.video.field_media_length
     - field.field.media.video.field_media_link
     - field.field.media.video.field_media_restricted
-    - field.field.media.video.field_media_site
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
     - field.field.media.video.field_media_transcript
     - media.type.video
   module:
     - file
-_core:
-  default_config_hash: 98CYM285NIN6lKbQo7cwuOqfQhx9q_PJUYjgOI8jJ3g
 id: media.video.embedded_with_transcript
 targetEntityType: media
 bundle: video
@@ -51,7 +48,6 @@ hidden:
   field_media_department: true
   field_media_length: true
   field_media_restricted: true
-  field_media_site: true
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true

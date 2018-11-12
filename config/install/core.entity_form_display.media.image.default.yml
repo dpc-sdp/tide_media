@@ -98,13 +98,6 @@ content:
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
-  field_media_site:
-    type: options_buttons
-    region: content
-    field_name: field_media_site
-    weight: 12
-    settings: {  }
-    third_party_settings: {  }
   field_media_topic:
     weight: 6
     settings:

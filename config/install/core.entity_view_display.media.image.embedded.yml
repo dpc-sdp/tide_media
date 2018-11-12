@@ -9,13 +9,10 @@ dependencies:
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
     - field.field.media.image.field_media_restricted
-    - field.field.media.image.field_media_site
     - field.field.media.image.field_media_topic
     - media.type.image
   module:
     - svg_image
-_core:
-  default_config_hash: VPNppLvKzO4ucZCryBp6gsp6mX0SG7g9ZNB6Glzt040
 id: media.image.embedded
 targetEntityType: media
 bundle: image
@@ -37,7 +34,6 @@ hidden:
   field_media_caption: true
   field_media_department: true
   field_media_restricted: true
-  field_media_site: true
   field_media_topic: true
   name: true
   thumbnail: true

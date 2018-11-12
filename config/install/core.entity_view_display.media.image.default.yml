@@ -9,14 +9,11 @@ dependencies:
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
     - field.field.media.image.field_media_restricted
-    - field.field.media.image.field_media_site
     - field.field.media.image.field_media_topic
     - media.type.image
   module:
     - options
     - svg_image
-_core:
-  default_config_hash: yF-mL73JoZveplOcpnhxzMANPrbmlNtL4tYVxNyYBMg
 id: media.image.default
 targetEntityType: media
 bundle: image
@@ -98,6 +95,5 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
-  field_media_site: true
   thumbnail: true
   uid: true

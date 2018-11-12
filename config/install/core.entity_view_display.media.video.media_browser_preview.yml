@@ -9,7 +9,6 @@ dependencies:
     - field.field.media.video.field_media_length
     - field.field.media.video.field_media_link
     - field.field.media.video.field_media_restricted
-    - field.field.media.video.field_media_site
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
     - field.field.media.video.field_media_transcript
@@ -17,8 +16,6 @@ dependencies:
     - media.type.video
   module:
     - svg_image
-_core:
-  default_config_hash: Vm_jBmMFHBmyN-TRKEpHYZpAMejWtGyMKzzsuxa0I5U
 id: media.video.media_browser_preview
 targetEntityType: media
 bundle: video
@@ -49,7 +46,6 @@ hidden:
   field_media_length: true
   field_media_link: true
   field_media_restricted: true
-  field_media_site: true
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true

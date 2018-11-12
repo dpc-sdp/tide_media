@@ -9,15 +9,12 @@ dependencies:
     - field.field.media.audio.field_media_length
     - field.field.media.audio.field_media_restricted
     - field.field.media.audio.field_media_show_transcript
-    - field.field.media.audio.field_media_site
     - field.field.media.audio.field_media_summary
     - field.field.media.audio.field_media_topic
     - field.field.media.audio.field_media_transcript
     - media.type.audio
   module:
     - media_entity_audio
-_core:
-  default_config_hash: P1-dJgREAPf2iNiKRvH0bto39WdmhFESH8D3Vwabkgc
 id: media.audio.embedded
 targetEntityType: media
 bundle: audio
@@ -39,7 +36,6 @@ hidden:
   field_media_length: true
   field_media_restricted: true
   field_media_show_transcript: true
-  field_media_site: true
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true

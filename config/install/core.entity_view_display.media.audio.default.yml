@@ -9,7 +9,6 @@ dependencies:
     - field.field.media.audio.field_media_length
     - field.field.media.audio.field_media_restricted
     - field.field.media.audio.field_media_show_transcript
-    - field.field.media.audio.field_media_site
     - field.field.media.audio.field_media_summary
     - field.field.media.audio.field_media_topic
     - field.field.media.audio.field_media_transcript
@@ -20,8 +19,6 @@ dependencies:
     - svg_image
     - text
     - user
-_core:
-  default_config_hash: IqMEfehlF7_sl2hhio8Wpy7EBhQctC-DksWdjBePLSE
 id: media.audio.default
 targetEntityType: media
 bundle: audio
@@ -136,5 +133,4 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  field_media_site: true
   name: true
