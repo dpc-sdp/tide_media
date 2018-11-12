@@ -1,3 +1,4 @@
+uuid: 8bd57350-a35a-4b18-85ba-50892413ee9a
 langcode: en
 status: true
 dependencies:
@@ -5,10 +6,10 @@ dependencies:
     - core.entity_view_mode.media.embedded_with_transcript
     - field.field.media.embedded_video.field_media_audience
     - field.field.media.embedded_video.field_media_department
-    - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_length
-    - field.field.media.embedded_video.field_media_license
+    - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_restricted
+    - field.field.media.embedded_video.field_media_site
     - field.field.media.embedded_video.field_media_summary
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
@@ -47,8 +48,8 @@ hidden:
   field_media_audience: true
   field_media_department: true
   field_media_length: true
-  field_media_license: true
   field_media_restricted: true
+  field_media_site: true
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true

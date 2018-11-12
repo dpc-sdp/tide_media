@@ -1,24 +1,33 @@
+uuid: 64bc0c6c-6a20-4403-b484-7f238ebbb0dd
 langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.file.field_license_type
     - field.field.media.file.field_media_audience
     - field.field.media.file.field_media_department
     - field.field.media.file.field_media_file
-    - field.field.media.file.field_media_license
     - field.field.media.file.field_media_restricted
+    - field.field.media.file.field_media_site
     - field.field.media.file.field_media_topic
     - media.type.file
   module:
     - file
-    - options
 _core:
-  default_config_hash: 6NRloxhEM1E2S9zevAvhpCcdSuLg66zoM3npq-jD7qA
+  default_config_hash: DMITcizVi9ZmE8gLeYxbBZrn-bHZ4HdTNdbQc2mKCds
 id: media.file.default
 targetEntityType: media
 bundle: file
 mode: default
 content:
+  field_license_type:
+    weight: 7
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
   field_media_audience:
     weight: 4
     label: above
@@ -41,13 +50,6 @@ content:
     third_party_settings: {  }
     type: file_default
     weight: 1
-    region: content
-  field_media_license:
-    weight: 2
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
     region: content
   field_media_restricted:
     weight: 3
@@ -77,5 +79,6 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_media_site: true
   thumbnail: true
   uid: true

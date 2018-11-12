@@ -1,3 +1,4 @@
+uuid: 52cf0f38-3242-4be0-aebd-b49fac44352e
 langcode: en
 status: true
 dependencies:
@@ -7,9 +8,9 @@ dependencies:
     - field.field.media.audio.field_media_department
     - field.field.media.audio.field_media_file
     - field.field.media.audio.field_media_length
-    - field.field.media.audio.field_media_license
     - field.field.media.audio.field_media_restricted
     - field.field.media.audio.field_media_show_transcript
+    - field.field.media.audio.field_media_site
     - field.field.media.audio.field_media_summary
     - field.field.media.audio.field_media_topic
     - field.field.media.audio.field_media_transcript
@@ -17,7 +18,7 @@ dependencies:
   module:
     - media_entity_audio
 _core:
-  default_config_hash: IqMEfehlF7_sl2hhio8Wpy7EBhQctC-DksWdjBePLSE
+  default_config_hash: P1-dJgREAPf2iNiKRvH0bto39WdmhFESH8D3Vwabkgc
 id: media.audio.embedded
 targetEntityType: media
 bundle: audio
@@ -37,9 +38,9 @@ hidden:
   field_media_audience: true
   field_media_department: true
   field_media_length: true
-  field_media_license: true
   field_media_restricted: true
   field_media_show_transcript: true
+  field_media_site: true
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true

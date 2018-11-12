@@ -1,3 +1,4 @@
+uuid: 81735a52-f0e7-4974-a2d2-86357626eeb6
 langcode: en
 status: true
 dependencies:
@@ -8,13 +9,15 @@ dependencies:
     - field.field.media.image.field_media_caption
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
-    - field.field.media.image.field_media_license
     - field.field.media.image.field_media_restricted
+    - field.field.media.image.field_media_site
     - field.field.media.image.field_media_topic
     - image.style.thumbnail
     - media.type.image
   module:
-    - image
+    - svg_image
+_core:
+  default_config_hash: Ig0eroEV4vZxS4_Yk3GJLsOnSXu8g515fdtg0PpNe90
 id: media.image.media_browser_preview
 targetEntityType: media
 bundle: image
@@ -44,7 +47,7 @@ hidden:
   field_media_caption: true
   field_media_department: true
   field_media_image: true
-  field_media_license: true
   field_media_restricted: true
+  field_media_site: true
   field_media_topic: true
   uid: true

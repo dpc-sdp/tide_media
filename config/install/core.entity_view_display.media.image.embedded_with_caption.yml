@@ -1,3 +1,4 @@
+uuid: 5f37ff9a-31e3-4f2b-857e-c2d7ef30212c
 langcode: en
 status: true
 dependencies:
@@ -8,12 +9,14 @@ dependencies:
     - field.field.media.image.field_media_caption
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
-    - field.field.media.image.field_media_license
     - field.field.media.image.field_media_restricted
+    - field.field.media.image.field_media_site
     - field.field.media.image.field_media_topic
     - media.type.image
   module:
-    - image
+    - svg_image
+_core:
+  default_config_hash: yF-mL73JoZveplOcpnhxzMANPrbmlNtL4tYVxNyYBMg
 id: media.image.embedded_with_caption
 targetEntityType: media
 bundle: image
@@ -41,8 +44,8 @@ hidden:
   field_media_alignment: true
   field_media_audience: true
   field_media_department: true
-  field_media_license: true
   field_media_restricted: true
+  field_media_site: true
   field_media_topic: true
   name: true
   thumbnail: true

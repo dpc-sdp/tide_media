@@ -1,3 +1,4 @@
+uuid: 00f6aa42-f835-478c-b7dc-101ec1470f73
 langcode: en
 status: true
 dependencies:
@@ -6,8 +7,9 @@ dependencies:
     - field.field.media.embedded_video.field_media_audience
     - field.field.media.embedded_video.field_media_department
     - field.field.media.embedded_video.field_media_length
-    - field.field.media.embedded_video.field_media_license
+    - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_restricted
+    - field.field.media.embedded_video.field_media_site
     - field.field.media.embedded_video.field_media_summary
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
@@ -15,7 +17,9 @@ dependencies:
     - image.style.thumbnail
     - media.type.embedded_video
   module:
-    - image
+    - svg_image
+_core:
+  default_config_hash: 3lYAkqMDT4bdg51GDPN32GHSj15AmpNoc8GSYy8T598
 id: media.embedded_video.media_browser_preview
 targetEntityType: media
 bundle: embedded_video
@@ -43,8 +47,9 @@ hidden:
   field_media_audience: true
   field_media_department: true
   field_media_length: true
-  field_media_license: true
+  field_media_link: true
   field_media_restricted: true
+  field_media_site: true
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true

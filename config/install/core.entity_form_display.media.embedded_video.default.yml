@@ -1,13 +1,15 @@
+uuid: e57f6835-7615-410d-b536-faf4bf48e92b
 langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.embedded_video.field_license_type
     - field.field.media.embedded_video.field_media_audience
     - field.field.media.embedded_video.field_media_department
-    - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_length
-    - field.field.media.embedded_video.field_media_license
+    - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_restricted
+    - field.field.media.embedded_video.field_media_site
     - field.field.media.embedded_video.field_media_summary
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
@@ -48,6 +50,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_license_type:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_media_audience:
     weight: 8
     settings:
@@ -67,18 +75,12 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_media_length:
-    weight: 2
+    weight: 3
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
-    region: content
-  field_media_license:
-    weight: 5
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
     region: content
   field_media_restricted:
     weight: 6
@@ -87,8 +89,15 @@ content:
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
+  field_media_site:
+    type: options_buttons
+    region: content
+    field_name: field_media_site
+    weight: 13
+    settings: {  }
+    third_party_settings: {  }
   field_media_summary:
-    weight: 3
+    weight: 4
     settings:
       rows: 5
       placeholder: ''
@@ -105,7 +114,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_media_transcript:
-    weight: 4
+    weight: 5
     settings:
       rows: 5
       placeholder: ''

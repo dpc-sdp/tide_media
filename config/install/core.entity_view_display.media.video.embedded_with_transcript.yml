@@ -1,3 +1,4 @@
+uuid: 1eda71ce-adb0-4913-8362-dc1d083f88f3
 langcode: en
 status: true
 dependencies:
@@ -6,10 +7,10 @@ dependencies:
     - field.field.media.video.field_media_audience
     - field.field.media.video.field_media_department
     - field.field.media.video.field_media_file
-    - field.field.media.video.field_media_link
     - field.field.media.video.field_media_length
-    - field.field.media.video.field_media_license
+    - field.field.media.video.field_media_link
     - field.field.media.video.field_media_restricted
+    - field.field.media.video.field_media_site
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
     - field.field.media.video.field_media_transcript
@@ -26,7 +27,7 @@ content:
   field_media_file:
     type: file_video
     weight: 0
-    label: above
+    label: hidden
     settings:
       muted: false
       width: 640
@@ -41,7 +42,7 @@ content:
     type: string
     weight: 1
     region: content
-    label: hidden
+    label: above
     settings:
       link_to_entity: true
     third_party_settings: {  }
@@ -50,8 +51,8 @@ hidden:
   field_media_audience: true
   field_media_department: true
   field_media_length: true
-  field_media_license: true
   field_media_restricted: true
+  field_media_site: true
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true
