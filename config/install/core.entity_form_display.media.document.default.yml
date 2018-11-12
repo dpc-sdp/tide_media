@@ -7,7 +7,6 @@ dependencies:
     - field.field.media.document.field_media_department
     - field.field.media.document.field_media_file
     - field.field.media.document.field_media_restricted
-    - field.field.media.document.field_media_site
     - field.field.media.document.field_media_topic
     - media.type.document
   module:
@@ -32,8 +31,6 @@ third_party_settings:
         required_fields: true
       label: Metadata
       region: content
-_core:
-  default_config_hash: vaHZXZsJVwwNAH_JJmMkWg417vS-EvGGS24_V5iIz9w
 id: media.document.default
 targetEntityType: media
 bundle: document

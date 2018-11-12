@@ -7,7 +7,6 @@ dependencies:
     - field.field.media.file.field_media_department
     - field.field.media.file.field_media_file
     - field.field.media.file.field_media_restricted
-    - field.field.media.file.field_media_site
     - field.field.media.file.field_media_topic
     - media.type.file
   module:
@@ -32,8 +31,6 @@ third_party_settings:
         required_fields: true
       label: Metadata
       region: content
-_core:
-  default_config_hash: 4LRbnNuiqbOT_PIpgmzR8Lm8q4EB_LUt0b1iPGcQCeY
 id: media.file.default
 targetEntityType: media
 bundle: file

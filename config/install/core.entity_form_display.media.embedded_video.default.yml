@@ -8,7 +8,6 @@ dependencies:
     - field.field.media.embedded_video.field_media_length
     - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_restricted
-    - field.field.media.embedded_video.field_media_site
     - field.field.media.embedded_video.field_media_summary
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
@@ -36,8 +35,6 @@ third_party_settings:
         required_fields: true
       label: Metadata
       region: content
-_core:
-  default_config_hash: eLvtJFPSkS-Ks2UJl1YPXg4oLSWxzveChTfNyr4Xm-E
 id: media.embedded_video.default
 targetEntityType: media
 bundle: embedded_video
