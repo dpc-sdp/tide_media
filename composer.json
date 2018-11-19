@@ -39,9 +39,6 @@
     },
     "extra": {
         "patches": {
-            "dpc-sdp/tide_core" : {
-                "[SDPA-829] - Adding department and location fields to news": "https://patch-diff.githubusercontent.com/raw/dpc-sdp/tide_core/pull/35.patch"
-            }
         }
     }
 }
