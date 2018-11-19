@@ -1,40 +1,47 @@
 {
-  "name": "dpc-sdp/tide_media",
-  "description": "Media and related configuration for Tide Drupal 8 distribution",
-  "type": "drupal-module",
-  "license": "GPL-2.0+",
-  "require": {
-    "drupal/embed": "^1.0",
-    "drupal/entity_browser": "^1.4",
-    "drupal/entity_embed": "^1.0@beta",
-    "drupal/field_group": "^3.0-beta1",
-    "drupal/inline_entity_form": "^1.0@beta",
-    "drupal/svg_image": "^1.8",
-    "drupal/video_embed_field": "^2.0",
-    "dpc-sdp/tide_core": "@dev"
-  },
-  "require-dev": {
-    "dpc-sdp/tide_test": "@dev",
-    "behat/mink-selenium2-driver": "1.3.x-dev"
-  },
-  "suggest": {
-    "dpc-sdp/tide_page": "@dev",
-    "dpc-sdp/tide_landing_page": "@dev",
-    "dpc-sdp/tide_news": "@dev"
-  },
-  "repositories": {
-    "drupal": {
-      "type": "composer",
-      "url": "https://packages.drupal.org/8"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "config": {
-    "platform": {
-      "php": "7.1"
+    "name": "dpc-sdp/tide_media",
+    "description": "Media and related configuration for Tide Drupal 8 distribution",
+    "type": "drupal-module",
+    "license": "GPL-2.0+",
+    "require": {
+        "drupal/embed": "^1.0",
+        "drupal/entity_browser": "^1.4",
+        "drupal/entity_embed": "^1.0@beta",
+        "drupal/field_group": "^3.0-beta1",
+        "drupal/inline_entity_form": "^1.0@beta",
+        "drupal/svg_image": "^1.8",
+        "drupal/video_embed_field": "^2.0",
+        "dpc-sdp/tide_core": "@dev"
     },
-    "process-timeout": 0,
-    "sort-packages": true
-  }
+    "require-dev": {
+        "dpc-sdp/tide_test": "@dev",
+        "behat/mink-selenium2-driver": "1.3.x-dev"
+    },
+    "suggest": {
+        "dpc-sdp/tide_page": "@dev",
+        "dpc-sdp/tide_landing_page": "@dev",
+        "dpc-sdp/tide_news": "@dev"
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "7.1"
+        },
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "extra": {
+        "patches": {
+            "dpc-sdp/tide_core" : {
+                "[SDPA-829] - Adding department and location fields to news": "https://patch-diff.githubusercontent.com/raw/dpc-sdp/tide_core/pull/35.patch"
+            }
+        }
+    }
 }
