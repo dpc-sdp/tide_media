@@ -7,6 +7,7 @@
 
 use Drupal\embed\Entity\EmbedButton;
 use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
 
 /**
  * Implements hook_install().
@@ -30,5 +31,33 @@ function tide_media_install() {
     EmbedButton::load('tide_media')
       ->set('icon_uuid', $file->uuid())
       ->save();
+  }
+}
+
+/**
+ * SDPA-309: Associated current media items to Creative Commons Attribution 4.0
+ */
+function tide_media_update_8002() {
+  // tide_media_update_8001 is already in usage
+  $termId = null;
+  $terms = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadByProperties(['name' => 'Creative Commons Attribution 4.0']);
+
+  if(is_array($terms)) {
+    $termId = key($terms);
+  }
+
+  if($termId) {
+    $allMedia = \Drupal::entityQuery('media')->notExists('field_license_type')->execute();
+
+    if ($allMedia && count($allMedia)) {
+      /** @var \Drupal\media\Entity\Media $media */
+      foreach ($allMedia as $mediaId) {
+        $media = Media::load($mediaId);
+        $media->set('field_license_type', $termId);
+        $media->save();
+      }
+    }
   }
 }
