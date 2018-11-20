@@ -42,13 +42,13 @@ config_devel:
     - field.storage.media.field_media_alignment
     - field.storage.media.field_media_department
     - field.storage.media.field_media_length
-    - field.storage.media.field_media_license
+    - field.storage.media.field_license_type
     - field.storage.media.field_media_restricted
     - field.storage.media.field_media_summary
     - field.storage.media.field_media_topic
     - field.storage.media.field_media_transcript
     - field.storage.media.field_media_show_transcript
-    - field.field.media.audio.field_media_license
+    - field.field.media.audio.field_license_type
     - field.field.media.audio.field_media_audience
     - field.field.media.audio.field_media_department
     - field.field.media.audio.field_media_file
@@ -58,24 +58,25 @@ config_devel:
     - field.field.media.audio.field_media_summary
     - field.field.media.audio.field_media_transcript
     - field.field.media.audio.field_media_show_transcript
-    - field.field.media.document.field_media_license
+    - field.field.media.document.field_license_type
     - field.field.media.document.field_media_audience
     - field.field.media.document.field_media_department
     - field.field.media.document.field_media_restricted
     - field.field.media.document.field_media_topic
-    - field.field.media.image.field_media_license
+    - field.field.media.embedded_video.field_license_type
+    - field.field.media.image.field_license_type
     - field.field.media.image.field_media_caption
     - field.field.media.image.field_media_alignment
     - field.field.media.image.field_media_audience
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_restricted
     - field.field.media.image.field_media_topic
-    - field.field.media.file.field_media_license
+    - field.field.media.file.field_license_type
     - field.field.media.file.field_media_audience
     - field.field.media.file.field_media_department
     - field.field.media.file.field_media_restricted
     - field.field.media.file.field_media_topic
-    - field.field.media.video.field_media_license
+    - field.field.media.video.field_license_type
     - field.field.media.video.field_media_audience
     - field.field.media.video.field_media_department
     - field.field.media.video.field_media_file
@@ -84,3 +85,4 @@ config_devel:
     - field.field.media.video.field_media_length
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_transcript
+    - taxonomy.vocabulary.license_type
