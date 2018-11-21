@@ -37,6 +37,7 @@ config_devel:
     - core.entity_form_display.media.video.default
     - core.entity_view_display.media.video.default
     - taxonomy.vocabulary.audience
+    - taxonomy.vocabulary.department
     - field.storage.media.field_media_audience
     - field.storage.media.field_media_caption
     - field.storage.media.field_media_alignment
