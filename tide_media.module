@@ -18,16 +18,15 @@ use Drupal\Component\Utility\SafeMarkup;
  */
 function tide_media_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
   if ($view->id() == 'media') {
-    // Add License type field as a filter to the view.
-    $license_type_filter = [
+    // Add License field as a filter to the view.
+    $expose_array = [
       'exposed' => TRUE,
       'expose' => [
-        'operator_id' => 'field_media_license_type_target_id_op',
-        'label' => t('License Type'),
-        'id' => 'media__field_license_type',
+        'operator_id' => 'field_media_license_value_op',
+        'label' => 'License',
         'use_operator' => FALSE,
-        'operator' => 'field_media_license_type_target_id_op',
-        'identifier' => 'field_license_type_target_id',
+        'operator' => 'field_media_license_value_op',
+        'identifier' => 'field_media_license_value',
         'required' => FALSE,
         'remember' => FALSE,
         'multiple' => FALSE,
@@ -35,13 +34,9 @@ function tide_media_views_pre_view(ViewExecutable $view, $display_id, array &$ar
       'group_type' => 'group',
       'operator' => 'or',
       'group' => 1,
-      'vid' => 'license_type',
       'type' => 'select',
-      'reduce_duplicates' => TRUE,
-      'limit' => TRUE,
-      'hierarchy' => TRUE,
     ];
-    $view->addHandler('media_page_list', 'filter', 'media__field_license_type', 'field_license_type_target_id', $license_type_filter, 'field_license_type_target_id');
+    $view->addHandler('media_page_list', 'filter', 'media__field_media_license', 'field_media_license_value', $expose_array);
   }
 }
 

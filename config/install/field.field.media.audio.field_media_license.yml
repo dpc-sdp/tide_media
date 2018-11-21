@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_license
+    - media.type.audio
+  module:
+    - options
+id: media.audio.field_media_license
+field_name: field_media_license
+entity_type: media
+bundle: audio
+label: License
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    value: cc4
+default_value_callback: ''
+settings: {  }
+field_type: list_string

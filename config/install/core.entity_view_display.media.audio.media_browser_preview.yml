@@ -7,6 +7,7 @@ dependencies:
     - field.field.media.audio.field_media_department
     - field.field.media.audio.field_media_file
     - field.field.media.audio.field_media_length
+    - field.field.media.audio.field_media_license
     - field.field.media.audio.field_media_restricted
     - field.field.media.audio.field_media_show_transcript
     - field.field.media.audio.field_media_summary
@@ -15,7 +16,9 @@ dependencies:
     - image.style.thumbnail
     - media.type.audio
   module:
-    - svg_image
+    - image
+_core:
+  default_config_hash: IqMEfehlF7_sl2hhio8Wpy7EBhQctC-DksWdjBePLSE
 id: media.audio.media_browser_preview
 targetEntityType: media
 bundle: audio
@@ -44,6 +47,7 @@ hidden:
   field_media_department: true
   field_media_file: true
   field_media_length: true
+  field_media_license: true
   field_media_restricted: true
   field_media_show_transcript: true
   field_media_summary: true
