@@ -6,8 +6,9 @@ dependencies:
     - field.field.media.video.field_media_audience
     - field.field.media.video.field_media_department
     - field.field.media.video.field_media_file
-    - field.field.media.video.field_media_length
     - field.field.media.video.field_media_link
+    - field.field.media.video.field_media_length
+    - field.field.media.video.field_media_license
     - field.field.media.video.field_media_restricted
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
@@ -15,6 +16,8 @@ dependencies:
     - media.type.video
   module:
     - file
+_core:
+  default_config_hash: 98CYM285NIN6lKbQo7cwuOqfQhx9q_PJUYjgOI8jJ3g
 id: media.video.embedded_with_transcript
 targetEntityType: media
 bundle: video
@@ -23,7 +26,7 @@ content:
   field_media_file:
     type: file_video
     weight: 0
-    label: hidden
+    label: above
     settings:
       muted: false
       width: 640
@@ -38,7 +41,7 @@ content:
     type: string
     weight: 1
     region: content
-    label: above
+    label: hidden
     settings:
       link_to_entity: true
     third_party_settings: {  }
@@ -47,6 +50,7 @@ hidden:
   field_media_audience: true
   field_media_department: true
   field_media_length: true
+  field_media_license: true
   field_media_restricted: true
   field_media_summary: true
   field_media_topic: true

@@ -2,11 +2,11 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.audio.field_license_type
     - field.field.media.audio.field_media_audience
     - field.field.media.audio.field_media_department
     - field.field.media.audio.field_media_file
     - field.field.media.audio.field_media_length
+    - field.field.media.audio.field_media_license
     - field.field.media.audio.field_media_restricted
     - field.field.media.audio.field_media_show_transcript
     - field.field.media.audio.field_media_summary
@@ -16,7 +16,8 @@ dependencies:
     - media.type.audio
   module:
     - file
-    - svg_image
+    - image
+    - options
     - text
     - user
 id: media.audio.default
@@ -34,14 +35,6 @@ content:
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
-  field_license_type:
-    weight: 16
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   field_media_audience:
     weight: 8
     label: above
@@ -73,6 +66,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_media_license:
+    weight: 11
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
     region: content
   field_media_restricted:
     weight: 7
