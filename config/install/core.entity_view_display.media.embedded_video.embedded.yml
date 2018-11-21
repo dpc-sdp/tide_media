@@ -6,7 +6,7 @@ dependencies:
     - field.field.media.embedded_video.field_media_audience
     - field.field.media.embedded_video.field_media_department
     - field.field.media.embedded_video.field_media_length
-    - field.field.media.embedded_video.field_media_license
+    - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_restricted
     - field.field.media.embedded_video.field_media_summary
     - field.field.media.embedded_video.field_media_topic
@@ -36,7 +36,7 @@ hidden:
   field_media_audience: true
   field_media_department: true
   field_media_length: true
-  field_media_license: true
+  field_media_link: true
   field_media_restricted: true
   field_media_summary: true
   field_media_topic: true
