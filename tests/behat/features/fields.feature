@@ -95,9 +95,9 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-alignment].form-required" element
     And I should see an "select#edit-field-media-alignment" element
 
-    And I should see "License Type" in the "label[for=edit-field-license-type]" element
-    And I should see an "label[for=edit-field-license-type].form-required" element
-    And I should see an "select#edit-field-license-type" element
+    And I should see "License" in the "label[for=edit-field-media-license]" element
+    And I should see an "label[for=edit-field-media-license].form-required" element
+    And I should see an "select#edit-field-media-license" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -140,9 +140,9 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-transcript-0-value].form-required" element
     And I should see an "textarea#edit-field-media-transcript-0-value" element
 
-    And I should see "License Type" in the "label[for=edit-field-license-type]" element
-    And I should see an "label[for=edit-field-license-type].form-required" element
-    And I should see an "select#edit-field-license-type" element
+    And I should see "License" in the "label[for=edit-field-media-license]" element
+    And I should see an "label[for=edit-field-media-license].form-required" element
+    And I should see an "select#edit-field-media-license" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -187,9 +187,9 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-transcript-0-value].form-required" element
     And I should see an "textarea#edit-field-media-transcript-0-value" element
 
-    And I should see "License Type" in the "label[for=edit-field-license-type]" element
-    And I should see an "label[for=edit-field-license-type].form-required" element
-    And I should see an "select#edit-field-license-type" element
+    And I should see "License" in the "label[for=edit-field-media-license]" element
+    And I should see an "label[for=edit-field-media-license].form-required" element
+    And I should see an "select#edit-field-media-license" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -231,9 +231,9 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-transcript-0-value].form-required" element
     And I should see an "textarea#edit-field-media-transcript-0-value" element
 
-    And I should see "License Type" in the "label[for=edit-field-license-type]" element
-    And I should see an "label[for=edit-field-license-type].form-required" element
-    And I should see an "select#edit-field-license-type" element
+    And I should see "License" in the "label[for=edit-field-media-license]" element
+    And I should see an "label[for=edit-field-media-license].form-required" element
+    And I should see an "select#edit-field-media-license" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
