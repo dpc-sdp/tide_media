@@ -119,7 +119,6 @@ display:
             name: name
             bundle: bundle
             field_media_department: field_media_department
-            field_media_license: field_media_license
             status: status
           info:
             entity_browser_select:
@@ -149,13 +148,6 @@ display:
               empty_column: false
               responsive: ''
             field_media_department:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_media_license:
               sortable: true
               default_sort_order: asc
               align: ''

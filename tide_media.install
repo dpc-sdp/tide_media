@@ -7,7 +7,11 @@
 
 use Drupal\embed\Entity\EmbedButton;
 use Drupal\file\Entity\File;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
 use Drupal\media\Entity\Media;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Config\FileStorage;
 
 /**
  * Implements hook_install().
@@ -32,4 +36,113 @@ function tide_media_install() {
       ->set('icon_uuid', $file->uuid())
       ->save();
   }
+}
+
+/**
+ * SDPA-309: Add License Type Taxonomy, Create terms and Associated current media items to Copyright
+ */
+function tide_media_update_8002() {
+  // tide_media_update_8001 is already in usage
+
+  $config_storage = \Drupal::service('config.storage');
+
+  // Create taxonomy and terms
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location);
+
+  $license_types = ['Copyright','Creative Commons Attribution 4.0'];
+  foreach ($license_types as $type) {
+    $term = Term::create(array(
+      'parent' => array(),
+      'name' => $type,
+      'vid' => 'license_type', // Vocabulary machine name
+    ))->save();
+  }
+
+  $media_types = ['audio', 'document', 'embedded_video', 'file', 'video', 'image'];
+
+  // Import new field storage
+  _tide_import_single_config('field.storage.media.field_license_type', $config_location);
+
+  // Import new field configuration per media type
+  foreach ($media_types as $type) {
+    _tide_import_single_config('field.field.media.' . $type .'.field_license_type', $config_location);
+    _tide_import_single_config('core.entity_form_display.media.' . $type . '.default', $config_location);
+    _tide_import_single_config('core.entity_view_display.media.' . $type . '.default', $config_location);
+
+    if($type != 'file') {
+      _tide_import_single_config('core.entity_view_display.media.' . $type . '.embedded', $config_location);
+      _tide_import_single_config('core.entity_view_display.media.' . $type . '.media_browser_preview', $config_location);
+    }
+
+    if(!in_array($type, ['document', 'file', 'image'])) {
+      _tide_import_single_config('core.entity_view_display.media.' . $type . '.embedded_with_transcript', $config_location);
+    }
+
+    if($type == 'image') {
+      _tide_import_single_config('core.entity_view_display.media.' . $type . '.embedded_with_caption', $config_location);
+    }
+  }
+
+  print "Overwrite tide media browser\n";
+  $tide_media_browser = \Drupal::configFactory()->getEditable('views.view.tide_media_browser');
+  $file_storage = new FileStorage($config_location[0]);
+  $config_data = $file_storage->read('views.view.tide_media_browser');
+  $tide_media_browser->setData($config_data)->save();
+
+  // Update all media types to use Copyright
+  $termId = null;
+  $terms = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadByProperties(['name' => 'Copyright']);
+
+  if(is_array($terms)) {
+    $termId = key($terms);
+  }
+
+  // If Term Id is valid, update all media content to set type as Copyright
+  if($termId) {
+    print "Updating license type to Media Content\n";
+    foreach ($media_types as $type) {
+      $allMedia = \Drupal::entityTypeManager()->getStorage('media')
+        ->loadByProperties(['bundle' => $type]);
+
+      /** @var \Drupal\media\Entity\Media $media */
+      foreach ($allMedia as $media) {
+        $media->set('field_license_type', $termId);
+        $media->save();
+      }
+
+      print "Media $type content updated: " . count($allMedia) . "\n";
+    }
+  } else {
+    print "Error getting Copyright term";
+  }
+
+  //Force to enable license_type and disable media_license field on entity form display
+  foreach ($media_types as $type) {
+    $form_display = \Drupal::entityTypeManager()->getStorage('entity_form_display')->load('media' . '.' . $type . '.' . 'default');
+
+    // Add field_license_type to Form Display
+    $form_display->setComponent('field_license_type', array(
+      'type' => 'options_select',
+      'region' => 'content',
+      'weight' => 4,
+    ));
+
+    // Disable field_media_license to Form Display
+    $form_display->removeComponent('field_media_license');
+    $form_display->save();
+  }
+
+  foreach ($media_types as $type) {
+    $name = 'field.field.media.' . $type . '.field_media_license';
+    if ($config_storage->exists('field.field.media.' . $type . '.field_media_license')) {
+      print "Deleting config:" . $name . "\n";
+      $config_storage->delete($name);
+    }
+  }
+
+  $config_storage->delete('field.storage.media.field_media_license');
 }
