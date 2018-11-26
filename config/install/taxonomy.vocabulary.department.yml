@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: Department
-vid: department
-description: 'Department for media type.'
-hierarchy: 0
-weight: 0
