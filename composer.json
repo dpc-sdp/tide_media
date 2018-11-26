@@ -4,7 +4,7 @@
     "type": "drupal-module",
     "license": "GPL-2.0+",
     "require": {
-        "dpc-sdp/tide_core": "dev-feature/SDPA-1328-timeline-api-overwrites",
+        "dpc-sdp/tide_core": "dev-feature/SDPA-1328-timeline-api-overwrites as dev-master",
         "drupal/embed": "^1.0",
         "drupal/inline_entity_form": "^1.0@beta",
         "drupal/svg_image": "^1.8",
@@ -16,7 +16,7 @@
     },
     "suggest": {
         "dpc-sdp/tide_page": "@dev",
-        "dpc-sdp/tide_landing_page": "dev-feature/SDPA-1328-timeline-api-overwrites",
+        "dpc-sdp/tide_landing_page": "dev-feature/SDPA-1328-timeline-api-overwrites as dev-master",
         "dpc-sdp/tide_news": "@dev"
     },
     "repositories": {
