@@ -44,8 +44,6 @@ function tide_media_install() {
 function tide_media_update_8002() {
   // tide_media_update_8001 is already in usage
 
-  $config_storage = \Drupal::service('config.storage');
-
   // Create taxonomy and terms
   module_load_include('inc', 'tide_core', 'includes/helpers');
   $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
@@ -85,11 +83,7 @@ function tide_media_update_8002() {
     }
   }
 
-  print "Overwrite tide media browser\n";
-  $tide_media_browser = \Drupal::configFactory()->getEditable('views.view.tide_media_browser');
-  $file_storage = new FileStorage($config_location[0]);
-  $config_data = $file_storage->read('views.view.tide_media_browser');
-  $tide_media_browser->setData($config_data)->save();
+  _tide_import_single_config('views.view.tide_media_browser', $config_location, TRUE);
 
   // Update all media types to use Copyright
   $termId = null;
@@ -138,11 +132,11 @@ function tide_media_update_8002() {
 
   foreach ($media_types as $type) {
     $name = 'field.field.media.' . $type . '.field_media_license';
-    if ($config_storage->exists('field.field.media.' . $type . '.field_media_license')) {
-      print "Deleting config:" . $name . "\n";
-      $config_storage->delete($name);
-    }
+    _tide_delete_config($name, $config_location);
   }
+  /*
+   * @todo: Delete field storage, https://www.drupal.org/project/drupal/issues/2622160
+   */
+  //_tide_delete_config('field.storage.media.field_media_license', $config_location);
 
-  $config_storage->delete('field.storage.media.field_media_license');
 }
