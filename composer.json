@@ -4,7 +4,7 @@
     "type": "drupal-module",
     "license": "GPL-2.0+",
     "require": {
-        "dpc-sdp/tide_core": "dev-master",
+        "dpc-sdp/tide_core": "@dev",
         "drupal/embed": "^1.0",
         "drupal/inline_entity_form": "^1.0@beta",
         "drupal/svg_image": "^1.8",
