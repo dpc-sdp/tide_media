@@ -4,14 +4,11 @@
     "type": "drupal-module",
     "license": "GPL-2.0+",
     "require": {
+        "dpc-sdp/tide_core": "@dev",
         "drupal/embed": "^1.0",
-        "drupal/entity_browser": "^1.4",
-        "drupal/entity_embed": "^1.0@beta",
-        "drupal/field_group": "^3.0-beta1",
         "drupal/inline_entity_form": "^1.0@beta",
         "drupal/svg_image": "^1.8",
-        "drupal/video_embed_field": "^2.0",
-        "dpc-sdp/tide_core": "@dev"
+        "drupal/video_embed_field": "^2.0"
     },
     "require-dev": {
         "dpc-sdp/tide_test": "@dev",
