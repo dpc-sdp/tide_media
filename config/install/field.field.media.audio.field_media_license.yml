@@ -6,6 +6,7 @@ dependencies:
     - media.type.audio
   module:
     - options
+    - tide_core
 id: media.audio.field_media_license
 field_name: field_media_license
 entity_type: media

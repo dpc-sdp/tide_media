@@ -5,6 +5,7 @@ dependencies:
     - views.view.tide_media_browser
   module:
     - entity_browser_entity_form
+    - tide_core
     - views
 name: tide_document_browser
 label: 'Document browser'
