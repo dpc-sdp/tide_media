@@ -17,7 +17,7 @@
     "suggest": {
         "dpc-sdp/tide_page": "@dev",
         "dpc-sdp/tide_landing_page": "@dev",
-        "dpc-sdp/tide_news": "@dev"
+        "dpc-sdp/tide_news": "dev-feature/SDPA-761-index-grants"
     },
     "repositories": {
         "drupal": {
