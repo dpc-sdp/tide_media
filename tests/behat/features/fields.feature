@@ -40,6 +40,8 @@ Feature: Fields for different Media types
   Scenario: The Image media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/image"
+    And save screenshot
+
     Then I see field "Name"
     And I should see an "input#edit-name-0-value.required" element
 
@@ -49,7 +51,7 @@ Feature: Fields for different Media types
     And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0-upload--description" element
 
     And I attach the file "SampleJPGImage_50kbmb.jpg" to "Image"
-    And I wait for AJAX to finish
+    And I wait 30 seconds for AJAX to finish
     Then I should see the text "Alternative text"
     And I should see the text "Title"
 
