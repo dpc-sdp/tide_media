@@ -23,7 +23,7 @@ widgets:
   efc897bb-7ec4-42f2-b0bb-f713d29ec50d:
     settings:
       view: tide_media_browser
-      view_display: entity_browser_1
+      view_display: embedded_video_browser
       submit_text: 'Select embedded videos'
       auto_select: false
     uuid: efc897bb-7ec4-42f2-b0bb-f713d29ec50d
