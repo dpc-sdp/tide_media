@@ -29,7 +29,3 @@ Include the Tide Media module in your composer.json file
 ```bash
 composer require dpc-sdp/tide_media
 ```
-
-# Caveats
-
-Tide Media is on the alpha release, use with caution. APIs are likely to change before the stable version, that there will be breaking changes and that we're not supporting it for external production sites at the moment.
