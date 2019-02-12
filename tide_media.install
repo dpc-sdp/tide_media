@@ -42,7 +42,14 @@ function tide_media_install() {
  */
 function tide_media_update_8002() {
   $field_name = 'field_media_license';
-  $bundle_names = ["audio", "document", "embedded_video", "file", "image", "video"];
+  $bundle_names = [
+    "audio",
+    "document",
+    "embedded_video",
+    "file",
+    "image",
+    "video"
+  ];
   // First, lets find all media entities that still use old license field value.
   $existingMedia = \Drupal::entityQuery('media')
     ->exists($field_name)
@@ -66,7 +73,7 @@ function tide_media_update_8002() {
       // install config then import it.
       // call the entity service.
       $mediaEntity = \Drupal::service('entity_display.repository');
-      // call the necessary method in order to return 'node' view modes.
+      // Loop through the view modes.
       foreach ($mediaEntity->getViewModes('media') as $display => $value) {
         if (file_exists('core.entity_view_display.media.' . $bundle . '.' . $display . '.yml')) {
           _tide_import_single_config('core.entity_view_display.media.' . $bundle . '.default', $config_location, TRUE);
