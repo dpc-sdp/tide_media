@@ -51,6 +51,8 @@ function tide_media_update_8002() {
     // Import the replacement field configuration.
     module_load_include('inc', 'tide_core', 'includes/helpers');
     $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+    // Import new vocabulary.
+    _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location, TRUE);
     // Import new field storage config.
     _tide_import_single_config('field.storage.media.field_license_type', $config_location, TRUE);
 
