@@ -48,7 +48,7 @@ function tide_media_update_8002() {
     "embedded_video",
     "file",
     "image",
-    "video"
+    "video",
   ];
   // First, lets find all media entities that still use old license field value.
   $existingMedia = \Drupal::entityQuery('media')
