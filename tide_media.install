@@ -58,11 +58,13 @@ function tide_media_update_8002() {
     // At this point we know there is media that uses old license field.
     // Import the replacement field configuration.
     module_load_include('inc', 'tide_core', 'includes/helpers');
-    $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+    $config_location = [drupal_get_path('module', 'tide_media') . '/config/install']a;
     // Import new vocabulary.
     _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location, TRUE);
     // Import new field storage config.
     _tide_import_single_config('field.storage.media.field_license_type', $config_location, TRUE);
+    // Import new field storage config.
+    _tide_import_single_config('views.view.tide_media_browser', $config_location, TRUE);
 
     foreach ($bundle_names as $bundle) {
       _tide_import_single_config('field.field.media.' . $bundle . '.field_license_type', $config_location, TRUE);
@@ -75,7 +77,7 @@ function tide_media_update_8002() {
       $mediaEntity = \Drupal::service('entity_display.repository');
       // Loop through the view modes.
       foreach ($mediaEntity->getViewModes('media') as $display => $value) {
-        if (file_exists('core.entity_view_display.media.' . $bundle . '.' . $display . '.yml')) {
+        if (file_exists(reset($config_location) . '/core.entity_view_display.media.' . $bundle . '.' . $display . '.yml')) {
           _tide_import_single_config('core.entity_view_display.media.' . $bundle . '.' . $display, $config_location, TRUE);
         }
       }
