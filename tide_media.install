@@ -102,7 +102,7 @@ function tide_media_update_8002() {
       $term->save();
     }
     // Extract our term ID.
-    $termId = $term->tid;
+    $termId = $term->id();
 
     if ($termId) {
       /** @var \Drupal\media\Entity\Media $media */
@@ -126,9 +126,9 @@ function tide_media_update_8002() {
       $field_storage = FieldStorageConfig::loadByName('media', $field_name);
       if (!empty($field_storage)) {
         $field_storage->delete();
+        // And finally, remove field storage config.
+        _tide_delete_config('field.storage.media.' . $field_name, [], TRUE);
       }
-      // And finally, remove field storage config.
-      _tide_delete_config('field.storage.media.' . $field_name, [], TRUE);
     }
   }
 }
