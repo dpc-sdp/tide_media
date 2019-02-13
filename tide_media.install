@@ -59,17 +59,19 @@ function tide_media_update_8002() {
     // Import the replacement field configuration.
     module_load_include('inc', 'tide_core', 'includes/helpers');
     $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+    $optional_location = [drupal_get_path('module', 'tide_media') . '/config/optional'];
     // Import new vocabulary.
     _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location, TRUE);
     // Import new field storage config.
     _tide_import_single_config('field.storage.media.field_license_type', $config_location, TRUE);
-    // Import new field storage config.
+    // Import updated media browser view.
     _tide_import_single_config('views.view.tide_media_browser', $config_location, TRUE);
 
     foreach ($bundle_names as $bundle) {
       _tide_import_single_config('field.field.media.' . $bundle . '.field_license_type', $config_location, TRUE);
       _tide_import_single_config('core.entity_form_display.media.' . $bundle . '.default', $config_location, TRUE);
       _tide_import_single_config('core.entity_view_display.media.' . $bundle . '.default', $config_location, TRUE);
+      _tide_import_single_config('jsonapi_extras.jsonapi_resource_config.media--' . $bundle, $optional_location, TRUE);
       // Now this is a bit tricky. We might have display config for each type of
       // media entity. Lets loops through them all and if it exists in then
       // install config then import it.
@@ -128,7 +130,6 @@ function tide_media_update_8002() {
       $field_storage = FieldStorageConfig::loadByName('media', $field_name);
       if (!empty($field_storage)) {
         $field_storage->delete();
-        // And finally, remove field storage config.
       }
       // And finally, remove field storage config.
       _tide_delete_config('field.storage.media.' . $field_name, [], TRUE);
