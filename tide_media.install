@@ -38,7 +38,8 @@ function tide_media_install() {
 }
 
 /**
- * SDPA-309: Associated current media items to Creative Commons Attribution 4.0.
+ * Replace Media License list field (field_media_license) with a new taxonomy
+ * reference field License Type (field_license_type).
  */
 function tide_media_update_8002() {
   $field_name = 'field_media_license';
@@ -55,11 +56,17 @@ function tide_media_update_8002() {
     ->exists($field_name)
     ->execute();
   if ($existingMedia && count($existingMedia)) {
+    drush_print(t('Found media entities that use the old license field.'), 4);
+    // Check if configuration sync folder is writable. Otherwise, exit.
+    global $config_directories;
+    if (!file_prepare_directory($config_directories[CONFIG_SYNC_DIRECTORY])) {
+      drush_print(t('The configuration folder is Read-Only and the update cannot be applied automatically.'), 4);
+      return;
+    }
     // At this point we know there is media that uses old license field.
     // Import the replacement field configuration.
     module_load_include('inc', 'tide_core', 'includes/helpers');
     $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
-    $optional_location = [drupal_get_path('module', 'tide_media') . '/config/optional'];
     // Import new vocabulary.
     _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location, TRUE);
     // Import new field storage config.
@@ -73,6 +80,7 @@ function tide_media_update_8002() {
       _tide_import_single_config('core.entity_view_display.media.' . $bundle . '.default', $config_location, TRUE);
       // Import optional JSON API extras config if the module is enabled.
       if (\Drupal::moduleHandler()->moduleExists('jsonapi_extras')) {
+        $optional_location = [drupal_get_path('module', 'tide_media') . '/config/optional'];
         _tide_import_single_config('jsonapi_extras.jsonapi_resource_config.media--' . $bundle, $optional_location, TRUE);
       }
       // Now this is a bit tricky. We might have display config for each type of
