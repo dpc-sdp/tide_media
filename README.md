@@ -22,10 +22,10 @@ your `composer.json`:
 ```json
 {
   "repositories": {        
-      "dpc-sdp/tide_page": {
+      "dpc-sdp/tide_media": {
           "type": "vcs",
           "no-api": true,
-          "url": "https://github.com/dpc-sdp/tide_page.git"
+          "url": "https://github.com/dpc-sdp/tide_media.git"
       }
   }
 }
@@ -33,7 +33,7 @@ your `composer.json`:
 
 Require this package as any other Composer package:
 ```bash
-composer require dpc/tide_page 
+composer require dpc/tide_media 
 ``` 
 
 ## Support
@@ -58,7 +58,6 @@ To start local development stack:
 - [tide_core](https://github.com/dpc-sdp/tide_core)
 - [tide_event](https://github.com/dpc-sdp/tide_event)
 - [tide_landing_page](https://github.com/dpc-sdp/tide_landing_page)
-- [tide_media](https://github.com/dpc-sdp/tide_media)     
 - [tide_monsido](https://github.com/dpc-sdp/tide_monsido) 
 - [tide_news](https://github.com/dpc-sdp/tide_news)       
 - [tide_page](https://github.com/dpc-sdp/tide_page)       
