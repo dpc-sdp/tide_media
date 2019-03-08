@@ -1,5 +1,5 @@
 # Tide Media
-Page content type for [Tide](https://github.com/dpc-sdp/tide) distribution for [Drupal 8](https://github.com/dpc-sdp)
+Media types and related configurations for [Tide](https://github.com/dpc-sdp/tide) distribution for [Drupal 8](https://github.com/dpc-sdp)
 
 Tide is a Drupal 8 distribution focused on delivering an API first, headless Drupal content administration site.
 
@@ -10,10 +10,9 @@ Tide is a Drupal 8 distribution focused on delivering an API first, headless Dru
 [![Pull Requests](https://img.shields.io/github/issues-pr/dpc-sdp/tide_page.svg)](https://github.com/dpc-sdp/tide_media/pulls)
 
 ## What is in this package
-- content type
-- fields
-- blocks
-- views
+- Media types: Document, Audio, Video, Embed Video, File
+- Media entity fields: Department, License
+- Entity browser configurations
 - JSONAPI module integration
 
 ## Installation
