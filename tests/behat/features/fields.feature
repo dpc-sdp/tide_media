@@ -85,7 +85,7 @@ Feature: Fields for different Media types
     And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0-upload--description" element
 
     And I attach the file "SampleJPGImage_50kbmb.jpg" to "Image"
-    And I wait 30 seconds for AJAX to finish
+    And I wait 40 seconds for AJAX to finish
     Then I should see the text "Alternative text"
     And I should see the text "Title"
 
