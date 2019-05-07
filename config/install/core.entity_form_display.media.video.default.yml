@@ -2,12 +2,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.video.field_license_type
     - field.field.media.video.field_media_audience
     - field.field.media.video.field_media_department
     - field.field.media.video.field_media_file
-    - field.field.media.video.field_media_link
     - field.field.media.video.field_media_length
-    - field.field.media.video.field_media_license
+    - field.field.media.video.field_media_link
     - field.field.media.video.field_media_restricted
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
@@ -35,8 +35,6 @@ third_party_settings:
         required_fields: true
       label: Metadata
       region: content
-_core:
-  default_config_hash: JyxW_UFVCgnlVI175rgoR0SKPL6EU3ensVCnH9E7qC0
 id: media.video.default
 targetEntityType: media
 bundle: video
@@ -48,6 +46,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_license_type:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_media_audience:
     weight: 14
     settings:
@@ -74,18 +78,12 @@ content:
     type: file_generic
     region: content
   field_media_length:
-    weight: 2
+    weight: 3
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
-    region: content
-  field_media_license:
-    weight: 5
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
     region: content
   field_media_restricted:
     weight: 6
@@ -95,7 +93,7 @@ content:
     type: boolean_checkbox
     region: content
   field_media_summary:
-    weight: 3
+    weight: 4
     settings:
       rows: 5
       placeholder: ''
@@ -112,7 +110,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_media_transcript:
-    weight: 4
+    weight: 5
     settings:
       rows: 5
       placeholder: ''
