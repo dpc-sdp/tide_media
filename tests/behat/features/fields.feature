@@ -3,7 +3,7 @@ Feature: Fields for different Media types
 
   Ensure that all media types have the expected fields.
 
-  @api
+  @api @javascript @nosuggest
   Scenario: The Document media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/document"
@@ -14,11 +14,10 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
-    And I should see "Allowed types: pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx tiff tif eps zip ics." in the "#edit-field-media-file-0-upload--description" element
+    And I should see "Allowed types: pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx tiff tif eps zip." in the "#edit-field-media-file-0-upload--description" element
 
-    And I should see "License" in the "label[for=edit-field-media-license]" element
-    And I should see an "label[for=edit-field-media-license].form-required" element
-    And I should see an "select#edit-field-media-license" element
+    And I should see "License Type" in the "label[for=edit-field-license-type]" element
+    And I should see an "select#edit-field-license-type" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -38,7 +37,7 @@ Feature: Fields for different Media types
 
 
   @api @javascript @nosuggest
-  Scenario: The Document media type has the expected fields (and labels where we can use them).
+  Scenario: The File media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/file"
     Then I see field "Name"
@@ -48,11 +47,10 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
-    And I should see "Allowed types: txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages tiff tif eps zip ics." in the "#edit-field-media-file-0-upload--description" element
+    And I should see "Allowed types: txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages tiff tif eps zip." in the "#edit-field-media-file-0-upload--description" element
 
-    And I should see "License" in the "label[for=edit-field-media-license]" element
-    And I should see an "label[for=edit-field-media-license].form-required" element
-    And I should see an "select#edit-field-media-license" element
+    And I should see "License Type" in the "label[for=edit-field-license-type]" element
+    And I should see an "select#edit-field-license-type" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -70,12 +68,10 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api @javascript
+  @api @javascript @nosuggest
   Scenario: The Image media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/image"
-    And save screenshot
-
     Then I see field "Name"
     And I should see an "input#edit-name-0-value.required" element
 
@@ -85,7 +81,7 @@ Feature: Fields for different Media types
     And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0-upload--description" element
 
     And I attach the file "SampleJPGImage_50kbmb.jpg" to "Image"
-    And I wait 30 seconds for AJAX to finish
+    And I wait 60 seconds for AJAX to finish
     Then I should see the text "Alternative text"
     And I should see the text "Title"
 
@@ -97,9 +93,8 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-alignment].form-required" element
     And I should see an "select#edit-field-media-alignment" element
 
-    And I should see "License" in the "label[for=edit-field-media-license]" element
-    And I should see an "label[for=edit-field-media-license].form-required" element
-    And I should see an "select#edit-field-media-license" element
+    And I should see "License Type" in the "label[for=edit-field-license-type]" element
+    And I should see an "select#edit-field-license-type" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -117,7 +112,7 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api
+  @api @nosuggest
   Scenario: The Video media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/video"
@@ -142,9 +137,8 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-transcript-0-value].form-required" element
     And I should see an "textarea#edit-field-media-transcript-0-value" element
 
-    And I should see "License" in the "label[for=edit-field-media-license]" element
-    And I should see an "label[for=edit-field-media-license].form-required" element
-    And I should see an "select#edit-field-media-license" element
+    And I should see "License Type" in the "label[for=edit-field-license-type]" element
+    And I should see an "select#edit-field-license-type" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -164,7 +158,7 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api
+  @api @nosuggest
   Scenario: The Audio media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/audio"
@@ -189,9 +183,8 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-transcript-0-value].form-required" element
     And I should see an "textarea#edit-field-media-transcript-0-value" element
 
-    And I should see "License" in the "label[for=edit-field-media-license]" element
-    And I should see an "label[for=edit-field-media-license].form-required" element
-    And I should see an "select#edit-field-media-license" element
+    And I should see "License Type" in the "label[for=edit-field-license-type]" element
+    And I should see an "select#edit-field-license-type" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element
@@ -211,7 +204,7 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
 
-  @api
+  @api @nosuggest
   Scenario: The Embedded Video media type has the expected fields (and labels where we can use them).
     Given I am logged in as a user with the "create media" permission
     When I visit "media/add/embedded_video"
@@ -233,9 +226,8 @@ Feature: Fields for different Media types
     And I should not see an "label[for=edit-field-media-transcript-0-value].form-required" element
     And I should see an "textarea#edit-field-media-transcript-0-value" element
 
-    And I should see "License" in the "label[for=edit-field-media-license]" element
-    And I should see an "label[for=edit-field-media-license].form-required" element
-    And I should see an "select#edit-field-media-license" element
+    And I should see "License Type" in the "label[for=edit-field-license-type]" element
+    And I should see an "select#edit-field-license-type" element
 
     And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
     And I should not see an "label[for=edit-field-media-restricted-value].required" element

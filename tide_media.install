@@ -6,7 +6,11 @@
  */
 
 use Drupal\embed\Entity\EmbedButton;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
 use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Implements hook_install().
@@ -30,5 +34,119 @@ function tide_media_install() {
     EmbedButton::load('tide_media')
       ->set('icon_uuid', $file->uuid())
       ->save();
+  }
+}
+
+/**
+ * Replace media license field with a taxonomy reference field.
+ *
+ * Remove Media License list field (field_media_license) and add a new taxonomy
+ * reference field License Type (field_license_type) instead.
+ */
+function tide_media_update_8002() {
+  $field_name = 'field_media_license';
+  $bundle_names = [
+    "audio",
+    "document",
+    "embedded_video",
+    "file",
+    "image",
+    "video",
+  ];
+  // First, lets find all media entities that still use old license field value.
+  $existingMedia = \Drupal::entityQuery('media')
+    ->exists($field_name)
+    ->execute();
+  if ($existingMedia && count($existingMedia)) {
+    drush_print(t('Found media entities that use the old license field.'), 4);
+    // Check if configuration sync folder is writable. Otherwise, exit.
+    global $config_directories;
+    if (!file_prepare_directory($config_directories[CONFIG_SYNC_DIRECTORY])) {
+      drush_print(t('The configuration folder is Read-Only and the update cannot be applied automatically.'), 4);
+      return;
+    }
+    // At this point we know there is media that uses old license field.
+    // Import the replacement field configuration.
+    module_load_include('inc', 'tide_core', 'includes/helpers');
+    $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+    // Import new vocabulary.
+    _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location, TRUE);
+    // Import new field storage config.
+    _tide_import_single_config('field.storage.media.field_license_type', $config_location, TRUE);
+    // Import updated media browser view.
+    _tide_import_single_config('views.view.tide_media_browser', $config_location, TRUE);
+
+    foreach ($bundle_names as $bundle) {
+      _tide_import_single_config('field.field.media.' . $bundle . '.field_license_type', $config_location, TRUE);
+      _tide_import_single_config('core.entity_form_display.media.' . $bundle . '.default', $config_location, TRUE);
+      _tide_import_single_config('core.entity_view_display.media.' . $bundle . '.default', $config_location, TRUE);
+      // Import optional JSON API extras config if the module is enabled.
+      if (\Drupal::moduleHandler()->moduleExists('jsonapi_extras')) {
+        $optional_location = [drupal_get_path('module', 'tide_media') . '/config/optional'];
+        _tide_import_single_config('jsonapi_extras.jsonapi_resource_config.media--' . $bundle, $optional_location, TRUE);
+      }
+      // Now this is a bit tricky. We might have display config for each type of
+      // media entity. Lets loops through them all and if it exists in then
+      // install config then import it.
+      // call the entity service.
+      $mediaEntity = \Drupal::service('entity_display.repository');
+      // Loop through the view modes.
+      foreach ($mediaEntity->getViewModes('media') as $display => $value) {
+        if (file_exists(reset($config_location) . '/core.entity_view_display.media.' . $bundle . '.' . $display . '.yml')) {
+          _tide_import_single_config('core.entity_view_display.media.' . $bundle . '.' . $display, $config_location, TRUE);
+        }
+      }
+    }
+    // Given there was only one allowed value for that field, we can just
+    // explicitly create a new term to replace it. But before that lets check
+    // if it already exists.
+    $termId = NULL;
+    $term = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties([
+        'name' => 'Copyright',
+        'vid' => 'license_type',
+      ]);
+
+    // Its possible there might be some duplicates, just to be safe lets reset
+    // the array.
+    $term = reset($term);
+    if (!$term) {
+      // Create a term for previous list value from media_license field.
+      $term = Term::create([
+        'name' => 'Creative Commons Attribution 4.0',
+        'vid' => 'license_type',
+      ]);
+      $term->save();
+    }
+    // Extract our term ID.
+    $termId = $term->id();
+
+    if ($termId) {
+      /** @var \Drupal\media\Entity\Media $media */
+      foreach ($existingMedia as $mediaId) {
+        $media = Media::load($mediaId);
+        $media->set('field_license_type', $termId);
+        $media->set($field_name, NULL);
+        $media->save();
+      }
+      // OK, now we should have no entities with old license field values.
+      // Lets remove the field now.
+      foreach ($bundle_names as $bundle) {
+        $field = FieldConfig::loadByName('media', $bundle, $field_name);
+        if (!empty($field)) {
+          $field->delete();
+          // Remove the field configuration.
+          _tide_delete_config('field.field.media.' . $bundle . '.' . $field_name, [], TRUE);
+        }
+      }
+      // Now remove field storage.
+      $field_storage = FieldStorageConfig::loadByName('media', $field_name);
+      if (!empty($field_storage)) {
+        $field_storage->delete();
+      }
+      // And finally, remove field storage config.
+      _tide_delete_config('field.storage.media.' . $field_name, [], TRUE);
+    }
   }
 }
