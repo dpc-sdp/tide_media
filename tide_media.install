@@ -103,7 +103,7 @@ function tide_media_update_8003() {
     _tide_import_single_config('field.field.media.' . $bundle . '.field_license_type', $config_location);
   }
 
-  // Import updated media browser view.
+  // Forcefully import updated media browser view.
   _tide_import_single_config('views.view.tide_media_browser', $config_location, FALSE);
 }
 
@@ -111,8 +111,7 @@ function tide_media_update_8003() {
  * Update new license type for existing media.
  */
 function tide_media_update_8004(&$sandbox) {
-  $old_field = 'field_media_license';
-  $new_field = 'field_license_type';
+  $field_name = 'field_license_type';
 
   if (!isset($sandbox['tid'])) {
     $cc4_term = \Drupal::entityQuery('taxonomy_term')
@@ -130,8 +129,9 @@ function tide_media_update_8004(&$sandbox) {
   }
 
   if (!isset($sandbox['total'])) {
+    // Only update media without a new license type.
     $count = \Drupal::entityQuery('media')
-      ->condition($old_field, 'cc4')
+      ->notExists($field_name)
       ->count()
       ->execute();
     $sandbox['total'] = $count;
@@ -143,7 +143,7 @@ function tide_media_update_8004(&$sandbox) {
   $batch_size = 50;
   $mids = \Drupal::entityQuery('media')
     ->condition('mid', $sandbox['current'], '>')
-    ->condition($old_field, 'cc4')
+    ->notExists($field_name)
     ->sort('mid', 'ASC')
     ->range(0, $batch_size)
     ->execute();
@@ -151,8 +151,8 @@ function tide_media_update_8004(&$sandbox) {
   foreach ($mids as $mid) {
     $sandbox['current'] = $mid;
     $media = Media::load($mid);
-    if ($media && $media->hasField($new_field)) {
-      $media->$new_field->target_id = $sandbox['tid'];
+    if ($media && $media->hasField($field_name)) {
+      $media->$field_name->target_id = $sandbox['tid'];
       $media->save();
     }
     $sandbox['processed']++;
@@ -165,8 +165,8 @@ function tide_media_update_8004(&$sandbox) {
  * Update the remaining config for new license and remove old license field.
  */
 function tide_media_update_8005() {
-  $old_field = 'field_media_license';
-  $new_field = 'field_license_type';
+  $old_field_name = 'field_media_license';
+  $new_field_name = 'field_license_type';
 
   module_load_include('inc', 'tide_core', 'includes/helpers');
   $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
@@ -181,6 +181,13 @@ function tide_media_update_8005() {
   ];
 
   foreach ($bundles as $bundle) {
+    $old_field = FieldConfig::loadByName('media', $bundle, $old_field_name);
+
+    // Bail out if the old field no longer exists.
+    if (!$old_field) {
+      continue;
+    }
+
     // Update form display.
     /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $form_display */
     $form_display = \Drupal::entityTypeManager()
@@ -194,12 +201,12 @@ function tide_media_update_8005() {
         'type' => 'options_select',
         'region' => 'content',
       ];
-      $old_field_config = $form_display->getComponent($old_field);
+      $old_field_config = $form_display->getComponent($old_field_name);
       if ($old_field_config) {
         $new_field_config['weight'] = $old_field_config['weight'];
-        $form_display->removeComponent($old_field);
+        $form_display->removeComponent($old_field_name);
       }
-      $form_display->setComponent($new_field, $new_field_config);
+      $form_display->setComponent($new_field_name, $new_field_config);
       $form_display->save();
     }
 
@@ -218,24 +225,21 @@ function tide_media_update_8005() {
         'settings' => ['link' => TRUE],
         'region' => 'content',
       ];
-      $old_field_config = $view_display->getComponent($old_field);
+      $old_field_config = $view_display->getComponent($old_field_name);
       if ($old_field_config) {
         $new_field_config['weight'] = $old_field_config['weight'];
-        $view_display->removeComponent($old_field);
+        $view_display->removeComponent($old_field_name);
       }
-      $view_display->setComponent($new_field, $new_field_config);
+      $view_display->setComponent($new_field_name, $new_field_config);
       $view_display->save();
     }
 
     // Delete the old field.
-    $field = FieldConfig::loadByName('media', $bundle, $old_field);
-    if (!empty($field)) {
-      try {
-        $field->delete();
-      }
-      catch (Exception $exception) {
-        watchdog_exception('tide_media', $exception);
-      }
+    try {
+      $old_field->delete();
+    }
+    catch (Exception $exception) {
+      watchdog_exception('tide_media', $exception);
     }
   }
 }
