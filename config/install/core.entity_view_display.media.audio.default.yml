@@ -27,7 +27,7 @@ content:
   created:
     label: hidden
     type: timestamp
-    weight: 0
+    weight: 1
     region: content
     settings:
       date_format: medium
@@ -35,7 +35,7 @@ content:
       timezone: ''
     third_party_settings: {  }
   field_license_type:
-    weight: 16
+    weight: 12
     label: above
     settings:
       link: true
@@ -43,7 +43,7 @@ content:
     type: entity_reference_label
     region: content
   field_media_audience:
-    weight: 8
+    weight: 5
     label: above
     settings:
       link: true
@@ -51,7 +51,7 @@ content:
     type: entity_reference_label
     region: content
   field_media_department:
-    weight: 9
+    weight: 6
     label: above
     settings:
       link: true
@@ -59,7 +59,7 @@ content:
     type: entity_reference_label
     region: content
   field_media_file:
-    weight: 6
+    weight: 3
     label: above
     settings:
       use_description_as_link_text: true
@@ -67,7 +67,7 @@ content:
     type: file_default
     region: content
   field_media_length:
-    weight: 12
+    weight: 8
     label: above
     settings:
       link_to_entity: false
@@ -75,7 +75,7 @@ content:
     type: string
     region: content
   field_media_restricted:
-    weight: 7
+    weight: 4
     label: above
     settings:
       format: default
@@ -85,7 +85,7 @@ content:
     type: boolean
     region: content
   field_media_show_transcript:
-    weight: 15
+    weight: 11
     label: above
     settings:
       format: default
@@ -95,14 +95,14 @@ content:
     type: boolean
     region: content
   field_media_summary:
-    weight: 13
+    weight: 9
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
   field_media_topic:
-    weight: 10
+    weight: 7
     label: above
     settings:
       link: true
@@ -110,19 +110,23 @@ content:
     type: entity_reference_label
     region: content
   field_media_transcript:
-    weight: 14
+    type: text_default
+    weight: 10
+    region: content
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
-    region: content
   thumbnail:
     type: image
-    weight: 5
+    weight: 2
     label: hidden
     settings:
       image_style: thumbnail
       image_link: ''
+      svg_attributes:
+        width: ''
+        height: ''
+      svg_render_as_image: true
     region: content
     third_party_settings: {  }
   uid:

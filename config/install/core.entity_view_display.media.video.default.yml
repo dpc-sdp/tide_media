@@ -17,6 +17,7 @@ dependencies:
   module:
     - file
     - svg_image
+    - text
     - user
 id: media.video.default
 targetEntityType: media
@@ -26,7 +27,7 @@ content:
   created:
     label: hidden
     type: timestamp
-    weight: 0
+    weight: 1
     region: content
     settings:
       date_format: medium
@@ -34,7 +35,7 @@ content:
       timezone: ''
     third_party_settings: {  }
   field_license_type:
-    weight: 16
+    weight: 12
     label: above
     settings:
       link: true
@@ -42,7 +43,7 @@ content:
     type: entity_reference_label
     region: content
   field_media_audience:
-    weight: 11
+    weight: 8
     label: above
     settings:
       link: true
@@ -50,7 +51,7 @@ content:
     type: entity_reference_label
     region: content
   field_media_department:
-    weight: 12
+    weight: 9
     label: above
     settings:
       link: true
@@ -59,7 +60,7 @@ content:
     region: content
   field_media_file:
     type: file_video
-    weight: 6
+    weight: 3
     label: above
     settings:
       muted: false
@@ -72,7 +73,7 @@ content:
     third_party_settings: {  }
     region: content
   field_media_length:
-    weight: 7
+    weight: 4
     label: above
     settings:
       link_to_entity: false
@@ -80,7 +81,7 @@ content:
     type: string
     region: content
   field_media_link:
-    weight: 15
+    weight: 11
     label: above
     settings:
       link_to_entity: false
@@ -88,7 +89,7 @@ content:
     type: string
     region: content
   field_media_restricted:
-    weight: 10
+    weight: 7
     label: above
     settings:
       format: default
@@ -98,14 +99,14 @@ content:
     type: boolean
     region: content
   field_media_summary:
-    weight: 8
+    weight: 5
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
   field_media_topic:
-    weight: 13
+    weight: 10
     label: above
     settings:
       link: true
@@ -113,19 +114,23 @@ content:
     type: entity_reference_label
     region: content
   field_media_transcript:
-    weight: 9
+    type: text_default
+    weight: 6
+    region: content
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
-    region: content
   thumbnail:
     type: image
-    weight: 5
+    weight: 2
     label: hidden
     settings:
       image_style: thumbnail
       image_link: ''
+      svg_attributes:
+        width: ''
+        height: ''
+      svg_render_as_image: true
     region: content
     third_party_settings: {  }
   uid:
