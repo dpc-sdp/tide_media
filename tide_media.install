@@ -155,6 +155,28 @@ function tide_media_update_8002() {
  * Video transcript field change from text field to WYSIWYG
  */
 function tide_media_update_8003() {
+  $database = Drupal::database();
+
+  //step1 create two temporary tables for holding data
+  $tmp_table_names = [
+    'tmp_table' => 'media__field_media_transcript',
+    'tmp_revision_table' => 'media_revision__field_media_transcript',
+  ];
+  $spec = [
+    'type' => 'text',
+    'size' => 'big',
+    'not null' => FALSE,
+  ];
+
+  foreach ($tmp_table_names as $tmp => $table_name) {
+    if ($database->schema()->tableExists($table_name)){
+      //creates two temporary tables for holding the data
+      $database->query("CREATE TABLE {$tmp} SELECT * FROM  {$table_name}");
+      $database->truncate($table_name)->execute();
+    }
+  }
+
+  //step2 update field config from string_long to text_long
   $fields = [
     'field_media_transcript' => [
       'table' => 'media__field_media_transcript',
@@ -163,29 +185,12 @@ function tide_media_update_8003() {
     ],
   ];
 
-  $database = \Drupal::database();
-
   foreach ($fields as $field_name => $f) {
-    $table = $f['table'];
-    $revision_table = $f['revision_table'];
     $entity_type = 'media';
     $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
 
     if (is_null($field_storage)) {
       continue;
-    }
-
-    $rows = NULL;
-    $revision_rows = NULL;
-    if ($database->schema()->tableExists($table)) {
-      $rows = $database->select($table, 'n')
-        ->fields('n')
-        ->execute()
-        ->fetchAll();
-      $revision_rows = $database->select($revision_table, 'n')
-        ->fields('n')
-        ->execute()
-        ->fetchAll();
     }
 
     $new_fields = [];
@@ -210,21 +215,16 @@ function tide_media_update_8003() {
       $new_field->save();
     }
 
-    if (!is_null($rows)) {
-      foreach ($rows as &$row) {
-        $row->field_media_transcript_value = nl2br($row->field_media_transcript_value);
-        $row = (array) $row;
-        $row[$f['format_col']] = 'rich_text';
-        $database->insert($table)->fields($row)->execute();
-      }
-    }
-    if (!is_null($revision_rows)) {
-      foreach ($revision_rows as &$row) {
-        $row->field_media_transcript_value = nl2br($row->field_media_transcript_value);
-        $row = (array) $row;
-        $row[$f['format_col']] = 'rich_text';
-        $database->insert($revision_table)->fields($row)->execute();
-      }
+    //step 3 data migration
+    foreach ($tmp_table_names as $tmp => $table_name) {
+      $database->schema()->addField($tmp,'field_media_transcript_format',$spec);
+      $database->update($tmp)->fields(['field_media_transcript_format'=>'rich_text'])->execute();
+      $database->insert($table_name)->from($database->select($tmp, 't')
+        ->fields('t'))->execute();
+      $query = 'UPDATE `'."$table_name" .'` SET `field_media_transcript_value` = REPLACE(`field_media_transcript_value`, \'\r\n\', \'<br />\')';;
+      $database->query($query)->execute();
+      $database->schema()->dropTable($tmp);
     }
   }
+  drupal_flush_all_caches();
 }
