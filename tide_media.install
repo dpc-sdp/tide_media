@@ -6,11 +6,7 @@
  */
 
 use Drupal\embed\Entity\EmbedButton;
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\field\Entity\FieldConfig;
 use Drupal\file\Entity\File;
-use Drupal\media\Entity\Media;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Implements hook_install().
