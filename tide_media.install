@@ -255,7 +255,7 @@ function tide_media_update_8006() {
     "\r",
   ];
   $br = "<br />";
-  //step1 create two temporary tables for holding data
+  // Step1 create two temporary tables for holding data.
   $tmp_table_names = [
     'tmp_table' => 'media__field_media_transcript',
     'tmp_revision_table' => 'media_revision__field_media_transcript',
@@ -311,13 +311,12 @@ function tide_media_update_8006() {
     $database->insert($table_name)->from($database->select($tmp, 't')
       ->fields('t'))->execute();
     foreach ($line_breaks as $line_break) {
-      $database->update('media__field_media_transcript')->expression('field_media_transcript_value',"REPLACE(field_media_transcript_value,:line_break,:br)",[
-        ':line_break'=>$line_break,
-        ':br'=>$br
+      $database->update('media__field_media_transcript')->expression('field_media_transcript_value', "REPLACE(field_media_transcript_value,:line_break,:br)", [
+        ':line_break' => $line_break,
+        ':br' => $br,
       ])->execute();
     }
     $database->schema()->dropTable($tmp);
   }
   drupal_flush_all_caches();
 }
-
