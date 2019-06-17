@@ -6,7 +6,11 @@
  */
 
 use Drupal\embed\Entity\EmbedButton;
+use Drupal\field\Entity\FieldConfig;
 use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
  * Implements hook_install().
@@ -30,5 +34,212 @@ function tide_media_install() {
     EmbedButton::load('tide_media')
       ->set('icon_uuid', $file->uuid())
       ->save();
+  }
+}
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function tide_media_update_dependencies() {
+  $dependencies['tide_media'][8002] = [
+    'taxonomy' => 8601,
+  ];
+
+  return $dependencies;
+}
+
+/**
+ * Install the License Type taxonomy.
+ */
+function tide_media_update_8002() {
+  if (!Vocabulary::load('license_type')) {
+    module_load_include('inc', 'tide_core', 'includes/helpers');
+    $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+    // Import new vocabulary.
+    _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location);
+  }
+
+  // Create the 2 default terms.
+  $licenses = [
+    'Creative Commons Attribution 4.0',
+    'Copyright',
+  ];
+
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  foreach ($licenses as $license) {
+    $term = $term_storage->loadByProperties([
+      'vid' => 'license_type',
+      'name' => $license,
+    ]);
+    if (empty($term)) {
+      Term::create([
+        'name' => $license,
+        'vid' => 'license_type',
+      ])->save();
+    }
+  }
+}
+
+/**
+ * Create the new License Type field.
+ */
+function tide_media_update_8003() {
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  // Import new field configs.
+  _tide_import_single_config('field.storage.media.field_license_type', $config_location);
+
+  $bundles = [
+    'audio',
+    'document',
+    'embedded_video',
+    'file',
+    'image',
+    'video',
+  ];
+
+  foreach ($bundles as $bundle) {
+    _tide_import_single_config('field.field.media.' . $bundle . '.field_license_type', $config_location);
+  }
+
+  // Forcefully import updated media browser view.
+  _tide_import_single_config('views.view.tide_media_browser', $config_location, FALSE);
+}
+
+/**
+ * Update new license type for existing media.
+ */
+function tide_media_update_8004(&$sandbox) {
+  $field_name = 'field_license_type';
+
+  if (!isset($sandbox['tid'])) {
+    $cc4_term = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', 'license_type')
+      ->condition('name', 'Creative Commons Attribution 4.0')
+      ->execute();
+    if (!empty($cc4_term)) {
+      $cc4_term = array_keys($cc4_term);
+      $sandbox['tid'] = reset($cc4_term);
+    }
+    else {
+      // No CC4 license, bail out early.
+      return;
+    }
+  }
+
+  if (!isset($sandbox['total'])) {
+    // Only update media without a new license type.
+    $count = \Drupal::entityQuery('media')
+      ->notExists($field_name)
+      ->count()
+      ->execute();
+    $sandbox['total'] = $count;
+    $sandbox['current'] = 0;
+    $sandbox['processed'] = 0;
+    $sandbox['#finished'] = $count ? 0 : 1;
+  }
+
+  $batch_size = 50;
+  $mids = \Drupal::entityQuery('media')
+    ->condition('mid', $sandbox['current'], '>')
+    ->notExists($field_name)
+    ->sort('mid', 'ASC')
+    ->range(0, $batch_size)
+    ->execute();
+
+  foreach ($mids as $mid) {
+    $sandbox['current'] = $mid;
+    $media = Media::load($mid);
+    if ($media && $media->hasField($field_name)) {
+      $media->$field_name->target_id = $sandbox['tid'];
+      $media->save();
+    }
+    $sandbox['processed']++;
+  }
+
+  $sandbox['#finished'] = ($sandbox['processed'] / $sandbox['total']);
+}
+
+/**
+ * Update the remaining config for new license and remove old license field.
+ */
+function tide_media_update_8005() {
+  $old_field_name = 'field_media_license';
+  $new_field_name = 'field_license_type';
+
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+
+  $bundles = [
+    'audio',
+    'document',
+    'embedded_video',
+    'file',
+    'image',
+    'video',
+  ];
+
+  foreach ($bundles as $bundle) {
+    $old_field = FieldConfig::loadByName('media', $bundle, $old_field_name);
+
+    // Bail out if the old field no longer exists.
+    if (!$old_field) {
+      continue;
+    }
+
+    // Update form display.
+    /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $form_display */
+    $form_display = \Drupal::entityTypeManager()
+      ->getStorage('entity_form_display')
+      ->load('media.' . $bundle . '.default');
+    if (!$form_display) {
+      _tide_import_single_config('core.entity_form_display.media.' . $bundle . '.default', $config_location, FALSE);
+    }
+    else {
+      $new_field_config = [
+        'type' => 'options_select',
+        'region' => 'content',
+      ];
+      $old_field_config = $form_display->getComponent($old_field_name);
+      if ($old_field_config) {
+        $new_field_config['weight'] = $old_field_config['weight'];
+        $form_display->removeComponent($old_field_name);
+      }
+      $form_display->setComponent($new_field_name, $new_field_config);
+      $form_display->save();
+    }
+
+    // Update view display.
+    /** @var \Drupal\Core\Entity\Entity\EntityViewDisplay $view_display */
+    $view_display = \Drupal::entityTypeManager()
+      ->getStorage('entity_view_display')
+      ->load('media.' . $bundle . '.default');
+    if (!$view_display) {
+      _tide_import_single_config('core.entity_view_display.media.' . $bundle . '.default', $config_location, FALSE);
+    }
+    else {
+      $new_field_config = [
+        'label' => 'above',
+        'type' => 'entity_reference_label',
+        'settings' => ['link' => TRUE],
+        'region' => 'content',
+      ];
+      $old_field_config = $view_display->getComponent($old_field_name);
+      if ($old_field_config) {
+        $new_field_config['weight'] = $old_field_config['weight'];
+        $view_display->removeComponent($old_field_name);
+      }
+      $view_display->setComponent($new_field_name, $new_field_config);
+      $view_display->save();
+    }
+
+    // Delete the old field.
+    try {
+      $old_field->delete();
+    }
+    catch (Exception $exception) {
+      watchdog_exception('tide_media', $exception);
+    }
   }
 }
