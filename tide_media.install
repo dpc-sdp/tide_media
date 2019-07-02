@@ -313,7 +313,7 @@ function tide_media_update_8006() {
     $database->insert($table_name)->from($database->select($tmp, 't')
       ->fields('t'))->execute();
     foreach ($line_breaks as $line_break) {
-      $database->update('media__field_media_transcript')->expression('field_media_transcript_value', "REPLACE(field_media_transcript_value,:line_break,:br)", [
+      $database->update($table_name)->expression('field_media_transcript_value', "REPLACE(field_media_transcript_value,:line_break,:br)", [
         ':line_break' => $line_break,
         ':br' => $br,
       ])->execute();
