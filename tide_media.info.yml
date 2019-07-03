@@ -28,6 +28,7 @@ config_devel:
     - core.entity_form_display.media.file.default
     - core.entity_form_display.media.image.default
     - core.entity_form_display.media.video.default
+    - core.entity_form_display.paragraph.call_to_action_image.default
     - core.entity_view_display.media.audio.default
     - core.entity_view_display.media.audio.embedded
     - core.entity_view_display.media.audio.embedded_with_transcript
@@ -48,6 +49,7 @@ config_devel:
     - core.entity_view_display.media.video.embedded
     - core.entity_view_display.media.video.embedded_with_transcript
     - core.entity_view_display.media.video.media_browser_preview
+    - core.entity_view_display.paragraph.call_to_action_image.default
     - core.entity_view_mode.media.embedded
     - core.entity_view_mode.media.embedded_with_caption
     - core.entity_view_mode.media.embedded_with_transcript
@@ -108,6 +110,8 @@ config_devel:
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
     - field.field.media.video.field_media_transcript
+    - field.field.paragraph.call_to_action_image.field_paragraph_cta
+    - field.field.paragraph.call_to_action_image.field_paragraph_media
     - field.storage.media.field_license_type
     - field.storage.media.field_media_alignment
     - field.storage.media.field_media_audience
@@ -129,6 +133,9 @@ config_devel:
     - media.type.file
     - media.type.image
     - media.type.video
+    - paragraphs.paragraphs_type.call_to_action_image
     - taxonomy.vocabulary.license_type
     - tide_media.settings
     - views.view.tide_media_browser
+  optional:
+    - jsonapi_extras.jsonapi_resource_config.paragraph--call_to_action_image
