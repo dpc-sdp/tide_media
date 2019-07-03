@@ -127,6 +127,7 @@ config_devel:
     - field.storage.media.field_media_topic
     - field.storage.media.field_media_transcript
     - field.storage.media.field_media_video_embed_field
+    - field.storage.paragraph.field_paragraph_media
     - media.type.audio
     - media.type.document
     - media.type.embedded_video
