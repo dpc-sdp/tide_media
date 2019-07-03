@@ -50,6 +50,10 @@ config_devel:
     - core.entity_view_display.media.video.embedded_with_transcript
     - core.entity_view_display.media.video.media_browser_preview
     - core.entity_view_display.paragraph.call_to_action_image.default
+    - core.entity_form_display.paragraph.timeline.default
+    - core.entity_form_display.paragraph.timelines.default
+    - core.entity_view_display.paragraph.timeline.default
+    - core.entity_view_display.paragraph.timelines.default
     - core.entity_view_mode.media.embedded
     - core.entity_view_mode.media.embedded_with_caption
     - core.entity_view_mode.media.embedded_with_transcript
@@ -112,6 +116,17 @@ config_devel:
     - field.field.media.video.field_media_transcript
     - field.field.paragraph.call_to_action_image.field_paragraph_cta
     - field.field.paragraph.call_to_action_image.field_paragraph_media
+    - field.field.paragraph.timeline.field_paragraph_body
+    - field.field.paragraph.timeline.field_paragraph_cta_text
+    - field.field.paragraph.timeline.field_paragraph_date_range
+    - field.field.paragraph.timeline.field_paragraph_cta_text
+    - field.field.paragraph.timeline.field_paragraph_link
+    - field.field.paragraph.timeline.field_paragraph_media
+    - field.field.paragraph.timeline.field_paragraph_summary
+    - field.field.paragraph.timeline.field_paragraph_title
+    - field.field.paragraph.timelines.field_paragraph_title
+    - field.field.paragraph.timelines.field_timeline
+    - field.storage.paragraph.field_timeline
     - field.storage.media.field_license_type
     - field.storage.media.field_media_alignment
     - field.storage.media.field_media_audience
@@ -140,3 +155,5 @@ config_devel:
     - views.view.tide_media_browser
   optional:
     - jsonapi_extras.jsonapi_resource_config.paragraph--call_to_action_image
+    - jsonapi_extras.jsonapi_resource_config.paragraph--timeline
+    - jsonapi_extras.jsonapi_resource_config.paragraph--timelines
