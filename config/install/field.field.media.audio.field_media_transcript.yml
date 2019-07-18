@@ -4,6 +4,8 @@ dependencies:
   config:
     - field.storage.media.field_media_transcript
     - media.type.audio
+  module:
+    - text
 id: media.audio.field_media_transcript
 field_name: field_media_transcript
 entity_type: media
@@ -15,4 +17,4 @@ translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string_long
+field_type: text_long
