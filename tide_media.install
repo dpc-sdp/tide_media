@@ -11,6 +11,7 @@ use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\field\Entity\FieldStorageConfig;
 
 /**
  * Implements hook_install().
@@ -242,4 +243,82 @@ function tide_media_update_8005() {
       watchdog_exception('tide_media', $exception);
     }
   }
+}
+
+/**
+ * Video transcript field change from text field to WYSIWYG.
+ */
+function tide_media_update_8006() {
+  $entity_type = 'media';
+  $field_name = 'field_media_transcript';
+  $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
+
+  if (is_null($field_storage)) {
+    return;
+  }
+
+  $database = Drupal::database();
+  $line_breaks = [
+    "\r\n",
+    "\n",
+    "\r",
+  ];
+  $br = "<br />";
+  // Step1 create two temporary tables for holding data.
+  $tmp_table_names = [
+    'tmp_table' => 'media__field_media_transcript',
+    'tmp_revision_table' => 'media_revision__field_media_transcript',
+  ];
+  $spec = [
+    'type' => 'text',
+    'size' => 'big',
+    'not null' => FALSE,
+  ];
+
+  foreach ($tmp_table_names as $tmp => $table_name) {
+    if ($database->schema()->tableExists($table_name)) {
+      $database->query("CREATE TABLE {$tmp} SELECT * FROM  {$table_name}");
+      $database->truncate($table_name)->execute();
+      $database->schema()->addField($table_name, 'field_media_transcript_format', $spec);
+    }
+  }
+
+  // Step2 update field config from string_long to text_long.
+  // Update FieldStorageConfig.
+  $new_field_storage = $field_storage->toArray();
+  $new_field_storage['type'] = 'text_long';
+  $new_field_storage['module'] = 'text';
+  $new_field_storage = FieldStorageConfig::create($new_field_storage);
+  $new_field_storage->original = $new_field_storage;
+  $new_field_storage->enforceIsNew(FALSE);
+  $new_field_storage->save();
+
+  // Update field.
+  foreach ($field_storage->getBundles() as $bundle => $label) {
+    $field = FieldConfig::loadByName($entity_type, $bundle, $field_name);
+    $new_field = $field->toArray();
+    $new_field['field_type'] = 'text_long';
+    $new_field = FieldConfig::create($new_field);
+    $new_field->original = $field;
+    $new_field->enforceIsNew(FALSE);
+    $new_field->save();
+  }
+
+  // Step 3 data migration.
+  foreach ($tmp_table_names as $tmp => $table_name) {
+    $database->schema()->addField($tmp, 'field_media_transcript_format', $spec);
+    $database->update($tmp)
+      ->fields(['field_media_transcript_format' => 'rich_text'])
+      ->execute();
+    $database->insert($table_name)->from($database->select($tmp, 't')
+      ->fields('t'))->execute();
+    foreach ($line_breaks as $line_break) {
+      $database->update($table_name)->expression('field_media_transcript_value', "REPLACE(field_media_transcript_value,:line_break,:br)", [
+        ':line_break' => $line_break,
+        ':br' => $br,
+      ])->execute();
+    }
+    $database->schema()->dropTable($tmp);
+  }
+  drupal_flush_all_caches();
 }
