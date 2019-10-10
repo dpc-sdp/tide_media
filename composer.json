@@ -4,7 +4,7 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
-        "dpc-sdp/tide_core": "^1.2.6",
+        "dpc-sdp/tide_core": "dev-feature/SDPSUP-990-Remove-maxlength-patch-from-tide-core as 1.2.14",
         "drupal/embed": "^1.0",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.8",
