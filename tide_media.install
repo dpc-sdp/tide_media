@@ -351,3 +351,23 @@ function tide_media_update_8007() {
     }
   }
 }
+
+/**
+ * Updating name filter operator for tide image_browser.
+ */
+function tide_media_update_8008() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('views.view.tide_media_browser');
+  $display = $config->get('display');
+
+  // Checking for correct display in view.
+  if (!empty($display) && $display['image_browser']['id'] == 'image_browser') {
+    $name_filter_operator = $display['image_browser']['display_options']['filters']['name']['operator'];
+    // Making sure the operator is not empty.
+    if ($name_filter_operator && !empty($name_filter_operator)) {
+      $operator = 'display.image_browser.display_options.filters.name';
+      $config->set($operator . '.operator', 'contains');
+      $config->save();
+    }
+  }
+}
