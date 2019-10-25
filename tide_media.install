@@ -324,35 +324,6 @@ function tide_media_update_8006() {
 }
 
 /**
- * Enable the field_media_site field in form_display of all media bundles.
- */
-function tide_media_update_8007() {
-  if (!\Drupal::moduleHandler()->moduleExists('tide_site')) {
-    return;
-  }
-  // Default settings.
-  $default_option = [
-    'type' => 'options_buttons',
-    'region' => 'content',
-    'settings' => [],
-    'third_party_settings' => [],
-  ];
-  $bundle_info_service = \Drupal::service('entity_type.bundle.info');
-  $entity_form_display_storage = \Drupal::entityTypeManager()
-    ->getStorage('entity_form_display');
-  $media_bundles = $bundle_info_service->getBundleInfo('media');
-  if (!empty($media_bundles) && is_array($media_bundles)) {
-    // Enable the field in form_display of all media bundles.
-    foreach ($media_bundles as $name => $options) {
-      /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $entity_form_display */
-      $entity_form_display = $entity_form_display_storage->load('media.' . $name . '.default');
-      $entity_form_display->setComponent('field_media_site', $default_option);
-      $entity_form_display->save();
-    }
-  }
-}
-
-/**
  * Updating name filter operator for tide image_browser.
  */
 function tide_media_update_8008() {
