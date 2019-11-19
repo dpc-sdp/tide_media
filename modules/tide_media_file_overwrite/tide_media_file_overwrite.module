@@ -18,7 +18,7 @@ function tide_media_file_overwrite_help($route_name, RouteMatchInterface $route_
     case 'help.page.tide_media_file_overwrite':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Gives the author option to overwrite file, and keeping the same filename when upload.') . '</p>';
+      $output .= '<p>' . t('Gives the author option to a overwrite file, and keeping the same filename when upload. This is an override of the default Drupal behaviour where a file is uploaded as a new file with a number appended to the file name, eg my-file-title_1.pdf\'). This module can be set to Override or not Override the file by default. Each file upload has an option to change the default.') . '</p>';
       return $output;
 
     default:
