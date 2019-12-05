@@ -12,6 +12,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\SafeMarkup;
+use Drupal\file\Entity\File;
 
 /**
  * Implements hook_views_pre_view().
@@ -81,6 +82,24 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
  */
 function tide_media_form_media_form_alter(&$form, FormStateInterface $form_state) {
   $form['#attached']['library'][] = 'tide_media/media_form';
+  $form['#attached']['drupalSettings']['form_media']['update_name_on_change'] = TRUE;
+  $form['#attached']['library'][] = 'tide_media/auto_update_name';
+
+  if ($form_state->getFormObject()->getOperation() == 'edit') {
+    $file = NULL;
+
+    /** @var \Drupal\media\Entity\Media $media */
+    $media = $form_state->getFormObject()->getEntity();
+    $fid = $media->getSource()->getSourceFieldValue($media);
+
+    if ($fid) {
+      $file = File::load($fid);
+    }
+
+    if ($file !== NULL && $file->getFilename() !== $media) {
+      $form['#attached']['drupalSettings']['form_media']['update_name_on_change'] = FALSE;
+    }
+  }
 }
 
 /**
