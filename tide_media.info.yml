@@ -126,7 +126,6 @@ config_devel:
     - field.field.paragraph.timeline.field_paragraph_title
     - field.field.paragraph.timelines.field_paragraph_title
     - field.field.paragraph.timelines.field_timeline
-    - field.storage.paragraph.field_timeline
     - field.storage.media.field_license_type
     - field.storage.media.field_media_alignment
     - field.storage.media.field_media_audience
@@ -142,7 +141,9 @@ config_devel:
     - field.storage.media.field_media_topic
     - field.storage.media.field_media_transcript
     - field.storage.media.field_media_video_embed_field
+    - field.storage.node.field_node_timeline
     - field.storage.paragraph.field_paragraph_media
+    - field.storage.paragraph.field_timeline
     - media.type.audio
     - media.type.document
     - media.type.embedded_video
