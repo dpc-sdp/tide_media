@@ -14,7 +14,7 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
-    And I should see "Allowed types: pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx tiff tif eps zip." in the "#edit-field-media-file-0-upload--description" element
+    And I should see "Allowed types: pdf doc docx xls xlsx xlsm csv txt ppt pptx dot dotm dotx tiff tif eps zip." in the "#edit-field-media-file-0--description" element
 
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
     And I should see an "select#edit-field-license-type" element
@@ -47,7 +47,7 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
-    And I should see "Allowed types: txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages tiff tif eps zip." in the "#edit-field-media-file-0-upload--description" element
+    And I should see "Allowed types: txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages tiff tif eps zip." in the "#edit-field-media-file-0--description" element
 
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
     And I should see an "select#edit-field-license-type" element
@@ -78,7 +78,7 @@ Feature: Fields for different Media types
     And I should see "Image" in the "label[for=edit-field-media-image-0-upload]" element
     And I should see an "label[for=edit-field-media-image-0-upload].form-required" element
     And I should see an "input#edit-field-media-image-0-upload" element
-    And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0-upload--description" element
+    And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0--description" element
 
     And I attach the file "SampleJPGImage_50kbmb.jpg" to "Image"
     And I wait 80 seconds for AJAX to finish
@@ -123,7 +123,7 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
-    And I should see "Allowed types: mp4." in the "#edit-field-media-file-0-upload--description" element
+    And I should see "Allowed types: mp4." in the "#edit-field-media-file-0--description" element
 
     And I should see "Length" in the "label[for=edit-field-media-length-0-value]" element
     And I should not see an "label[for=edit-field-media-length-0-value].form-required" element
@@ -169,7 +169,7 @@ Feature: Fields for different Media types
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
-    And I should see "Allowed types: mp3." in the "#edit-field-media-file-0-upload--description" element
+    And I should see "Allowed types: mp3." in the "#edit-field-media-file-0--description" element
 
     And I should see "Length" in the "label[for=edit-field-media-length-0-value]" element
     And I should not see an "label[for=edit-field-media-length-0-value].form-required" element
