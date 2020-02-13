@@ -158,3 +158,9 @@ config_devel:
     - jsonapi_extras.jsonapi_resource_config.paragraph--call_to_action_image
     - jsonapi_extras.jsonapi_resource_config.paragraph--timeline
     - jsonapi_extras.jsonapi_resource_config.paragraph--timelines
+    - field.field.media.audio.field_media_site
+    - field.field.media.document.field_media_site
+    - field.field.media.embedded_video.field_media_site
+    - field.field.media.file.field_media_site
+    - field.field.media.image.field_media_site
+    - field.field.media.video.field_media_site
