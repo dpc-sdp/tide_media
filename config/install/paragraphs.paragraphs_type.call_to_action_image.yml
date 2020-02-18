@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies: {  }
 id: call_to_action_image
-label: 'Call to Action Image'
+label: 'Call to action image'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }
