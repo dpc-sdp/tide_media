@@ -80,11 +80,6 @@ Feature: Fields for different Media types
     And I should see an "input#edit-field-media-image-0-upload" element
     And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0--description" element
 
-    And I attach the file "SampleJPGImage_50kbmb.jpg" to "Image"
-    And I wait 80 seconds for AJAX to finish
-    Then I should see the text "Alternative text"
-    And I should see the text "Title"
-
     And I should see "Caption" in the "label[for=edit-field-media-caption-0-value]" element
     And I should not see an "label[for=edit-field-media-caption-0-value].form-required" element
     And I should see an "input#edit-field-media-caption-0-value" element
@@ -111,6 +106,15 @@ Feature: Fields for different Media types
     And I should see "Topic" in the "label[for=edit-field-media-topic-0-target-id]" element
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
+
+  @api @javascript @nosuggest @skipped
+  Scenario: Test file uploads.
+    Given I am logged in as a user with the "create media" permission
+    When I visit "media/add/image"
+    And I attach the file "SampleJPGImage_50kbmb.jpg" to "Image"
+    And I wait 80 seconds for AJAX to finish
+    Then I should see the text "Alternative text"
+    And I should see the text "Title"
 
   @api @nosuggest
   Scenario: The Video media type has the expected fields (and labels where we can use them).
