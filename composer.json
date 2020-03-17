@@ -4,8 +4,8 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
-        "dpc-sdp/tide_core": "^1.5.4",
-        "drupal/embed": "^1.0",
+        "dpc-sdp/tide_core": "^1.5.6",
+        "drupal/embed": "^1.1",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.8",
         "drupal/video_embed_field": "^2.0"
