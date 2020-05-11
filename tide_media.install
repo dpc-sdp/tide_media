@@ -369,7 +369,7 @@ function tide_media_update_8010() {
  */
 function tide_media_update_8011() {
   $storage_handler = \Drupal::entityTypeManager()->getStorage('media');
-  $videos = $storage_handler->loadByProperties(['type' => 'video']);
+  $videos = $storage_handler->loadByProperties(['bundle' => 'video']);
   if ($videos) {
     $storage_handler->delete($videos);
   }
