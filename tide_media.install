@@ -365,3 +365,50 @@ function tide_media_update_8010() {
   $media_config->set('icon.uri', 'public://embed_buttons/star.png');
   $media_config->save();
 }
+
+/**
+ * Patch for sites that do not have field_media_site attached.
+ */
+function tide_media_update_8011() {
+  if (!\Drupal::moduleHandler()->moduleExists('tide_site')) {
+    return;
+  }
+
+  $entity_type = 'media';
+  $field_name = 'field_media_site';
+  $field_storage = FieldStorageConfig::loadByName($entity_type, $field_name);
+
+  if (is_null($field_storage)) {
+    return;
+  }
+  // Default settings.
+  $default_option = [
+    'type' => 'options_buttons',
+    'region' => 'content',
+    'settings' => [],
+    'third_party_settings' => [],
+  ];
+  $bundle_info_service = \Drupal::service('entity_type.bundle.info');
+  $entity_form_display_storage = \Drupal::entityTypeManager()
+    ->getStorage('entity_form_display');
+  $media_bundles = $bundle_info_service->getBundleInfo('media');
+  if (!empty($media_bundles) && is_array($media_bundles)) {
+    // Enable the field in form_display of all media bundles.
+    foreach ($media_bundles as $name => $options) {
+      $field = FieldConfig::loadByName($entity_type, $name, $field_name);
+      if (empty($field)) {
+        $field = FieldConfig::create([
+          'field_storage' => $field_storage,
+          'bundle' => $name,
+          'label' => 'Site',
+        ]);
+        $field->save();
+      }
+
+      /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay $entity_form_display */
+      $entity_form_display = $entity_form_display_storage->load('media.' . $name . '.default');
+      $entity_form_display->setComponent('field_media_site', $default_option);
+      $entity_form_display->save();
+    }
+  }
+}
