@@ -11,7 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\ViewExecutable;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
-use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
  * Implements hook_views_pre_view().
@@ -118,8 +118,6 @@ function tide_media_preprocess_file_link(&$variables) {
     }
   }
 
-  /** @var \Drupal\Core\GeneratedLink $link */
-  $link = $variables['link'];
   $description = $variables['description'];
   $file_size = format_size($file->getSize());
 
@@ -149,8 +147,7 @@ function tide_media_preprocess_file_link(&$variables) {
     default:
       $file_type = 'Other';
   }
-
-  $link_text = SafeMarkup::format('<span class="file--title">@description</span>' .
+  $link_text = new FormattableMarkup('<span class="file--title">@description</span>' .
     '<span class="file--type">@file_type</span>' .
     '<span class="file--size">@file_size</span>',
     [
@@ -172,7 +169,7 @@ function tide_media_preprocess_file_link(&$variables) {
     $uri = Url::fromUri($url);
     $uri->setOptions($attributes);
     $link_html = Link::fromTextAndUrl($link_text, $uri)->toString();
-    $link->setGeneratedLink($link_html);
+    $variables['link'] = $link_html;
   }
 }
 
