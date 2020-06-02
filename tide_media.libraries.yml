@@ -6,3 +6,11 @@ media_form:
     - core/drupal
     - core/drupalSettings
     - core/jquery
+auto_update_name:
+  version: 1.0
+  js:
+    js/auto_update_name.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery
