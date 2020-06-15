@@ -383,7 +383,7 @@ function tide_media_update_8011() {
 /**
  * Patch for sites that do not have field_media_site attached.
  */
-function tide_media_update_8011() {
+function tide_media_update_8012() {
   if (!\Drupal::moduleHandler()->moduleExists('tide_site')) {
     return;
   }
