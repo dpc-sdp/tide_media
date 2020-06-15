@@ -70,7 +70,6 @@ function tide_media_update_8003() {
     'embedded_video',
     'file',
     'image',
-    'video',
   ];
 
   foreach ($bundles as $bundle) {
@@ -151,7 +150,6 @@ function tide_media_update_8005() {
     'embedded_video',
     'file',
     'image',
-    'video',
   ];
 
   foreach ($bundles as $bundle) {
@@ -365,6 +363,22 @@ function tide_media_update_8010() {
   $media_config->set('icon.uri', 'public://embed_buttons/star.png');
   $media_config->save();
 }
+
+/**
+ * Clean up videos and its config.
+ */
+function tide_media_update_8011() {
+  $storage_handler = \Drupal::entityTypeManager()->getStorage('media');
+  $videos = $storage_handler->loadByProperties(['bundle' => 'video']);
+  if ($videos) {
+    $storage_handler->delete($videos);
+  }
+  $type = \Drupal::entityTypeManager()->getStorage('media_type')->load('video');
+  if ($type) {
+    $type->delete();
+  }
+}
+
 
 /**
  * Patch for sites that do not have field_media_site attached.
