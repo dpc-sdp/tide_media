@@ -10,6 +10,8 @@ use Drupal\media\Entity\Media;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\field\Entity\FieldStorageConfig;
+use \Drupal\Core\Config\FileStorage;
+use Drupal\image\Entity\ImageStyle;
 
 /**
  * Implements hook_update_dependencies().
@@ -450,19 +452,8 @@ function tide_media_update_8014() {
   if (!\Drupal::moduleHandler()->moduleExists('focal_point')) {
     /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
     $module_installer = \Drupal::service('module_installer');
+    $module_installer->install(['crop']);
     $module_installer->install(['focal_point']);
-    // Focal Point default config.
-    $actions = [
-      'crop.settings',
-      'crop.type.focal_point',
-      'focal_point.settings',
-    ];
-    $config_path = drupal_get_path('module', 'tide_media') . '/config/install';
-    $source = new FileStorage($config_path);
-    $config_storage = \Drupal::service('config.storage');
-    foreach ($actions as $action) {
-      $config_storage->write($action, $source->read($action));
-    }
     // Updating existing seetings to use focal point.
     // Add focal point to field_media_image in display form.
     $config = \Drupal::configFactory()->getEditable('core.entity_form_display.media.image.default');
