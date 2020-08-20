@@ -10,7 +10,6 @@ use Drupal\media\Entity\Media;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\field\Entity\FieldStorageConfig;
-use \Drupal\Core\Config\FileStorage;
 use Drupal\image\Entity\ImageStyle;
 
 /**
@@ -469,7 +468,7 @@ function tide_media_update_8014() {
     // Load the thumbnail image style.
     $thumbnail = ImageStyle::load('thumbnail');
 
-    // Create effect
+    // Create effect.
     $configuration = [
       'uuid' => NULL,
       'id' => 'focal_point_scale_and_crop',

@@ -4,9 +4,6 @@ namespace Drupal\tide_media\Plugin\jsonapi\FieldEnhancer;
 
 use Drupal\jsonapi_extras\Plugin\ResourceFieldEnhancerBase;
 use Shaper\Util\Context;
-use Drupal\focal_point\FocalPointManager as FocalPoint;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\crop\CropInterface;
 use Drupal\crop\Entity\Crop;
 use Drupal\file\FileInterface;
 
@@ -77,9 +74,8 @@ class ImageEnhancer extends ResourceFieldEnhancerBase {
   /**
    * Helper function to get crop values.
    *
-   * @param object $file
+   * @param \Drupal\file\FileInterface $file
    *   The file entity.
-   * 
    * @param string $crop_type
    *   The type of the crop entity.
    *
