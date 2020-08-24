@@ -456,12 +456,20 @@ function tide_media_update_8014() {
     // Updating existing seetings to use focal point.
     // Add focal point to field_media_image in display form.
     $config = \Drupal::configFactory()->getEditable('core.entity_form_display.media.image.default');
+    // Updating config dependencies.
+    $config_dependencies = $config->get('dependencies.config');
+    unset($config_dependencies['image.style.thumbnail']);
+    $config_dependencies[] = 'image.style.large';
+    $config->set('dependencies.config', $config_dependencies);
+    // Updating module dependencies.
     $module = $config->get('dependencies.module');
     $module[] = 'focal_point';
     $config->set('dependencies.module', $module);
+    // Adding new field settings.
     $media_image_settings = $config->get('content.field_media_image.settings');
-    $media_image_settings['preview_link'] = FALSE;
+    $media_image_settings['preview_image_style'] = 'large';
     $media_image_settings['offsets'] = '50,50';
+    $config->set('content.field_media_image.settings', $media_image_settings);
     $config->set('content.field_media_image.type', 'image_focal_point');
     $config->save();
 
