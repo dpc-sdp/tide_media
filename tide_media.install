@@ -458,7 +458,6 @@ function tide_media_update_8014() {
     $config = \Drupal::configFactory()->getEditable('core.entity_form_display.media.image.default');
     // Updating config dependencies.
     $config_dependencies = $config->get('dependencies.config');
-    unset($config_dependencies['image.style.thumbnail']);
     $config_dependencies[] = 'image.style.large';
     $config->set('dependencies.config', $config_dependencies);
     // Updating module dependencies.
