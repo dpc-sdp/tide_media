@@ -10,6 +10,7 @@ use Drupal\media\Entity\Media;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\image\Entity\ImageStyle;
 
 /**
  * Implements hook_update_dependencies().
@@ -444,9 +445,65 @@ function tide_media_update_8013() {
 }
 
 /**
- * Rename media label to Media Library.
+ * Enable Focal Point with default config.
  */
 function tide_media_update_8014() {
+  if (!\Drupal::moduleHandler()->moduleExists('focal_point')) {
+    /** @var \Drupal\Core\Extension\ModuleInstallerInterface $module_installer */
+    $module_installer = \Drupal::service('module_installer');
+    $module_installer->install(['crop']);
+    $module_installer->install(['focal_point']);
+    // Updating existing seetings to use focal point.
+    // Add focal point to field_media_image in display form.
+    $config = \Drupal::configFactory()->getEditable('core.entity_form_display.media.image.default');
+    // Updating config dependencies.
+    $config_dependencies = $config->get('dependencies.config');
+    $config_dependencies[] = 'image.style.large';
+    $config->set('dependencies.config', $config_dependencies);
+    // Updating module dependencies.
+    $module = $config->get('dependencies.module');
+    $module[] = 'focal_point';
+    $config->set('dependencies.module', $module);
+    // Adding new field settings.
+    $media_image_settings = $config->get('content.field_media_image.settings');
+    $media_image_settings['preview_image_style'] = 'large';
+    $media_image_settings['offsets'] = '50,50';
+    $config->set('content.field_media_image.settings', $media_image_settings);
+    $config->set('content.field_media_image.type', 'image_focal_point');
+    $config->save();
+
+    // Load the thumbnail image style.
+    $thumbnail = ImageStyle::load('thumbnail');
+
+    // Create effect.
+    $configuration = [
+      'uuid' => NULL,
+      'id' => 'focal_point_scale_and_crop',
+      'weight' => -1,
+      'data' => [
+        'width' => 100,
+        'height' => 100,
+        'crop_type' => 'focal_point',
+      ],
+    ];
+    $effect = \Drupal::service('plugin.manager.image.effect')->createInstance($configuration['id'], $configuration);
+    if ($thumbnail) {
+      // Add it to the image style and save.
+      $thumbnail->addImageEffect($effect->getConfiguration());
+      $thumbnail->save();
+    }
+
+    // Set the image enhancer for field_media_image field.
+    $config = \Drupal::configFactory()->getEditable('jsonapi_extras.jsonapi_resource_config.media--image');
+    $config->set('resourceFields.field_media_image.enhancer.id', 'image_enhancer');
+    $config->save();
+  }
+}
+
+/**
+ * Rename media label to Media Library.
+ */
+function tide_media_update_8015() {
   $config_factory = \Drupal::configFactory();
   $media_config = $config_factory->getEditable('embed.button.tide_media');
   $media_config->set('label', 'Media Library');
