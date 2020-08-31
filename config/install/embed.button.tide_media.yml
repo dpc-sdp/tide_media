@@ -10,7 +10,7 @@ dependencies:
   module:
     - entity_embed
     - media
-label: Media Library
+label: 'Media Library'
 id: tide_media
 type_id: entity
 type_settings:
