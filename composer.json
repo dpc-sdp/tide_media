@@ -4,8 +4,10 @@
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
+        "drupal/crop": "^2.1",
         "dpc-sdp/tide_core": "^1.6.0",
         "drupal/embed": "^1.1",
+        "drupal/focal_point": "^1.4",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.10",
         "drupal/video_embed_field": "^2.0"
@@ -14,6 +16,13 @@
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        }
+    },
+    "extra": {
+        "patches": {
+            "drupal/focal_point": {
+                "Preview modal does not load js/css - https://www.drupal.org/project/focal_point/issues/3126288": "https://www.drupal.org/files/issues/2020-04-09/3126288-2.patch"
+            }
         }
     }
 }
