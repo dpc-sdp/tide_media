@@ -442,3 +442,13 @@ function tide_media_update_8013() {
     }
   }
 }
+
+/**
+ * Rename media label to Media Library.
+ */
+function tide_media_update_8014() {
+  $config_factory = \Drupal::configFactory();
+  $media_config = $config_factory->getEditable('embed.button.tide_media');
+  $media_config->set('label', 'Media Library');
+  $media_config->save();
+}
