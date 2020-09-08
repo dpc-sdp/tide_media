@@ -19,6 +19,9 @@ function tide_media_update_dependencies() {
   $dependencies['tide_media'][8002] = [
     'taxonomy' => 8601,
   ];
+  $dependencies['tide_media'][8036] = [
+    'tide_core' => 8035,
+  ];
 
   return $dependencies;
 }
@@ -498,4 +501,45 @@ function tide_media_update_8014() {
     $config->set('resourceFields.field_media_image.enhancer.id', 'image_enhancer');
     $config->save();
   }
+}
+
+/**
+ * Migrates field_paragraph_summary to field_paragraph_body.
+ */
+function tide_media_update_8036(&$sandbox) {
+  $wysiwyg = 'field_paragraph_body';
+  if (!isset($sandbox['total'])) {
+    $count = \Drupal::entityTypeManager()
+      ->getStorage('paragraph')
+      ->getQuery()
+      ->condition('type', 'timeline')
+      ->count()
+      ->execute();
+    $sandbox['total'] = $count;
+    $sandbox['current'] = 0;
+    $sandbox['processed'] = 0;
+    $sandbox['#finished'] = $count ? 0 : 1;
+  }
+  $batch_size = 10;
+  $paragraph_ids = \Drupal::entityTypeManager()
+    ->getStorage('paragraph')
+    ->getQuery()
+    ->condition('id', $sandbox['current'], '>')
+    ->condition('type', 'timeline')
+    ->sort('id', 'ASC')
+    ->range(0, $batch_size)
+    ->execute();
+  foreach ($paragraph_ids as $paragraph_id) {
+    $sandbox['current'] = $paragraph_id;
+    $paragraph = Paragraph::load($paragraph_id);
+    if ($paragraph && $paragraph->hasField($wysiwyg) && $paragraph->hasField('field_paragraph_summary')) {
+      $paragraph->{$wysiwyg}->value = $paragraph->field_paragraph_summary->value;
+      $paragraph->{$wysiwyg}->format = 'summary_text';
+      $paragraph->setNewRevision(FALSE);
+      $paragraph->save();
+    }
+    $sandbox['processed']++;
+  }
+  $sandbox['#finished'] = $sandbox['total'] ? $sandbox['processed'] / $sandbox['total'] : 1;
+  $sandbox['#finished'] = $sandbox['#finished'] > 1 ? 1 : $sandbox['#finished'];
 }
