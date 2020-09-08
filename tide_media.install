@@ -11,6 +11,7 @@ use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\image\Entity\ImageStyle;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
  * Implements hook_update_dependencies().
@@ -542,4 +543,46 @@ function tide_media_update_8036(&$sandbox) {
   }
   $sandbox['#finished'] = $sandbox['total'] ? $sandbox['processed'] / $sandbox['total'] : 1;
   $sandbox['#finished'] = $sandbox['#finished'] > 1 ? 1 : $sandbox['#finished'];
+}
+
+/**
+ * Updates the entity_form_display and sets a default format.
+ */
+function tide_media_update_8037() {
+  $entity_form_display = Drupal::entityTypeManager()
+    ->getStorage('entity_form_display')
+    ->load('paragraph.timeline.default');
+  if ($entity_form_display) {
+    $entity_form_display->setComponent('field_paragraph_body', [
+      'weight' => 10,
+      'settings' => ['rows' => 5, 'placeholder' => ''],
+      'third_party_settings' => [],
+      'type' => 'text_textarea',
+      'region' => 'content',
+    ]);
+    $hidden = $entity_form_display->get('hidden');
+    $hidden['field_paragraph_summary'] = TRUE;
+    $entity_form_display->set('hidden', $hidden);
+    $entity_form_display->save();
+  }
+
+  $entity_form_display_config = \Drupal::configFactory()
+    ->getEditable('core.entity_form_display.paragraph.timeline.default');
+  $content = $entity_form_display_config->get('content');
+  if (isset($content['field_paragraph_summary'])) {
+    unset($content['field_paragraph_summary']);
+  }
+  $entity_form_display_config->set('content', $content)->save();
+
+  $field_timeline_body = \Drupal::configFactory()
+    ->getEditable('field.field.paragraph.timeline.field_paragraph_body');
+  $settings = $field_timeline_body->get('third_party_settings');
+  if (isset($settings['allowed_formats']['summary_text'])) {
+    $settings['allowed_formats']['summary_text'] = 'summary_text';
+  }
+  else {
+    $settings['allowed_formats'] = array_merge($settings['allowed_formats'], ['summary_text' => 'summary_text']);
+  }
+  $field_timeline_body->set('label', 'Summary');
+  $field_timeline_body->set('third_party_settings', $settings)->save();
 }
