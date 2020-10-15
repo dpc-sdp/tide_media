@@ -54,9 +54,11 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $parent = parent::buildForm($form, $form_state);
     $file = $this->getCurrentFile();
+    // If no file attached, just return.
     if (!$file) {
       return $parent;
     }
+    // Basic settings.
     $parent['info'] = [
       '#type' => 'table',
       '#header' => [
@@ -67,14 +69,18 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     ];
     /** @var \Drupal\file\FileStorageInterface $file_storage */
     $file_storage = \Drupal::entityTypeManager()->getStorage('file');
+    // Try to get a search keyword.
     $key = preg_replace('/_[^_.]*\./', '.', $file->getFilename());
     $key = pathinfo($key, PATHINFO_FILENAME);
+    // Searching from table.
     $results = $file_storage->getQuery()
       ->condition('filename', '%' . $key . '%', 'LIKE')
       ->execute();
+    $parent['description']['#markup'] = t('Clicking the button will delete the file entirely from the system');
     if ($results) {
       $results = $file_storage->loadMultiple($results);
       $form_state->set('deleting_files', $results);
+      $form_state->set('deleting_key', $key);
       /** @var \Drupal\file\FileInterface $result */
       foreach ($results as $id => $result) {
         $parent['info'][$id]['filename'] = [
@@ -112,9 +118,26 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $files = $form_state->get('deleting_files');
+    $key = $form_state->get('deleting_key');
+    // Delete files from file_managed table and the directory.
     if ($files) {
       try {
         \Drupal::entityTypeManager()->getStorage('file')->delete($files);
+      }
+      catch (FileNotExistsException $exception) {
+        watchdog_exception('tide_media', $exception);
+      }
+    }
+    // Scan and delete files from public folders.
+    /** @var \Drupal\Core\File\FileSystem $file_system */
+    $file_system = \Drupal::service('file_system');
+    $path_results = $file_system->scanDirectory('public://', "/^$key/");
+    if ($path_results) {
+      try {
+        foreach ($path_results as $path_result) {
+          $real_path = $file_system->realpath($path_result->uri);
+          $file_system->delete($real_path);
+        }
       }
       catch (FileNotExistsException $exception) {
         watchdog_exception('tide_media', $exception);
