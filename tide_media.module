@@ -239,8 +239,6 @@ function tide_media_preprocess_image(&$variables) {
 function tide_media_entity_type_build(array &$entity_types) {
   $entity_types['media']->setFormClass('delete', 'Drupal\tide_media\Form\TideMediaDeleteForm');
   $entity_types['media']->setLinkTemplate('delete-form', '/media/{media}/delete');
-  $entity_types['file']->setFormClass('delete', 'Drupal\tide_media\Form\TideFileDeleteForm');
-  $entity_types['file']->setLinkTemplate('delete-form', '/admin/content/files/delete/{file}');
 }
 
 /**
