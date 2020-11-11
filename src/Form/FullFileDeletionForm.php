@@ -83,7 +83,9 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     if (!$file) {
       return $parent;
     }
-
+    if ($this->fileSystem->getDestinationFilename($file->getFileUri(), FileSystemInterface::EXISTS_ERROR)) {
+      return $parent;
+    }
     // Gets and parses uri.
     $uri = $file->getFileUri();
     $parsed = parse_url($uri);
