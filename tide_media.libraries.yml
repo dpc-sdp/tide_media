@@ -6,3 +6,8 @@ media_form:
     - core/drupal
     - core/drupalSettings
     - core/jquery
+
+media_browser:
+  css:
+    theme:
+      css/media_browser.css: {}
