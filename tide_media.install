@@ -10,6 +10,7 @@ use Drupal\media\Entity\Media;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\Core\Config\FileStorage;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\paragraphs\Entity\Paragraph;
 
@@ -585,4 +586,28 @@ function tide_media_update_8037() {
   }
   $field_timeline_body->set('label', 'Summary');
   $field_timeline_body->set('third_party_settings', $settings)->save();
+}
+
+/**
+ * Update tide_media_browser view with filemime field.
+ */
+function tide_media_update_8038() {
+  // Get the new configs.
+  $view = 'views.view.tide_media_browser';
+  $config_path = drupal_get_path('module', 'tide_media') . '/config/install';
+  $source = new FileStorage($config_path);
+  if ($view) {
+    $module_dependencies = $source->read($view)['dependencies']['module'];
+    $document_browser_display_options = $source->read($view)['display']['document_browser']['display_options'];
+    $media_browser_display_options = $source->read($view)['display']['media_browser']['display_options'];
+    // Set the new configs in sync.
+    $view_tide_media_browser = \Drupal::configFactory()
+      ->getEditable('views.view.tide_media_browser');
+    $view_tide_media_browser->set('dependencies.module', $module_dependencies)
+      ->save();
+    $view_tide_media_browser->set('display.document_browser.display_options', $document_browser_display_options)
+      ->save();
+    $view_tide_media_browser->set('display.media_browser.display_options', $media_browser_display_options)
+      ->save();
+  }
 }
