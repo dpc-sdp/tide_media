@@ -163,7 +163,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
             '#links' => [
               'a' => [
                 'title' => $this->t('Delete'),
-                'url' =>  Url::fromRoute('tide_media.file.delete_action', [
+                'url' => Url::fromRoute('tide_media.file.delete_action', [
                   'fid' => $result->id(),
                   'base_entity_id' => $this->entity->getEntityTypeId() . '_' . $this->entity->id(),
                 ]),
