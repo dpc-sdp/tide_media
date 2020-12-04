@@ -12,6 +12,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_views_pre_view().
@@ -260,6 +261,32 @@ function tide_media_views_pre_render(ViewExecutable $view) {
           }
         }
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function tide_media_entity_type_build(array &$entity_types) {
+  $entity_types['media']->setFormClass('delete', 'Drupal\tide_media\Form\TideMediaDeleteForm');
+  $entity_types['media']->setLinkTemplate('delete-form', '/media/{media}/delete');
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function tide_media_local_tasks_alter(&$local_tasks) {
+  $local_tasks['media.tasks:entity.media.delete_form']['title'] = t('Full File Deletion');
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function tide_media_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if ($entity->getEntityTypeId() == 'media') {
+    if (isset($operations['delete']['title'])) {
+      $operations['delete']['title'] = t('Full File Deletion');
     }
   }
 }

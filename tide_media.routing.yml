@@ -5,3 +5,11 @@ tide_media.settings:
     _title: 'Tide Media'
   requirements:
     _permission: 'administer media'
+
+tide_media.file.delete_action:
+  path: '/admin/media_files/deletion/{base_entity_id}/{fid}'
+  defaults:
+    _form: '\Drupal\tide_media\Form\DeleteActionForm'
+    _title: 'File deletion'
+  requirements:
+    _permission: 'administer media'
