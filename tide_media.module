@@ -285,6 +285,8 @@ function tide_media_local_tasks_alter(&$local_tasks) {
  */
 function tide_media_entity_operation_alter(array &$operations, EntityInterface $entity) {
   if ($entity->getEntityTypeId() == 'media') {
-    $operations['delete']['title'] = t('Full File Deletion');
+    if (isset($operations['delete']['title'])) {
+      $operations['delete']['title'] = t('Full File Deletion');
+    }
   }
 }

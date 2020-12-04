@@ -102,11 +102,11 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
       $parent['info'] = [
         '#type' => 'table',
         '#header' => [
-          'to be deleting',
+          'delete',
           'url',
           'created',
           'file status',
-          'delete',
+          'operations',
           'media',
         ],
       ];
@@ -141,7 +141,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
           // Builds the table.
           $parent['info'][$result->id()]['to_be_deleting'] = [
             '#type' => 'checkbox',
-            '#title' => $this->t('Delete?'),
+            '#title' => '',
             '#default_value' => $result->id() == $file->id() ?? TRUE,
             '#disabled' => $result->id() == $file->id() ?? TRUE,
           ];
@@ -159,12 +159,16 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
           ];
 
           $parent['info'][$result->id()]['delete'] = [
-            '#type' => 'link',
-            '#title' => 'Delete',
-            '#url' => Url::fromRoute('tide_media.file.delete_action', [
-              'fid' => $result->id(),
-              'base_entity_id' => $this->entity->getEntityTypeId() . '_' . $this->entity->id(),
-            ]),
+            '#type' => 'dropbutton',
+            '#links' => [
+              'a' => [
+                'title' => $this->t('Delete'),
+                'url' =>  Url::fromRoute('tide_media.file.delete_action', [
+                  'fid' => $result->id(),
+                  'base_entity_id' => $this->entity->getEntityTypeId() . '_' . $this->entity->id(),
+                ]),
+              ],
+            ],
             '#access' => $result->id() !== $file->id() ?? FALSE,
             '#ajax' => [
               'dialogType' => 'modal',
