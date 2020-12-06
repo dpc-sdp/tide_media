@@ -12,6 +12,7 @@ use Drupal\views\ViewExecutable;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_views_pre_view().
@@ -228,6 +229,64 @@ function tide_media_preprocess_image(&$variables) {
       if ($config->get('force_https')) {
         $variables['attributes']['src'] = str_replace('http://', 'https://', $variables['attributes']['src']);
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function tide_media_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == "tide_media_browser" && (($view->current_display == 'media_browser') || ($view->current_display == 'document_browser'))) {
+    $view->element['#attached']['library'][] = 'tide_media/media_browser';
+    foreach ($view->result as $value) {
+      if ($value->_relationship_entities['field_media_file_target_id']) {
+        $file_type = $value->_relationship_entities['field_media_file_target_id'];
+        $file_mime = $file_type->get('filemime')->value;
+        if ($file_mime) {
+          if (strpos($file_mime, 'msword') || strpos($file_mime, 'wordprocessingml.document')) {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'msword');
+          }
+          if (strpos($file_mime, 'pdf')) {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'pdf');
+          }
+          if (strpos($file_mime, 'spreadsheet')) {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'spreadsheet');
+          }
+          if (strpos($file_mime, 'presentation')) {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'presentation');
+          }
+          if (strpos($file_mime, 'text/plain')) {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'plaintext');
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function tide_media_entity_type_build(array &$entity_types) {
+  $entity_types['media']->setFormClass('delete', 'Drupal\tide_media\Form\TideMediaDeleteForm');
+  $entity_types['media']->setLinkTemplate('delete-form', '/media/{media}/delete');
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function tide_media_local_tasks_alter(&$local_tasks) {
+  $local_tasks['media.tasks:entity.media.delete_form']['title'] = t('Full File Deletion');
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function tide_media_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if ($entity->getEntityTypeId() == 'media') {
+    if (isset($operations['delete']['title'])) {
+      $operations['delete']['title'] = t('Full File Deletion');
     }
   }
 }

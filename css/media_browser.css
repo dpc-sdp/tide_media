@@ -1,0 +1,30 @@
+.file--tide-media-office-document {
+  background-image: url(../images/icons/files_docx.svg);
+}
+
+.file--tide-media-application-pdf {
+  background-image: url(../images/icons/files_pdf.svg);
+}
+
+.file--tide-media-application-spreadsheet {
+  background-image: url(../images/icons/files_xls.svg);
+}
+
+.file--tide-media-application-presentation {
+  background-image: url(../images/icons/files_ppt.svg);
+}
+
+.file--tide-media-application-plaintext {
+  background-image: url(../images/icons/files_txt.svg);
+}
+
+.file--tide-media-office-document, .file--tide-media-application-pdf,
+.file--tide-media-application-spreadsheet, .file--tide-media-application-presentation,
+.file--tide-media-application-plaintext {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 6.25rem;
+  width: 6.25rem;
+  display: block;
+}
