@@ -51,6 +51,13 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
   protected $dateFormatter;
 
   /**
+   * The media storage service.
+   *
+   * @var \Drupal\Media\MediaStorage
+   */
+  protected $mediaStorage;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(EntityTypeManagerInterface $entityTypeManager, FileSystemInterface $fileSystem, DateFormatterInterface $dateFormatter, EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL) {
@@ -97,6 +104,23 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     // // Search the directory.
     $scanned_results = $this->fileSystem->scanDirectory($parsed['scheme'] . '://' . $parsed['host'], '/^' . $original_file_name . '(_\d+)?\\' . '.' . $file_extension . '/');
     $parent['description']['#markup'] = t('Clicking the button will delete the file entirely from the system');
+    $revision_ids = $this->mediaStorage->getQuery()
+      ->allRevisions()
+      ->condition('mid', $this->entity->id())
+      ->execute();
+    if ($revision_ids && count($revision_ids) > 1) {
+      foreach ($revision_ids as $revision_id => $mid) {
+        if ($revision_id == $this->entity->getRevisionId()) {
+          continue;
+        }
+        $revision = $this->mediaStorage->loadRevision($revision_id);
+        $fid = $revision->getSource()->getSourceFieldValue($revision);
+        if ($fid) {
+          $media_revision_file = File::load($fid);
+          $scanned_results += [$media_revision_file->getFileUri() => new \stdClass()];
+        }
+      }
+    }
     if ($scanned_results) {
       // Basic settings.
       $parent['info'] = [
@@ -116,7 +140,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
         if ($result) {
           $result = reset($result);
           // Checks if the user is allowed to delete.
-          if (!$result->access('delete', $this->currentUser())) {
+          if (!$result->access('view')) {
             continue;
           }
           // Gets related media entity.
