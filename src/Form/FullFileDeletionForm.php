@@ -116,7 +116,9 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
         if ($result) {
           $result = reset($result);
           // Checks if the user is allowed to delete.
-          if (!$result->access('delete', $this->currentUser())) {
+          // Only the file owner can update or delete the file entity,
+          // In our case, just check if the user can view the file entity.
+          if (!$result->access('view')) {
             continue;
           }
           // Gets related media entity.
