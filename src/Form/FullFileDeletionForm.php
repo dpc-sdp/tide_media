@@ -62,6 +62,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
    */
   public function __construct(EntityTypeManagerInterface $entityTypeManager, FileSystemInterface $fileSystem, DateFormatterInterface $dateFormatter, EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL) {
     $this->fileStorage = $entityTypeManager->getStorage('file');
+    $this->mediaStorage = $entityTypeManager->getStorage('media');
     $this->fileSystem = $fileSystem;
     $this->dateFormatter = $dateFormatter;
     parent::__construct($entity_repository, $entity_type_bundle_info, $time);
