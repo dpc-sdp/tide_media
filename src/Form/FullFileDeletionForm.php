@@ -102,7 +102,9 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     $filename = preg_replace('/_[0-9]+(\.)/', '.', $file->getFilename(), 1);
     $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
     $original_file_name = pathinfo($filename, PATHINFO_FILENAME);
-    // // Search the directory.
+    // Escapes special characters.
+    $original_file_name = preg_replace('/([^A-Za-z0-9\s])/', '\\\\$1', $original_file_name);
+    // Search the directory.
     $scanned_results = $this->fileSystem->scanDirectory($parsed['scheme'] . '://' . $parsed['host'], '/^' . $original_file_name . '(_\d+)?\\' . '.' . $file_extension . '/');
     $parent['description']['#markup'] = t('Clicking the button will delete the file entirely from the system');
     $revision_ids = $this->mediaStorage->getQuery()
