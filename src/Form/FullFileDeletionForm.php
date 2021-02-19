@@ -15,6 +15,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\media\Entity\Media;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -226,10 +227,15 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $value = 0;
     $deleted_files = [];
+    $deleted_media = [];
     if (isset($form['info'])) {
       foreach (Element::children($form['info']) as $delta) {
         if ($form['info'][$delta]['to_be_deleting']['#value'] == 1) {
           $deleted_files[] = $delta;
+          preg_match("/\/(\d+)$/", $form['info'][$delta]['linked_media']['#context']['link'], $matches);
+          if (is_numeric($matches[1]) && $matches['1'] != $this->entity->id()) {
+            $deleted_media[] = $matches[1];
+          }
         }
         $value += $form['info'][$delta]['to_be_deleting']['#value'];
       }
@@ -237,6 +243,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
         $form_state->setError($form['info'], 'You must select at least 1 file to delete.');
       }
       $form_state->set('deleted_files', $deleted_files);
+      $form_state->set('deleted_media', $deleted_media);
     }
     parent::validateForm($form, $form_state);
   }
@@ -246,12 +253,20 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $file_ids = $form_state->get('deleted_files');
+    $media_ids = $form_state->get('deleted_media');
     if ($file_ids) {
       $files = File::loadMultiple($file_ids);
       try {
         $this->fileStorage->delete($files);
+      } catch (FileNotExistsException $exception) {
+        watchdog_exception('tide_media', $exception);
       }
-      catch (FileNotExistsException $exception) {
+    }
+    if ($media_ids) {
+      $media = Media::loadMultiple($media_ids);
+      try {
+        $this->mediaStorage->delete($media);
+      } catch (FileNotExistsException $exception) {
         watchdog_exception('tide_media', $exception);
       }
     }
