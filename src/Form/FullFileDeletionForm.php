@@ -144,6 +144,8 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
         if ($result) {
           $result = reset($result);
           // Checks if the user is allowed to delete.
+          // Only the file owner can update or delete the file entity,
+          // In our case, just check if the user can view the file entity.
           if (!$result->access('view')) {
             continue;
           }
@@ -194,6 +196,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
                 'url' => Url::fromRoute('tide_media.file.delete_action', [
                   'fid' => $result->id(),
                   'base_entity_id' => $this->entity->getEntityTypeId() . '_' . $this->entity->id(),
+                  'media_id' => $media->id()
                 ]),
               ],
             ],
@@ -258,7 +261,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
       $files = File::loadMultiple($file_ids);
       try {
         $this->fileStorage->delete($files);
-      } catch (FileNotExistsException $exception) {
+      } catch (\Exception $exception) {
         watchdog_exception('tide_media', $exception);
       }
     }
@@ -266,7 +269,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
       $media = Media::loadMultiple($media_ids);
       try {
         $this->mediaStorage->delete($media);
-      } catch (FileNotExistsException $exception) {
+      } catch (\Exception $exception) {
         watchdog_exception('tide_media', $exception);
       }
     }
