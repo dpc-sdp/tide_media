@@ -9,7 +9,6 @@ use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\File\Exception\FileNotExistsException;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
@@ -171,7 +170,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
                 'url' => Url::fromRoute('tide_media.file.delete_action', [
                   'fid' => $result->id(),
                   'base_entity_id' => $this->entity->getEntityTypeId() . '_' . $this->entity->id(),
-                  'media_id' => $media->id()
+                  'media_id' => $media->id(),
                 ]),
               ],
             ],
@@ -236,7 +235,8 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
       $files = File::loadMultiple($file_ids);
       try {
         $this->fileStorage->delete($files);
-      } catch (\Exception $exception) {
+      }
+      catch (\Exception $exception) {
         watchdog_exception('tide_media', $exception);
       }
     }
@@ -244,7 +244,8 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
       $media = Media::loadMultiple($media_ids);
       try {
         $this->mediaStorage->delete($media);
-      } catch (\Exception $exception) {
+      }
+      catch (\Exception $exception) {
         watchdog_exception('tide_media', $exception);
       }
     }

@@ -55,12 +55,14 @@ class DeleteActionForm extends FormBase {
       \Drupal::entityTypeManager()
         ->getStorage('media')
         ->delete([$form_state->get('media')]);
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       watchdog_exception('tide_media', $exception);
     }
     try {
       $form_state->setRedirect($form_state->get('redirect_route'), [$form_state->get('redirect_route_entity_type_id') => $form_state->get('redirect_entity_id')]);
-    } catch (\Exception $exception) {
+    }
+    catch (\Exception $exception) {
       watchdog_exception('tide_media', $exception);
     }
   }
