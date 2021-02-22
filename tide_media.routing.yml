@@ -7,9 +7,9 @@ tide_media.settings:
     _permission: 'administer media'
 
 tide_media.file.delete_action:
-  path: '/admin/media_files/deletion/{base_entity_id}/{media_id}/{fid}'
+  path: '/admin/media_files/deletion/{redirect_info}/{fid}'
   defaults:
     _form: '\Drupal\tide_media\Form\DeleteActionForm'
     _title: 'File deletion'
   requirements:
-    _permission: 'administer media'
+    _permission: 'access files overview'

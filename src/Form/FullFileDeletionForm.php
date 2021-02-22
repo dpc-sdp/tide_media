@@ -121,7 +121,9 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
         $fid = $revision->getSource()->getSourceFieldValue($revision);
         if ($fid) {
           $media_revision_file = File::load($fid);
-          $scanned_results += [$media_revision_file->getFileUri() => new \stdClass()];
+          if ($media_revision_file && !isset($scanned_results[$media_revision_file->getFileUri()])) {
+            $scanned_results[$media_revision_file->getFileUri()] = 'revision';
+          }
         }
       }
     }
@@ -149,22 +151,25 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
           if (!$result->access('view')) {
             continue;
           }
+
           // Gets related media entity.
           $has_media_entity = TRUE;
           $referenced = file_get_file_references($result, NULL, EntityStorageInterface::FIELD_LOAD_REVISION, '');
           if (empty($referenced)) {
             $has_media_entity = FALSE;
           }
-          $media = new \stdClass();
+          if ($item == 'revision') {
+            $has_media_entity = FALSE;
+          }
+          $media = NULL;
           if ($has_media_entity) {
-            if (isset($referenced['field_media_image'])) {
-              foreach ($referenced['field_media_image']['media'] as $key => $entity) {
-                $media = $entity;
-              }
-            }
-            if (isset($referenced['field_media_file'])) {
-              foreach ($referenced['field_media_file']['media'] as $key => $entity) {
-                $media = $entity;
+            foreach ($referenced as $data) {
+              foreach (array_keys($data) as $entity_type_id) {
+                if ($entity_type_id == 'media') {
+                  foreach ($data[$entity_type_id] as $key => $value) {
+                    $media = $value;
+                  }
+                }
               }
             }
           }
@@ -187,7 +192,6 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
           $parent['info'][$result->id()]['file_status'] = [
             '#markup' => $result->isPermanent() ? 'Permanent' : 'Temporary',
           ];
-
           $parent['info'][$result->id()]['delete'] = [
             '#type' => 'dropbutton',
             '#links' => [
@@ -195,8 +199,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
                 'title' => $this->t('Delete'),
                 'url' => Url::fromRoute('tide_media.file.delete_action', [
                   'fid' => $result->id(),
-                  'base_entity_id' => $this->entity->getEntityTypeId() . '_' . $this->entity->id(),
-                  'media_id' => $media->id()
+                  'redirect_info' => $this->entity->getEntityTypeId() . '_' . $this->entity->id(),
                 ]),
               ],
             ],
@@ -236,7 +239,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
         if ($form['info'][$delta]['to_be_deleting']['#value'] == 1) {
           $deleted_files[] = $delta;
           preg_match("/\/(\d+)$/", $form['info'][$delta]['linked_media']['#context']['link'], $matches);
-          if (is_numeric($matches[1]) && $matches['1'] != $this->entity->id()) {
+          if (isset($matches[1]) && is_numeric($matches[1])) {
             $deleted_media[] = $matches[1];
           }
         }
