@@ -82,7 +82,7 @@ class ImageEnhancer extends ResourceFieldEnhancerBase {
    * @return object
    *   The crop data of the entity.
    */
-  public function getCropEntity(FileInterface $file, $crop_type) {
+  public static function getCropEntity(FileInterface $file, $crop_type) {
     if (Crop::cropExists($file->getFileUri(), $crop_type)) {
       /** @var \Drupal\crop\CropInterface $crop */
       $crop = Crop::findCrop($file->getFileUri(), $crop_type);
