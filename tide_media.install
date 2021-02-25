@@ -611,3 +611,24 @@ function tide_media_update_8038() {
       ->save();
   }
 }
+
+/**
+ * Updates files view.
+ */
+function tide_media_update_8039() {
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  $config_read = _tide_read_config('views.view.tide_media', $config_location, TRUE);
+  $storage = \Drupal::entityTypeManager()->getStorage('view');
+  if ($storage->load('tide_media') == NULL) {
+    $config_entity = $storage->createFromStorageRecord($config_read);
+    $config_entity->save();
+  }
+  $view = View::load('media');
+  if ($view) {
+    if ($view->status() == TRUE) {
+      $view->setStatus(FALSE);
+      $view->save();
+    }
+  }
+}
