@@ -42,7 +42,30 @@ function tide_media_views_pre_view(ViewExecutable $view, $display_id, array &$ar
       'limit' => TRUE,
       'hierarchy' => TRUE,
     ];
+    $department_filter = [
+      'exposed' => TRUE,
+      'expose' => [
+        'operator_id' => 'field_media_department_target_id_op',
+        'label' => t('Department/Agency'),
+        'id' => 'field_media_department_target_id',
+        'use_operator' => FALSE,
+        'operator' => 'field_media_department_target_id_op',
+        'identifier' => 'field_media_department_target_id',
+        'required' => FALSE,
+        'remember' => FALSE,
+        'multiple' => FALSE,
+      ],
+      'group_type' => 'group',
+      'operator' => 'or',
+      'group' => 1,
+      'vid' => 'department',
+      'type' => 'select',
+      'reduce_duplicates' => FALSE,
+      'limit' => TRUE,
+      'hierarchy' => FALSE,
+    ];
     $view->addHandler('media_page_list', 'filter', 'media__field_license_type', 'field_license_type_target_id', $license_type_filter, 'field_license_type_target_id');
+    $view->addHandler('media_page_list', 'filter', 'media__field_media_department', 'field_media_department_target_id', $department_filter, 'field_media_department_target_id');
   }
 }
 
