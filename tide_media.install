@@ -621,7 +621,7 @@ function tide_media_update_8039() {
   $icon_dir = drupal_get_path('module', 'tide_media') . DIRECTORY_SEPARATOR . 'icons';
 
   $paragraphs = [
-    'timelines' => 'Display short blocks of content in a chronological order. Add a title, date, text, link, image and summary.',
+    'timelines' => 'Display short blocks of content in a chronological order.',
   ];
   foreach ($paragraphs as $paragraph_type_id => $description) {
     /** @var \Drupal\paragraphs\Entity\ParagraphsType $paragraph_type */
