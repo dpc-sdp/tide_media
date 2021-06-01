@@ -7,6 +7,7 @@
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\media\Entity\Media;
+use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -609,5 +610,28 @@ function tide_media_update_8038() {
       ->save();
     $view_tide_media_browser->set('display.media_browser.display_options', $media_browser_display_options)
       ->save();
+  }
+}
+
+/**
+ * Change description and icon of timelines paragraph.
+ */
+function tide_media_update_8039() {
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $icon_dir = drupal_get_path('module', 'tide_media') . DIRECTORY_SEPARATOR . 'icons';
+
+  $paragraphs = [
+    'timelines' => 'Display short blocks of content in a chronological order.',
+  ];
+  foreach ($paragraphs as $paragraph_type_id => $description) {
+    /** @var \Drupal\paragraphs\Entity\ParagraphsType $paragraph_type */
+    $paragraph_type = ParagraphsType::load($paragraph_type_id);
+    if ($paragraph_type) {
+      $paragraph_type->set('description', $description);
+      $paragraph_type->save();
+
+      $icon_filename = $icon_dir . DIRECTORY_SEPARATOR . $paragraph_type_id . '.svg';
+      _tide_set_paragraph_type_icon($paragraph_type, $icon_filename);
+    }
   }
 }
