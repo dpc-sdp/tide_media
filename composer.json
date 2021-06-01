@@ -5,7 +5,7 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "drupal/crop": "^2.1",
-        "dpc-sdp/tide_core": "^2.0.8",
+        "dpc-sdp/tide_core": "^2.0.10",
         "drupal/embed": "^1.1",
         "drupal/focal_point": "^1.5",
         "drupal/inline_entity_form": "^1.0-rc1",
@@ -16,15 +16,6 @@
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        }
-    },
-    "minimum-stability": "alpha",
-    "prefer-stable": true,
-    "extra": {
-        "patches": {
-            "dpc-sdp/tide_core": {
-                "Moved Topic and Tags field to node form sidebar - https://github.com/dpc-sdp/tide_core/pull/213": "https://github.com/dpc-sdp/tide_core/pull/213.diff"
-            }
         }
     }
 }
