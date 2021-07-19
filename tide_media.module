@@ -99,6 +99,7 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
     }
   }
   // Add check box to show or hide last updated date for embeded media items.
+  $entity_element = $form_state->get('entity_element');
   if ($form_id === 'entity_embed_dialog') {
     if ($form_state->get('step') == 'embed') {
       $form['attributes']['data-show-last-updated'] = [
@@ -328,10 +329,8 @@ function tide_media_entity_operation_alter(array &$operations, EntityInterface $
  * Implements hook_entity_embed_alter().
  */
 function tide_media_entity_embed_alter(array &$build, EntityInterface $entity, array &$context) {
-  $entity_type = $entity->getEntityTypeId();
-  $bundle = $entity->bundle();
   // Add last modified date for media items.
-  if ($entity_type == 'media' && $build['#attributes']['data-show-last-updated'] == 1) {
+  if ($entity->getEntityTypeId() == 'media' && $build['#attributes']['data-show-last-updated'] == 1) {
     $date = $entity->changed->value;
     $build['#attributes']['data-last-updated'] = $date;
   }
