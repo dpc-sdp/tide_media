@@ -29,6 +29,18 @@ function tide_media_update_dependencies() {
   return $dependencies;
 }
 
+/*
+ * Implements hook_install()
+ */
+function tide_media_install() {
+
+  //Enables standalone media URL for video transcripts.
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('media.settings');
+  $config->set('standalone_url', TRUE);
+  $config->save();
+}
+
 /**
  * Install the License Type taxonomy.
  */
@@ -634,4 +646,15 @@ function tide_media_update_8039() {
       _tide_set_paragraph_type_icon($paragraph_type, $icon_filename);
     }
   }
+}
+
+/**
+ * Ensure that all sites have video transcripts properly configured.
+ */
+function tide_media_update_8040() {
+  //Enables standalone media URL for video transcripts.
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('media.settings');
+  $config->set('standalone_url', TRUE);
+  $config->save();
 }
