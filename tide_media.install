@@ -29,12 +29,11 @@ function tide_media_update_dependencies() {
   return $dependencies;
 }
 
-/*
- * Implements hook_install()
+/**
+ * Implements hook_install().
  */
 function tide_media_install() {
-
-  //Enables standalone media URL for video transcripts.
+  // Enables standalone media URL for video transcripts.
   $config_factory = \Drupal::configFactory();
   $config = $config_factory->getEditable('media.settings');
   $config->set('standalone_url', TRUE);
@@ -652,7 +651,7 @@ function tide_media_update_8039() {
  * Ensure that all sites have video transcripts properly configured.
  */
 function tide_media_update_8040() {
-  //Enables standalone media URL for video transcripts.
+  // Enables standalone media URL for video transcripts.
   $config_factory = \Drupal::configFactory();
   $config = $config_factory->getEditable('media.settings');
   $config->set('standalone_url', TRUE);
