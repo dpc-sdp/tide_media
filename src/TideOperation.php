@@ -1,4 +1,5 @@
 <?php
+namespace Drupal\tide_media;
 
 class TideOperation {
   public static function enable_standalone_media() {
