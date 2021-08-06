@@ -34,7 +34,7 @@ function tide_media_update_dependencies() {
  * Implements hook_install().
  */
 function tide_media_install() {
-  TideOperation::enable_standalone_media();
+  TideOperation::enableStandaloneMedia();
 }
 
 /**
