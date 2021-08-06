@@ -271,10 +271,10 @@ function tide_media_preprocess_image(&$variables) {
  * Implements hook_views_pre_render().
  */
 function tide_media_views_pre_render(ViewExecutable $view) {
-  if ($view->id() == "tide_media_browser" && (($view->current_display == 'media_browser') || ($view->current_display == 'document_browser'))) {
+  if ($view->id() === 'tide_media_browser' && (($view->current_display === 'media_browser') || ($view->current_display === 'document_browser'))) {
     $view->element['#attached']['library'][] = 'tide_media/media_browser';
     foreach ($view->result as $value) {
-      if ($value->_relationship_entities['field_media_file_target_id']) {
+      if (!empty($value->_relationship_entities['field_media_file_target_id'])) {
         $file_type = $value->_relationship_entities['field_media_file_target_id'];
         $file_mime = $file_type->get('filemime')->value;
         if ($file_mime) {
