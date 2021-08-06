@@ -14,6 +14,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Config\FileStorage;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\tide_media\TideOperation;
 
 /**
  * Implements hook_update_dependencies().
@@ -33,11 +34,7 @@ function tide_media_update_dependencies() {
  * Implements hook_install().
  */
 function tide_media_install() {
-  // Enables standalone media URL for video transcripts.
-  $config_factory = \Drupal::configFactory();
-  $config = $config_factory->getEditable('media.settings');
-  $config->set('standalone_url', TRUE);
-  $config->save();
+  TideOperation::enable_standalone_media();
 }
 
 /**
