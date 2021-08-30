@@ -35,6 +35,7 @@ function tide_media_update_dependencies() {
  */
 function tide_media_install() {
   TideOperation::enableStandaloneMedia();
+  TideOperation::enable_entity_usage();
 }
 
 /**
@@ -642,4 +643,11 @@ function tide_media_update_8039() {
       _tide_set_paragraph_type_icon($paragraph_type, $icon_filename);
     }
   }
+}
+
+/**
+ * Enables entity_usage module.
+ */
+function tide_media_update_8040() {
+  TideOperation::enable_entity_usage();
 }
