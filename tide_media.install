@@ -34,8 +34,9 @@ function tide_media_update_dependencies() {
  * Implements hook_install().
  */
 function tide_media_install() {
-  TideOperation::enableStandaloneMedia();
-  TideOperation::enable_entity_usage();
+  $tideOperation = new TideOperation();
+  $tideOperation->enableStandaloneMedia();
+  $tideOperation->enable_entity_usage();
 }
 
 /**
@@ -649,5 +650,6 @@ function tide_media_update_8039() {
  * Enables entity_usage module.
  */
 function tide_media_update_8040() {
-  TideOperation::enable_entity_usage();
+  $tideOperation = new TideOperation();
+  $tideOperation->enable_entity_usage();
 }
