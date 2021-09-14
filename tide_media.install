@@ -36,7 +36,7 @@ function tide_media_update_dependencies() {
 function tide_media_install() {
   $tideOperation = new TideOperation();
   $tideOperation->enableStandaloneMedia();
-  $tideOperation->enable_entity_usage();
+  $tideOperation->enableEntityUsage();
 }
 
 /**
@@ -651,5 +651,5 @@ function tide_media_update_8039() {
  */
 function tide_media_update_8040() {
   $tideOperation = new TideOperation();
-  $tideOperation->enable_entity_usage();
+  $tideOperation->enableEntityUsage();
 }
