@@ -41,9 +41,9 @@ class TideOperation {
    */
   public function enableEntityUsage() {
     $this->tideMediaInstallModule('entity_usage');
-    $config_factory = \Drupal::configFactory();
-    $config = $config_factory->getEditable('entity_usage.settings');
-    if ($config) {
+    if (\Drupal::moduleHandler()->moduleExists('entity_usage')) {
+      $config_factory = \Drupal::configFactory();
+      $config = $config_factory->getEditable('entity_usage.settings');
       $enabled_plugins = [
         'block_field',
         'dynamic_entity_reference',
