@@ -678,7 +678,6 @@ function tide_media_update_8040() {
       'taxonomy_term',
     ];
     // Set default setting only to track media items.
-    $config->set('track_enabled_base_fields', false);
     $config->set('local_task_enabled_entity_types', $entity_types);
     $config->set('track_enabled_source_entity_types', $source);
     $config->set('track_enabled_target_entity_types', $entity_types);
