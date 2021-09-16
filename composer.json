@@ -6,7 +6,7 @@
     "require": {
         "drupal/crop": "^2.1",
         "dpc-sdp/tide_core": "dev-feature/lock-entity_embed_module as 2.0.15",
-        "drupal/embed": "1.1",
+        "drupal/embed": "^1.1",
         "drupal/focal_point": "^1.5",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.10",
