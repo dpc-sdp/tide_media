@@ -41,6 +41,38 @@ class TideOperation {
    */
   public function enableEntityUsage() {
     $this->tideMediaInstallModule('entity_usage');
+    $config_factory = \Drupal::configFactory();
+    $config = $config_factory->getEditable('entity_usage.settings');
+    if ($config) {
+      $enabled_plugins = [
+        'block_field',
+        'dynamic_entity_reference',
+        'entity_embed',
+        'entity_reference',
+        'html_link',
+        'layout_builder',
+        'link',
+        'linkit',
+        'media_embed',
+      ];
+      $entity_types = [
+        'media',
+      ];
+      // Set where it will check for media items use.
+      $source = [
+        'block',
+        'node',
+        'block_content',
+        'paragraph',
+        'taxonomy_term',
+      ];
+      // Set default setting only to track media items.
+      $config->set('local_task_enabled_entity_types', $entity_types);
+      $config->set('track_enabled_source_entity_types', $source);
+      $config->set('track_enabled_target_entity_types', $entity_types);
+      $config->set('track_enabled_plugins', $enabled_plugins);
+      $config->save();
+    }
   }
 
 }
