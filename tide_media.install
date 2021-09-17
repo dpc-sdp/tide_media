@@ -14,6 +14,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Config\FileStorage;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\user\Entity\Role;
 use Drupal\tide_media\TideOperation;
 
 /**
@@ -683,5 +684,14 @@ function tide_media_update_8040() {
     $config->set('track_enabled_target_entity_types', $entity_types);
     $config->set('track_enabled_plugins', $enabled_plugins);
     $config->save();
+
+    // Add required permissions.
+    $roles = ['approver', 'site_admin', 'editor'];
+    $permissions = [
+      'access entity usage statistics',
+    ];
+    foreach ($roles as $role) {
+      user_role_grant_permissions(Role::load($role)->id(), $permissions);
+    }
   }
 }
