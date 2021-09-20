@@ -14,7 +14,6 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Config\FileStorage;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\paragraphs\Entity\Paragraph;
-use Drupal\user\Entity\Role;
 use Drupal\tide_media\TideOperation;
 
 /**

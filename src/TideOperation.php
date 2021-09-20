@@ -2,6 +2,8 @@
 
 namespace Drupal\tide_media;
 
+use Drupal\user\Entity\Role;
+
 /**
  * Helper class for install/update ops.
  */
