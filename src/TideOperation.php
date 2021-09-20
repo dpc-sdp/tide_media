@@ -39,7 +39,7 @@ class TideOperation {
   /**
    * Enables entity_usage module.
    */
-  public function enableEntityUsage() {
+  public static function enableEntityUsage() {
     $this->tideMediaInstallModule('entity_usage');
   }
 

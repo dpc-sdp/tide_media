@@ -35,9 +35,8 @@ function tide_media_update_dependencies() {
  * Implements hook_install().
  */
 function tide_media_install() {
-  $tideOperation = new TideOperation();
-  $tideOperation->enableStandaloneMedia();
-  $tideOperation->enableEntityUsage();
+  TideOperation::enableStandaloneMedia();
+  TideOperation::enable_entity_usage();
 }
 
 /**
@@ -651,8 +650,7 @@ function tide_media_update_8039() {
  * Enables entity_usage module.
  */
 function tide_media_update_8040() {
-  $tideOperation = new TideOperation();
-  $tideOperation->enableEntityUsage();
+  TideOperation::enable_entity_usage();
   if (\Drupal::moduleHandler()->moduleExists('entity_usage')) {
     $config_factory = \Drupal::configFactory();
     $config = $config_factory->getEditable('entity_usage.settings');
