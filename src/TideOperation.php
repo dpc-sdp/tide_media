@@ -16,7 +16,7 @@ class TideOperation {
    * @throws \Exception
    *   When module already installed.
    */
-  public function tideMediaInstallModule($module) {
+  public static function tideMediaInstallModule($module) {
     /** @var \Drupal\Core\Extension\ModuleHandler $moduleHandler */
     $moduleExists = \Drupal::service('module_handler')->moduleExists($module);
     // Check if module is both installed and enabled.
@@ -40,7 +40,7 @@ class TideOperation {
    * Enables entity_usage module.
    */
   public static function enableEntityUsage() {
-    $this->tideMediaInstallModule('entity_usage');
+    self::tideMediaInstallModule('entity_usage');
     if (\Drupal::moduleHandler()->moduleExists('entity_usage')) {
       $config_factory = \Drupal::configFactory();
       $config = $config_factory->getEditable('entity_usage.settings');
