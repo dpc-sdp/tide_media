@@ -62,7 +62,6 @@ class TideOperation {
       ];
       // Set where it will check for media items use.
       $source = [
-        'block',
         'node',
         'block_content',
         'paragraph',
