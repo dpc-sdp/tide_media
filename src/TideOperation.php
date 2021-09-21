@@ -42,7 +42,7 @@ class TideOperation {
    * Enables entity_usage module.
    */
   public static function enableEntityUsage() {
-    self::tideMediaInstallModule('entity_usage');
+    // self::tideMediaInstallModule('entity_usage');
     if (\Drupal::moduleHandler()->moduleExists('entity_usage')) {
       $config_factory = \Drupal::configFactory();
       $config = $config_factory->getEditable('entity_usage.settings');
