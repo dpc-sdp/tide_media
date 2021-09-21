@@ -39,10 +39,9 @@ class TideOperation {
   }
 
   /**
-   * Enables entity_usage module.
+   * Set default settings for entity_usage module.
    */
-  public static function enableEntityUsage() {
-    // self::tideMediaInstallModule('entity_usage');
+  public static function entityUsageDefaultSettings() {
     if (\Drupal::moduleHandler()->moduleExists('entity_usage')) {
       $config_factory = \Drupal::configFactory();
       $config = $config_factory->getEditable('entity_usage.settings');
@@ -62,6 +61,7 @@ class TideOperation {
       ];
       // Set where it will check for media items use.
       $source = [
+        'block',
         'node',
         'block_content',
         'paragraph',
@@ -73,7 +73,7 @@ class TideOperation {
       $config->set('track_enabled_target_entity_types', $entity_types);
       $config->set('track_enabled_plugins', $enabled_plugins);
       $config->save();
-  
+
       // Add required permissions.
       $roles = ['approver', 'site_admin', 'editor'];
       $permissions = [

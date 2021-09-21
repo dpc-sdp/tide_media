@@ -18,5 +18,12 @@
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
+    },
+    "extra": {
+        "patches": {
+            "drupal/entity_usage": {
+                "Getting the base fields is not supported for entity type Block. - https://www.drupal.org/project/entity_usage/issues/3101451": "https://www.drupal.org/files/issues/2019-12-24/3101451-3.patch"
+            }
+        }
     }
 }
