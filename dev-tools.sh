@@ -34,6 +34,6 @@
 #
 # Uncomment and set the Dev-Tools's commit value and commit this change.
 # export GH_COMMIT=COMMIT_SHA
-export GH_COMMIT=4bc9ff43a41abca827813dbb40c66bd0f6c6158e
+export GH_COMMIT=070f29653dc1df679e3196f1b7f113d6220ba320
 
 bash <(curl -L https://raw.githubusercontent.com/dpc-sdp/dev-tools/master/install?"$(date +%s)") "$@"
