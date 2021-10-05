@@ -16,7 +16,7 @@ id: paragraph.timeline.field_paragraph_body
 field_name: field_paragraph_body
 entity_type: paragraph
 bundle: timeline
-label: Body
+label: Summary
 description: ''
 required: false
 translatable: true
