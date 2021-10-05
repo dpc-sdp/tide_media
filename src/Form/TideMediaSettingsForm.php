@@ -10,7 +10,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class TideMediaSettingsForm.
+ * Tide Media Settings Form.
  *
  * @package Drupal\tide_media\Form
  */
