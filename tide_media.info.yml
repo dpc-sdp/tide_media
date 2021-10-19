@@ -2,7 +2,7 @@ name: Tide Media
 description: 'Provides Media and related configuration. '
 type: module
 package: Tide
-core: 8.x
+core_version_requirement: ^8.9 || ^9
 dependencies:
   - crop:crop
   - drupal:field
@@ -18,6 +18,7 @@ dependencies:
   - entity_embed:entity_embed
   - entity_browser:entity_browser
   - entity_browser:entity_browser_entity_form
+  - entity_usage:entity_usage
   - focal_point:focal_point
   - svg_image:svg_image
   - video_embed_field:video_embed_field

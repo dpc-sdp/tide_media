@@ -20,6 +20,7 @@ use Drupal\tide_media\TideOperation;
  * Implements hook_update_dependencies().
  */
 function tide_media_update_dependencies() {
+  $dependencies = [];
   $dependencies['tide_media'][8002] = [
     'taxonomy' => 8601,
   ];
@@ -35,6 +36,7 @@ function tide_media_update_dependencies() {
  */
 function tide_media_install() {
   TideOperation::enableStandaloneMedia();
+  TideOperation::entityUsageDefaultSettings();
 }
 
 /**
@@ -642,4 +644,12 @@ function tide_media_update_8039() {
       _tide_set_paragraph_type_icon($paragraph_type, $icon_filename);
     }
   }
+}
+
+/**
+ * Enables entity_usage module.
+ */
+function tide_media_update_8040() {
+  TideOperation::tideMediaInstallModule('entity_usage');
+  TideOperation::entityUsageDefaultSettings();
 }

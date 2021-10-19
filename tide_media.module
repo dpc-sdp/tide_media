@@ -190,7 +190,7 @@ function tide_media_preprocess_file_link(&$variables) {
       '@file_type' => $file_type,
       '@file_size' => $file_size,
     ]);
-
+  $attributes = [];
   $attributes['attributes'] = [
     'class' => [
       $mime_category,
@@ -330,8 +330,10 @@ function tide_media_entity_operation_alter(array &$operations, EntityInterface $
  */
 function tide_media_entity_embed_alter(array &$build, EntityInterface $entity, array &$context) {
   // Add last modified date for media items.
-  if ($entity->getEntityTypeId() == 'media' && $build['#attributes']['data-show-last-updated'] == 1) {
-    $date = $entity->changed->value;
-    $build['#attributes']['data-last-updated'] = $date;
+  if (isset($build['#attributes']['data-show-last-updated'])) {
+    if ($entity->getEntityTypeId() == 'media' && $build['#attributes']['data-show-last-updated'] == 1) {
+      $date = $entity->changed->value;
+      $build['#attributes']['data-last-updated'] = $date;
+    }
   }
 }

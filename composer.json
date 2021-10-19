@@ -5,17 +5,25 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "drupal/crop": "^2.1",
-        "dpc-sdp/tide_core": "^2.0.10",
+        "dpc-sdp/tide_core": "3.0.0",
         "drupal/embed": "^1.1",
         "drupal/focal_point": "^1.5",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.10",
-        "drupal/video_embed_field": "^2.0"
+        "drupal/video_embed_field": "^2.0",
+        "drupal/entity_usage": "^2.0@beta"
     },
     "repositories": {
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        }
+    },
+    "extra": {
+        "patches": {
+            "drupal/entity_usage": {
+                "Getting the base fields is not supported for entity type Block. - https://www.drupal.org/project/entity_usage/issues/3101451": "https://www.drupal.org/files/issues/2019-12-24/3101451-3.patch"
+            }
         }
     }
 }
