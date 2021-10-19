@@ -6,7 +6,7 @@ dependencies:
 id: audio
 label: Audio
 description: 'Use local audio for reusable media.'
-source: audio
+source: audio_stream
 queue_thumbnail_downloads: false
 new_revision: false
 source_configuration:

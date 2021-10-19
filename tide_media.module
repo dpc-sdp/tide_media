@@ -190,7 +190,7 @@ function tide_media_preprocess_file_link(&$variables) {
       '@file_type' => $file_type,
       '@file_size' => $file_size,
     ]);
-
+  $attributes = [];
   $attributes['attributes'] = [
     'class' => [
       $mime_category,
