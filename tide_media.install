@@ -20,6 +20,7 @@ use Drupal\tide_media\TideOperation;
  * Implements hook_update_dependencies().
  */
 function tide_media_update_dependencies() {
+  $dependencies = [];
   $dependencies['tide_media'][8002] = [
     'taxonomy' => 8601,
   ];

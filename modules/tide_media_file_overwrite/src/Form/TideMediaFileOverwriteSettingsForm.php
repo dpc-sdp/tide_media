@@ -6,7 +6,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class TideMediaFileOverwriteSettingsForm.
+ * Class Tide Media File OverwriteSettingsForm.
  */
 class TideMediaFileOverwriteSettingsForm extends ConfigFormBase {
 
