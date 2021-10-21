@@ -665,7 +665,7 @@ function tide_media_update_8041() {
     'default',
     'embedded',
     'embedded_with_transcript',
-    'media_browser_preview'
+    'media_browser_preview',
   ];
 
   foreach ($modes as $mode) {
