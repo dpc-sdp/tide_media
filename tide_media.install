@@ -653,3 +653,37 @@ function tide_media_update_8040() {
   TideOperation::tideMediaInstallModule('entity_usage');
   TideOperation::entityUsageDefaultSettings();
 }
+
+/**
+ * Add name field to all view modes.
+ */
+function tide_media_update_8041() {
+  TideOperation::tideMediaInstallModule('smart_trim');
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+
+  $modes = [
+    'default',
+    'embedded',
+    'embedded_with_transcript',
+    'media_browser_preview',
+  ];
+
+  foreach ($modes as $mode) {
+    /** @var \Drupal\Core\Entity\Entity\EntityViewDisplay $view_display */
+    $view_display = \Drupal::entityTypeManager()
+      ->getStorage('entity_view_display')
+      ->load('media.embedded_video.' . $mode);
+    if (!$view_display) {
+      _tide_import_single_config('core.entity_view_display.media.embedded_video.' . $mode, $config_location, FALSE);
+    }
+
+    /** @var \Drupal\Core\Entity\Entity\EntityViewDisplay $view_display_audio */
+    $view_display_audio = \Drupal::entityTypeManager()
+      ->getStorage('entity_view_display')
+      ->load('media.audio.' . $mode);
+    if (!$view_display_audio) {
+      _tide_import_single_config('core.entity_view_display.media.audio.' . $mode, $config_location, FALSE);
+    }
+  }
+}

@@ -23,6 +23,7 @@ dependencies:
   - svg_image:svg_image
   - video_embed_field:video_embed_field
   - video_embed_field:video_embed_media
+  - smart_trim:smart_trim
 config_devel:
   install:
     - core.entity_form_display.media.audio.default

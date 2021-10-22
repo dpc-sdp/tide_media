@@ -16,6 +16,7 @@ dependencies:
     - media.type.audio
   module:
     - file
+    - smart_trim
     - svg_image
     - text
     - user
@@ -116,6 +117,23 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
+  name:
+    type: smart_trim
+    weight: 13
+    region: content
+    label: hidden
+    settings:
+      trim_length: 600
+      trim_type: chars
+      trim_suffix: ''
+      wrap_output: false
+      wrap_class: trimmed
+      more_link: false
+      more_class: more-link
+      more_text: More
+      summary_handler: full
+      trim_options: {  }
+    third_party_settings: {  }
   thumbnail:
     type: image
     weight: 2
@@ -124,8 +142,8 @@ content:
       image_style: thumbnail
       image_link: ''
       svg_attributes:
-        width: ''
-        height: ''
+        width: null
+        height: null
       svg_render_as_image: true
     region: content
     third_party_settings: {  }
@@ -136,5 +154,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  name: true
+hidden: {  }
