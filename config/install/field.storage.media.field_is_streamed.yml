@@ -1,0 +1,22 @@
+uuid: bbe6b280-3ad5-419a-9514-7bf6b2f7515b
+langcode: en
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - media
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: media.field_is_streamed
+field_name: field_is_streamed
+entity_type: media
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
