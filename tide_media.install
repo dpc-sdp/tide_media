@@ -15,6 +15,7 @@ use Drupal\Core\Config\FileStorage;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\tide_media\TideOperation;
+use Drupal\Component\Utility\NestedArray;
 
 /**
  * Implements hook_update_dependencies().
@@ -652,4 +653,62 @@ function tide_media_update_8039() {
 function tide_media_update_8040() {
   TideOperation::tideMediaInstallModule('entity_usage');
   TideOperation::entityUsageDefaultSettings();
+}
+
+/**
+ * Updates to have new field_is_streamed field.
+ */
+function tide_media_update_8041() {
+  $configs = [
+    'field.storage.media.field_is_streamed' => 'field_storage_config',
+    'field.field.media.embedded_video.field_is_streamed' => 'field_config',
+  ];
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  // Check if field already exported to config/sync.
+  foreach ($configs as $config => $type) {
+    $config_read = _tide_read_config($config, $config_location, TRUE);
+    $storage = \Drupal::entityTypeManager()->getStorage($type);
+    $config_entity = $storage->createFromStorageRecord($config_read);
+    $config_entity->save();
+  }
+  $update_configs = [
+    'field.field.media.embedded_video.field_media_transcript' => 'field_config',
+    'core.entity_view_display.media.embedded_video.default' => 'entity_view_display',
+    'core.entity_form_display.media.embedded_video.default' => 'entity_form_display',
+  ];
+  $skipped_settings = [
+    'uuid',
+    'langcode',
+    'status',
+    '_core',
+    'id',
+    'field_name',
+    'entity_type',
+    'bundle',
+    'label',
+    'description',
+    'required',
+    'translatable',
+    'field_type',
+  ];
+  foreach ($update_configs as $update_config => $type) {
+    $config_read = _tide_read_config($update_config, $config_location, FALSE);
+    $config = \Drupal::configFactory()->getEditable($update_config);
+    if (!$config) {
+      continue;
+    }
+    $data = $config->getRawData();
+    foreach ($data as $key => $item) {
+      if (in_array($key, $skipped_settings)) {
+        continue;
+      }
+      NestedArray::setValue($data, [
+        $key,
+      ], NestedArray::getValue($config_read, [
+        $key,
+      ]));
+    }
+    $config->setData($data)->save();
+  }
 }

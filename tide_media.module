@@ -109,6 +109,9 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
       ];
     }
   }
+  if ($form_id === 'media_embedded_video_add_form' || $form_id === 'media_embedded_video_edit_form') {
+    $form['#validate'][] = 'tide_media_form_media_embedded_video_validate';
+  }
 }
 
 /**
@@ -338,28 +341,10 @@ function tide_media_entity_embed_alter(array &$build, EntityInterface $entity, a
   }
 }
 
-
-/**
- * Implements hook_form_alter().
- */
-function tide_media_form_media_embedded_video_add_form_alter(&$form, FormStateInterface $form_state, $form_id)
-{
-  $form['#validate'][] = 'tide_media_form_media_embedded_video_validate';
-}
-
-/**
- * Implements hook_form_alter().
- */
-function tide_media_form_media_embedded_video_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
-{
-  $form['#validate'][] = 'tide_media_form_media_embedded_video_validate';
-}
-
 /**
  * Custom validation.
  */
-function tide_media_form_media_embedded_video_validate($form, FormStateInterface $form_state)
-{
+function tide_media_form_media_embedded_video_validate($form, FormStateInterface $form_state) {
   $field_is_streamed = $form_state->getValue('field_is_streamed');
   $field_media_transcript = $form_state->getValue('field_media_transcript');
 
@@ -371,10 +356,8 @@ function tide_media_form_media_embedded_video_validate($form, FormStateInterface
 /**
  * Implements template_preprocess_form_element().
  */
-function tide_media_preprocess_form_element(&$variables)
-{
-  if (isset($variables['element']['#id']) && $variables['element']['#id'] == 'edit-field-media-transcript-0-value'){
-    // var_dump($variables['element']);
+function tide_media_preprocess_form_element(&$variables) {
+  if (isset($variables['element']['#id']) && $variables['element']['#id'] == 'edit-field-media-transcript-0-value') {
     $variables['label']['#attributes']['class'][] = 'form-required';
   }
 }
