@@ -8,7 +8,7 @@ id: media.embedded_video.field_is_streamed
 field_name: field_is_streamed
 entity_type: media
 bundle: embedded_video
-label: 'Is this video being live streamed'
+label: 'Is this video being live streamed?'
 description: ''
 required: false
 translatable: false
