@@ -699,7 +699,7 @@ function tide_media_update_8041() {
       continue;
     }
     $data = $config->getRawData();
-    foreach ($data as $key => $item) {
+    foreach ($config_read as $key => $item) {
       if (in_array($key, $skipped_settings)) {
         continue;
       }
