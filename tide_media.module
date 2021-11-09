@@ -113,7 +113,7 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
   $media_transcript_forms = [
     "media_embedded_video_add_form",
     "media_embedded_video_edit_form",
-    "entity_browser_tide_media_browser_iframe_form"
+    "entity_browser_tide_media_browser_iframe_form",
   ];
   if (in_array($form_id, $media_transcript_forms)) {
     $form['#validate'][] = 'tide_media_form_media_embedded_video_validate';
@@ -354,7 +354,7 @@ function tide_media_form_media_embedded_video_validate($form, FormStateInterface
   if ($form_state->hasValue(['inline_entity_form'])) {
     $field_is_streamed = $form_state->getValue([
       'inline_entity_form',
-      'field_is_streamed'
+      'field_is_streamed',
     ]);
     $field_media_transcript = $form_state->getValue([
       'inline_entity_form',
