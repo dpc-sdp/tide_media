@@ -360,14 +360,14 @@ function tide_media_form_media_embedded_video_validate($form, FormStateInterface
       'inline_entity_form',
       'field_media_transcript',
     ]);
-    if (($field_is_streamed['value'] !== 1) && (strlen(trim(preg_replace('/\s?<p>(\s|&nbsp;)*<\/p>/', '', $field_media_transcript[0]['value']))) <= 0) ) {
+    if (($field_is_streamed['value'] !== 1) && (strlen(trim(preg_replace('/\s?<p>(\s|&nbsp;)*<\/p>/', '', $field_media_transcript[0]['value']))) <= 0)) {
       $form_state->setErrorByName('inline_entity_form][field_media_transcript', t('Transcript field is required.'));
     }
   }
   else {
     $field_is_streamed = $form_state->getValue('field_is_streamed');
     $field_media_transcript = $form_state->getValue('field_media_transcript');
-    if (($field_is_streamed['value'] !== 1) && (strlen(trim(preg_replace('/\s?<p>(\s|&nbsp;)*<\/p>/', '', $field_media_transcript[0]['value']))) <= 0) ) {
+    if (($field_is_streamed['value'] !== 1) && (strlen(trim(preg_replace('/\s?<p>(\s|&nbsp;)*<\/p>/', '', $field_media_transcript[0]['value']))) <= 0)) {
       $form_state->setErrorByName('field_media_transcript', t('Transcript field is required.'));
     }
   }
