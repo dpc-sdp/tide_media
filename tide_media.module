@@ -354,7 +354,7 @@ function tide_media_preprocess_form_element(&$variables) {
 /**
  * Implements hook_entity_bundle_field_info_alter().
  */
-function tide_media_entity_bundle_field_info_alter(&$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type, $bundle) {
+function tide_media_entity_bundle_field_info_alter(&$fields, EntityTypeInterface $entity_type, $bundle) {
   if ($entity_type->id() == 'media' && $bundle == 'embedded_video') {
     if (!empty($fields['field_media_transcript'])) {
       $fields['field_media_transcript']->addConstraint('media_field_constraint');

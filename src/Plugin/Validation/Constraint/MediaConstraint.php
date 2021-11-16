@@ -20,6 +20,6 @@ class MediaConstraint extends Constraint {
    *
    * @var string
    */
-  public $required_field = '%field_name field is required.';
+  public $requiredField = '%field_name field is required.';
 
 }
