@@ -83,7 +83,7 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
       if ($entity && !in_array($entity->bundle(), $allowed_entity_types)) {
         unset($form['attributes']['data-entity-embed-display']['#options']['view_mode:media.embedded_with_transcript']);
       }
-      // Make "Embedded with Transcript" default view mode foe some media embeds.
+      // Make "Embedded with Transcript" default view mode.
       if ($entity && in_array($entity->bundle(), $allowed_entity_types)) {
         $form['attributes']['data-entity-embed-display']['#default_value'] = 'view_mode:media.embedded_with_transcript';
       }
