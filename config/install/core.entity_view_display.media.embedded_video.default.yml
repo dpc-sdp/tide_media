@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.media.embedded_video.field_is_streamed
     - field.field.media.embedded_video.field_license_type
     - field.field.media.embedded_video.field_media_audience
     - field.field.media.embedded_video.field_media_department
@@ -32,6 +33,16 @@ content:
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
+  field_is_streamed:
+    weight: 12
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   field_license_type:
     weight: 11
     label: above

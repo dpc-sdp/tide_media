@@ -181,7 +181,7 @@ Feature: Fields for different Media types
     And I should see an "textarea#edit-field-media-summary-0-value" element
 
     And I should see "Transcript" in the "label[for=edit-field-media-transcript-0-value]" element
-    And I should not see an "label[for=edit-field-media-transcript-0-value].form-required" element
+    And I should see an "label[for=edit-field-media-transcript-0-value].form-required" element
     And I should see an "textarea#edit-field-media-transcript-0-value" element
 
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
@@ -204,3 +204,7 @@ Feature: Fields for different Media types
     And I should see "Topic" in the "label[for=edit-field-media-topic-0-target-id]" element
     And I should not see an "label[for=edit-field-media-topic-0-target-id].required" element
     And I should see an "input#edit-field-media-topic-0-target-id" element
+
+    And I should see "Is this video being live streamed?" in the "label[for=edit-field-is-streamed-value]" element
+    And I should not see an "label[for=edit-field-is-streamed-value].form-required" element
+    And I should see an "input#edit-field-is-streamed-value" element

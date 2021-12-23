@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.media.embedded
+    - field.field.media.embedded_video.field_is_streamed
     - field.field.media.embedded_video.field_media_audience
     - field.field.media.embedded_video.field_media_department
     - field.field.media.embedded_video.field_media_length
@@ -33,6 +34,7 @@ content:
     region: content
 hidden:
   created: true
+  field_is_streamed: true
   field_license_type: true
   field_media_audience: true
   field_media_department: true
