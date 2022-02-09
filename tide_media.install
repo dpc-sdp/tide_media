@@ -714,7 +714,7 @@ function tide_media_update_8041() {
 }
 
 /**
- * Update filter operator on document and video pickers. [SDPSUP-3966]
+ * Update filter operator on document and video pickers [SDPSUP-3966].
  */
 function tide_media_update_8042() {
   $views_config = \Drupal::configFactory()->getEditable('views.view.tide_media_browser');
