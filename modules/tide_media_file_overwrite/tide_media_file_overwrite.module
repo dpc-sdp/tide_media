@@ -124,8 +124,9 @@ function tide_media_file_overwrite_form_submit($form, FormStateInterface $form_s
           if (file_exists($new_file)) {
             rename($new_file, $old_file);
             // Set the uri of uploaded file via setFileUri to previous uri.
+            // Sanitise file name. Replace space with '-'
             $file_entity->setFileUri($result[0]->uri);
-            $file_entity->setFileName($result[0]->filename);
+            $file_entity->setFileName(preg_replace('/\s+/','-',$result[0]->filename));
             $file_entity->setPermanent();
             $file_entity->save();
 
