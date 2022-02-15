@@ -72,16 +72,22 @@ function tide_media_file_overwrite_form_submit($form, FormStateInterface $form_s
 
       // Get the original file name, before the _0 that got added in.
       $prev_filename = _tide_media_file_overwrite_get_original_filename($file_entity->getFilename());
+      $sanitised_prev_filename = _tide_media_file_overwrite_sanitise_filename($prev_filename);
       // Get the previous fid and uri from database.
       $connection = \Drupal::service('database');
-      $result = $connection->select('file_managed', 'f')
+      $query = $connection->select('file_managed', 'f')
         ->fields('f', ['fid', 'filename', 'uri'])
         ->condition('f.fid', $file_entity->fid->value, '!=')
+        ->condition('f.status', 1, '=');
+      $group = $query
+        ->orConditionGroup()
         ->condition('f.filename', $prev_filename, '=')
-        ->condition('f.status', 1, '=')
+        ->condition('f.filename', $sanitised_prev_filename, '=');
+      $query
+        ->condition($group)
         ->orderBy('f.fid', 'DESC')
-        ->range(0, 1)
-        ->execute()->fetchAll();
+        ->range(0, 1);
+      $result = $query->execute()->fetchAll();
 
       if ($result) {
         $prev_file_entity = File::load($result[0]->fid);
@@ -122,11 +128,11 @@ function tide_media_file_overwrite_form_submit($form, FormStateInterface $form_s
         if ($dir_path_old == $dir_path_new) {
           // Rename new file to old file name.
           if (file_exists($new_file)) {
-            rename($new_file, $old_file);
+            rename($new_file, _tide_media_file_overwrite_sanitise_filename($old_file));
             // Set the uri of uploaded file via setFileUri to previous uri.
-            // Sanitise file name. Replace spaces with hyphens.
-            $file_entity->setFileUri($result[0]->uri);
-            $file_entity->setFileName(preg_replace('/\s+/', '-', $result[0]->filename));
+            $file_entity->setFileUri(_tide_media_file_overwrite_sanitise_filename($result[0]->uri));
+            $file_entity->setFileName(_tide_media_file_overwrite_sanitise_filename($result[0]->filename));
+            // $file_entity->setFileName($result[0]->filename);
             $file_entity->setPermanent();
             $file_entity->save();
 
@@ -216,5 +222,19 @@ function _tide_media_file_overwrite_get_original_filename($filename) {
     }
   }
   return $filename;
+
+}
+
+/**
+ * Helper function to replace spaces in filename with hyphens.
+ *
+ * @param string $filename
+ *   The filename with extension.
+ *
+ * @return string
+ *   The original filename spaces replaced with hyphens.
+ */
+function _tide_media_file_overwrite_sanitise_filename($filename) {
+  return preg_replace('/[\s-]/', '-', $filename);
 
 }
