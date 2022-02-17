@@ -235,6 +235,6 @@ function _tide_media_file_overwrite_get_original_filename($filename) {
  *   The original filename spaces replaced with hyphens.
  */
 function _tide_media_file_overwrite_sanitise_filename($filename) {
-  return preg_replace('/[\s-]/', '-', $filename);
+  return preg_replace('/[\s-]+/', '-', $filename);
 
 }
