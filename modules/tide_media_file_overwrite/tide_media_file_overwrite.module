@@ -238,5 +238,5 @@ function _tide_media_file_overwrite_sanitise_filename($filename) {
   $replacement = '-';
   $tide_common_services = \Drupal::service('tide_core.common_services');
   return $tide_common_services->sanitiseFilename($filename, $replacement);
-  
+
 }
