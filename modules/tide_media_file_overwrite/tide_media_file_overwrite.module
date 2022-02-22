@@ -235,6 +235,8 @@ function _tide_media_file_overwrite_get_original_filename($filename) {
  *   The original filename spaces replaced with hyphens.
  */
 function _tide_media_file_overwrite_sanitise_filename($filename) {
-  return preg_replace('/[\s-]+/', '-', $filename);
-
+  $replacement = '-';
+  $tide_common_services = \Drupal::service('tide_core.common_services');
+  return $tide_common_services->sanitiseFilename($filename, $replacement);
+  
 }
