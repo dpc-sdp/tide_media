@@ -261,6 +261,37 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     $media_ids = $form_state->get('deleted_media');
     if ($file_ids) {
       $files = File::loadMultiple($file_ids);
+
+      $purgeInvalidationFactory = \Drupal::service('purge.invalidation.factory');
+      $purgeQueuers = \Drupal::service('purge.queuers');
+      $purgeQueue = \Drupal::service('purge.queue');
+
+      $queuer = $purgeQueuers->get('coretags');
+
+      $sites = \Drupal::service('tide_site.helper')->getAllSites();
+      $domains_to_invalidate = [];
+      foreach($sites as $site) {
+        $domains = $site->get('field_site_domains')->value;
+        $first_domain = trim(explode(PHP_EOL, $domains)[0]);
+        array_push($domains_to_invalidate, 'https://' . $first_domain);
+      }
+
+      array_push($domains_to_invalidate, $this->getRequest()->getSchemeAndHttpHost());
+
+      foreach ($file_ids as $file_id) {
+        $file_realpath = \Drupal::service('file_system')->realpath(File::load($file_id)->getFileUri());
+        $file_realpath = str_replace(DRUPAL_ROOT, '', $file_realpath);
+
+        foreach ($domains_to_invalidate as $domain_to_invalidate) {
+          \Drupal::logger('tide_media')->error($domain_to_invalidate . $file_realpath);
+          $invalidations = [
+            $purgeInvalidationFactory->get('tag', 'file:' . $file_id),
+            $purgeInvalidationFactory->get('url', $domain_to_invalidate . $file_realpath),
+          ];
+          $purgeQueue->add($queuer, $invalidations);
+        }
+      }
+
       try {
         $this->fileStorage->delete($files);
       }
