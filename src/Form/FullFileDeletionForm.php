@@ -22,7 +22,6 @@ use Drupal\purge\Plugin\Purge\Queue\QueueService;
 use Drupal\tide_site\TideSiteHelper;
 use Drupal\Core\Logger\LoggerChannelFactory;
 
-
 /**
  * Provides a form for deleting a media entity.
  */
@@ -314,7 +313,6 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     $media_ids = $form_state->get('deleted_media');
     if ($file_ids) {
       $files = File::loadMultiple($file_ids);
-
       try {
         $this->purgeFiles($file_ids);
         $this->fileStorage->delete($files);
@@ -323,7 +321,6 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
         watchdog_exception('tide_media', $exception);
       }
     }
-
     if ($media_ids) {
       $media = Media::loadMultiple($media_ids);
       try {
@@ -341,22 +338,15 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
    * Purge files from the CDN.
    */
   private function purgeFiles($file_ids) {
-    //$purgeInvalidationFactory = \Drupal::service('purge.invalidation.factory');
-    //$purgeQueuers = \Drupal::service('purge.queuers');
-    //$purgeQueue = \Drupal::service('purge.queue');
-
     $queuer = $this->purgeQueuers->get('coretags');
-
     $sites = \Drupal::service('tide_site.helper')->getAllSites();
     $domains_to_invalidate = [];
-    foreach($sites as $site) {
+    foreach ($sites as $site) {
       $domains = $site->get('field_site_domains')->value;
       $first_domain = trim(explode(PHP_EOL, $domains)[0]);
       array_push($domains_to_invalidate, 'https://' . $first_domain);
     }
-
     array_push($domains_to_invalidate, $this->getRequest()->getSchemeAndHttpHost());
-
     foreach ($file_ids as $file_id) {
       $file_realpath = \Drupal::service('file_system')->realpath(File::load($file_id)->getFileUri());
       $file_realpath = str_replace(DRUPAL_ROOT, '', $file_realpath);
