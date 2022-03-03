@@ -16,6 +16,12 @@ use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\purge\Plugin\Purge\Invalidation\InvalidationsService;
+use Drupal\purge\Plugin\Purge\Queuer\QueuersService;
+use Drupal\purge\Plugin\Purge\Queue\QueueService;
+use Drupal\tide_site\TideSiteHelper;
+use Drupal\Core\Logger\LoggerChannelFactory;
+
 
 /**
  * Provides a form for deleting a media entity.
@@ -58,13 +64,54 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
   protected $mediaStorage;
 
   /**
+   * The purger factory service.
+   *
+   * @var \Drupal\purge\Plugin\Purge\Invalidation\InvalidationsService
+   */
+  protected $purgeInvalidationFactory;
+
+
+  /**
+   * The purge queuers service.
+   *
+   * @var \Drupal\purge\Plugin\Purge\Queuer\QueuersService
+   */
+  protected $purgeQueuers;
+
+  /**
+   * The purge queue service.
+   *
+   * @var \Drupal\purge\Plugin\Purge\Queue\QueueService
+   */
+  protected $purgeQueue;
+
+  /**
+   * The Tide Site Helper service.
+   *
+   * @var \Drupal\tide_site\TideSiteHelper
+   */
+  protected $tideSiteHelper;
+
+  /**
+   * Drupal Logger.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   */
+  protected $logger;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, FileSystemInterface $fileSystem, DateFormatterInterface $dateFormatter, EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, FileSystemInterface $fileSystem, DateFormatterInterface $dateFormatter, EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL, InvalidationsService $purgeInvalidationFactory, QueuersService $purgeQueuers, QueueService $purgeQueue, TideSiteHelper $tideSiteHelper, LoggerChannelFactory $logger) {
     $this->fileStorage = $entityTypeManager->getStorage('file');
     $this->mediaStorage = $entityTypeManager->getStorage('media');
     $this->fileSystem = $fileSystem;
     $this->dateFormatter = $dateFormatter;
+    $this->purgeInvalidationFactory = $purgeInvalidationFactory;
+    $this->purgeQueuers = $purgeQueuers;
+    $this->purgeQueue = $purgeQueue;
+    $this->tideSiteHelper = $tideSiteHelper;
+    $this->logger = $logger->get('tide_media');
     parent::__construct($entity_repository, $entity_type_bundle_info, $time);
   }
 
@@ -78,7 +125,13 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
       $container->get('date.formatter'),
       $container->get('entity.repository'),
       $container->get('entity_type.bundle.info'),
-      $container->get('datetime.time'));
+      $container->get('datetime.time'),
+      $container->get('purge.invalidation.factory'),
+      $container->get('purge.queuers'),
+      $container->get('purge.queue'),
+      $container->get('tide_site.helper'),
+      $container->get('logger.factory'),
+    );
   }
 
   /**
@@ -262,43 +315,15 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     if ($file_ids) {
       $files = File::loadMultiple($file_ids);
 
-      $purgeInvalidationFactory = \Drupal::service('purge.invalidation.factory');
-      $purgeQueuers = \Drupal::service('purge.queuers');
-      $purgeQueue = \Drupal::service('purge.queue');
-
-      $queuer = $purgeQueuers->get('coretags');
-
-      $sites = \Drupal::service('tide_site.helper')->getAllSites();
-      $domains_to_invalidate = [];
-      foreach($sites as $site) {
-        $domains = $site->get('field_site_domains')->value;
-        $first_domain = trim(explode(PHP_EOL, $domains)[0]);
-        array_push($domains_to_invalidate, 'https://' . $first_domain);
-      }
-
-      array_push($domains_to_invalidate, $this->getRequest()->getSchemeAndHttpHost());
-
-      foreach ($file_ids as $file_id) {
-        $file_realpath = \Drupal::service('file_system')->realpath(File::load($file_id)->getFileUri());
-        $file_realpath = str_replace(DRUPAL_ROOT, '', $file_realpath);
-
-        foreach ($domains_to_invalidate as $domain_to_invalidate) {
-          \Drupal::logger('tide_media')->error($domain_to_invalidate . $file_realpath);
-          $invalidations = [
-            $purgeInvalidationFactory->get('tag', 'file:' . $file_id),
-            $purgeInvalidationFactory->get('url', $domain_to_invalidate . $file_realpath),
-          ];
-          $purgeQueue->add($queuer, $invalidations);
-        }
-      }
-
       try {
+        $this->purgeFiles($file_ids);
         $this->fileStorage->delete($files);
       }
       catch (\Exception $exception) {
         watchdog_exception('tide_media', $exception);
       }
     }
+
     if ($media_ids) {
       $media = Media::loadMultiple($media_ids);
       try {
@@ -310,6 +335,42 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     }
     $this->entity->delete();
     parent::submitForm($form, $form_state);
+  }
+
+  /**
+   * Purge files from the CDN.
+   */
+  private function purgeFiles($file_ids) {
+    //$purgeInvalidationFactory = \Drupal::service('purge.invalidation.factory');
+    //$purgeQueuers = \Drupal::service('purge.queuers');
+    //$purgeQueue = \Drupal::service('purge.queue');
+
+    $queuer = $this->purgeQueuers->get('coretags');
+
+    $sites = \Drupal::service('tide_site.helper')->getAllSites();
+    $domains_to_invalidate = [];
+    foreach($sites as $site) {
+      $domains = $site->get('field_site_domains')->value;
+      $first_domain = trim(explode(PHP_EOL, $domains)[0]);
+      array_push($domains_to_invalidate, 'https://' . $first_domain);
+    }
+
+    array_push($domains_to_invalidate, $this->getRequest()->getSchemeAndHttpHost());
+
+    foreach ($file_ids as $file_id) {
+      $file_realpath = \Drupal::service('file_system')->realpath(File::load($file_id)->getFileUri());
+      $file_realpath = str_replace(DRUPAL_ROOT, '', $file_realpath);
+
+      foreach ($domains_to_invalidate as $domain_to_invalidate) {
+        $url = $domain_to_invalidate . $file_realpath;
+        $this->logger->debug('Generating URL invalidation for: ' . $url);
+        $invalidations = [
+          $this->purgeInvalidationFactory->get('tag', 'file:' . $file_id),
+          $this->purgeInvalidationFactory->get('url', $url),
+        ];
+        $this->purgeQueue->add($queuer, $invalidations);
+      }
+    }
   }
 
   /**
