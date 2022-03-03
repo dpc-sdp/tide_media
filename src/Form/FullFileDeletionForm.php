@@ -339,7 +339,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
    */
   private function purgeFiles($file_ids) {
     $queuer = $this->purgeQueuers->get('coretags');
-    $sites = \Drupal::service('tide_site.helper')->getAllSites();
+    $sites = $this->tideSiteHelper->getAllSites();
     $domains_to_invalidate = [];
     foreach ($sites as $site) {
       $domains = $site->get('field_site_domains')->value;
@@ -348,7 +348,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     }
     array_push($domains_to_invalidate, $this->getRequest()->getSchemeAndHttpHost());
     foreach ($file_ids as $file_id) {
-      $file_realpath = \Drupal::service('file_system')->realpath(File::load($file_id)->getFileUri());
+      $file_realpath = $this->fileSystem->realpath(File::load($file_id)->getFileUri());
       $file_realpath = str_replace(DRUPAL_ROOT, '', $file_realpath);
 
       foreach ($domains_to_invalidate as $domain_to_invalidate) {
