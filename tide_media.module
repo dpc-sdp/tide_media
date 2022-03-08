@@ -363,5 +363,8 @@ function tide_media_entity_bundle_field_info_alter(&$fields, EntityTypeInterface
     if (!empty($fields['field_media_transcript'])) {
       $fields['field_media_transcript']->addConstraint('media_field_constraint');
     }
+    if (!empty($fields['field_media_video_embed_field'])) {
+      $fields['field_media_video_embed_field']->addConstraint('VideoEmbedValidation');
+    }
   }
 }
