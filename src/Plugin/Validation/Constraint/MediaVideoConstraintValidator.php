@@ -3,13 +3,14 @@
 namespace Drupal\tide_media\Plugin\Validation\Constraint;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\video_embed_field\Plugin\Validation\Constraint\VideoEmbedConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 /**
  * Validates the video embed providers.
  */
-class MediaVideoConstraintValidator extends ConstraintValidator implements ContainerInjectionInterface {
+class MediaVideoConstraintValidator extends VideoEmbedConstraintValidator {
 
   /**
    * {@inheritdoc}

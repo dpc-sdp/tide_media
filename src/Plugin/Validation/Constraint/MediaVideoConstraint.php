@@ -2,17 +2,18 @@
 
 namespace Drupal\tide_media\Plugin\Validation\Constraint;
 
+use Drupal\video_embed_field\Plugin\Validation\Constraint\VideoEmbedConstraint;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Validation constraint for the video embed field.
  *
  * @Constraint(
- *   id = "VideoEmbedValidation",
+ *   id = "tide_media_video_embed_validation",
  *   label = @Translation("VideoEmbed provider constraint", context = "Validation"),
  * )
  */
-class MediaVideoConstraint extends Constraint {
+class MediaVideoConstraint extends VideoEmbedConstraint {
 
   /**
    * Message shown when a video provider is not found.
