@@ -3,7 +3,6 @@
 namespace Drupal\tide_media\Plugin\Validation\Constraint;
 
 use Drupal\video_embed_field\Plugin\Validation\Constraint\VideoEmbedConstraint;
-use Symfony\Component\Validator\Constraint;
 
 /**
  * Validation constraint for the video embed field.
