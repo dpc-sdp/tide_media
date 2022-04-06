@@ -13,6 +13,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\file\Entity\File;
 
 /**
  * Implements hook_views_pre_view().
@@ -118,8 +119,18 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function tide_media_form_media_form_alter(&$form, FormStateInterface $form_state) {
+function tide_media_form_media_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['#attached']['library'][] = 'tide_media/media_form';
+  // Media files and documents only for sanitisation.
+  $allowed_form_ids = [
+    "media_file_add_form",
+    "media_file_edit_form",
+    "media_document_add_form",
+    "media_document_edit_form",
+  ];
+  if (in_array($form_id, $allowed_form_ids)) {
+    $form['actions']['submit']['#submit'][] = '_tide_media_file_document_submit';
+  }
 }
 
 /**
@@ -363,5 +374,33 @@ function tide_media_entity_bundle_field_info_alter(&$fields, EntityTypeInterface
     if (!empty($fields['field_media_transcript'])) {
       $fields['field_media_transcript']->addConstraint('media_field_constraint');
     }
+  }
+}
+
+/**
+ * Submit handler for sanitise filename.
+ */
+function _tide_media_file_document_submit($form, FormStateInterface &$form_state) {
+  $fid = $form_state->getValue('field_media_file');
+  if (!empty($fid)) {
+    $file = File::load($fid[0]['fids'][0]);
+    $filename_current = $file->getFilename();
+    // Rename filename.
+    $replacement = '-';
+    $tide_common_services = \Drupal::service('tide_core.common_services');
+    $filename_new = $tide_common_services->sanitiseFilename($filename_current, $replacement);
+    // Rename URI.
+    $uri = $file->getFileUri();
+    $new_uri = str_replace($filename_current, $filename_new, $uri);
+    // Rename filepath.
+    $stream_wrapper = \Drupal::service('stream_wrapper_manager')->getViaUri($uri);
+    $dir_path_current = $stream_wrapper->realpath();
+    $dir_path_new = str_replace($filename_current, $filename_new, $dir_path_current);
+    rename($dir_path_current, $dir_path_new);
+    // Complete the file.
+    $file->setFileUri($new_uri);
+    $file->setFilename($filename_new);
+    $file->setPermanent();
+    $file->save();
   }
 }
