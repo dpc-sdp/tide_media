@@ -13,6 +13,7 @@ dependencies:
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
     - field.field.media.embedded_video.field_media_video_embed_field
+    - field.field.media.embedded_video.field_metatags_rtl
     - media.type.embedded_video
   module:
     - video_embed_field
@@ -44,6 +45,7 @@ hidden:
   field_media_summary: true
   field_media_topic: true
   field_media_transcript: true
+  field_metatags_rtl: true
   name: true
   thumbnail: true
   uid: true
