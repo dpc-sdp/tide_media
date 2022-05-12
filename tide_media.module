@@ -409,10 +409,3 @@ function _tide_media_file_document_submit($form, FormStateInterface &$form_state
     $file->save();
   }
 }
-
-/**
- * Implements hook_preprocess_video_embed_iframe().
- */
-function tide_media_preprocess_video_embed_iframe(&$variables) {
-  $variables['attributes']['title'] = 'hello iframe';
-}
