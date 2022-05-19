@@ -26,21 +26,15 @@ resourceFields:
     enhancer:
       id: ''
     disabled: false
-  type:
-    fieldName: type
-    publicName: type
-    enhancer:
-      id: ''
-    disabled: false
   langcode:
     fieldName: langcode
     publicName: langcode
     enhancer:
       id: ''
     disabled: false
-  uid:
-    fieldName: uid
-    publicName: uid
+  type:
+    fieldName: type
+    publicName: type
     enhancer:
       id: ''
     disabled: false
@@ -57,12 +51,6 @@ resourceFields:
       id: date_time
       settings:
         dateTimeFormat: 'Y-m-d\TH:i:sP'
-    disabled: false
-  revision_uid:
-    fieldName: revision_uid
-    publicName: revision_uid
-    enhancer:
-      id: ''
     disabled: false
   parent_id:
     fieldName: parent_id
@@ -106,15 +94,21 @@ resourceFields:
     enhancer:
       id: ''
     disabled: false
-  moderation_state:
-    fieldName: moderation_state
-    publicName: moderation_state
+  field_current_milestone:
+    fieldName: field_current_milestone
+    publicName: field_current_milestone
     enhancer:
       id: ''
     disabled: false
   field_paragraph_body:
     fieldName: field_paragraph_body
     publicName: field_paragraph_body
+    enhancer:
+      id: ''
+    disabled: false
+  field_paragraph_cta_text:
+    fieldName: field_paragraph_cta_text
+    publicName: field_paragraph_cta_text
     enhancer:
       id: ''
     disabled: false
@@ -135,6 +129,12 @@ resourceFields:
   field_paragraph_media:
     fieldName: field_paragraph_media
     publicName: field_paragraph_media
+    enhancer:
+      id: ''
+    disabled: false
+  field_paragraph_summary:
+    fieldName: field_paragraph_summary
+    publicName: field_paragraph_summary
     enhancer:
       id: ''
     disabled: false
