@@ -725,3 +725,52 @@ function tide_media_update_8042() {
   $views_config->set('display.embedded_video_browser.display_options.filters.name.operator', 'contains');
   $views_config->save();
 }
+
+/**
+ * Updates with new field_metatags_rtl field.
+ */
+function tide_media_update_8043() {
+  $configs = [
+    'field.storage.media.field_metatags_rtl' => 'field_storage_config',
+    'field.field.media.embedded_video.field_metatags_rtl' => 'field_config',
+  ];
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  // Check if field already exported to config/sync.
+  foreach ($configs as $config => $type) {
+    $config_read = _tide_read_config($config, $config_location, TRUE);
+    $storage = \Drupal::entityTypeManager()->getStorage($type);
+    $id = substr($config, strrpos($config, '.') + 1);
+    if ($storage->load($id) == NULL) {
+      $config_entity = $storage->createFromStorageRecord($config_read);
+      $config_entity->save();
+    }
+  }
+  $update_configs = [
+    'core.entity_view_display.media.embedded_video.default' => 'entity_view_display',
+    'core.entity_form_display.media.embedded_video.default' => 'entity_form_display',
+  ];
+  $config_settings = [
+    'dependencies',
+    'content',
+    'hidden',
+  ];
+  foreach ($update_configs as $update_config => $type) {
+    $config_read = _tide_read_config($update_config, $config_location, FALSE);
+    $config = \Drupal::configFactory()->getEditable($update_config);
+    if (!$config) {
+      continue;
+    }
+    $data = $config->getRawData();
+    foreach ($config_read as $key => $item) {
+      if (in_array($key, $config_settings)) {
+        NestedArray::setValue($data, [
+          $key,
+        ], NestedArray::getValue($config_read, [
+          $key,
+        ]));
+      }
+    }
+    $config->setData($data)->save();
+  }
+}

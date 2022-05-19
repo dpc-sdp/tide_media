@@ -13,10 +13,12 @@ dependencies:
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
     - field.field.media.embedded_video.field_media_video_embed_field
+    - field.field.media.embedded_video.field_metatags_rtl
     - media.type.embedded_video
   module:
     - content_moderation
     - field_group
+    - metatag
     - path
     - video_embed_field
 third_party_settings:
@@ -123,6 +125,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: video_embed_field_textfield
+    region: content
+  field_metatags_rtl:
+    weight: 30
+    settings:
+      sidebar: true
+      use_details: true
+    third_party_settings: {  }
+    type: metatag_firehose
     region: content
   moderation_state:
     type: moderation_state_default
