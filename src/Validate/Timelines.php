@@ -30,20 +30,27 @@ class Timelines {
     $timeline_widget = $element['subform']['field_timeline']['widget'];
     $current_milestones = [];
     // Gets the current milestone fields value under timelines component.
-    for($x = 0; $x <= $max_delta; $x++) {
+    for ($x = 0; $x <= $max_delta; $x++) {
       if (isset($timeline_widget[$x])) {
-        $current_milestones [] = $timeline_widget[$x]['subform']['field_current_milestone']['widget']['value']['#value'];
+        $current_milestones[] = $timeline_widget[$x]['subform']['field_current_milestone']['widget']['value']['#value'];
       }
     }
     // Counts the total number of current milestone checkboxes that are checked.
-    $current_milestone_count = count(array_filter($current_milestones,function($a) {return $a==1;}));
-    // Set error if more than one checkbox selected among all timeline under timelines component.
+    $current_milestone_count = count(
+      array_filter(
+        $current_milestones,
+        function ($a) {
+          return $a == 1;
+        }
+      )
+    );
+    // Set error if more than one checkbox selected.
     if ($current_milestone_count > 1) {
-       $error = TRUE;
+      $error = TRUE;
     }
     if ($error) {
-      // This ensures to set the error message for each checkbox that are wrongly selected.
-      for($x = 0; $x <= $max_delta; $x++) {
+      // This ensures to set the error message for each checkbox.
+      for ($x = 0; $x <= $max_delta; $x++) {
         if ($timeline_widget[$x]['subform']['field_current_milestone']['widget']['value']['#value'] == 1) {
           $formState->setError(
             $timeline_widget[$x]['subform']['field_current_milestone']['widget']['value'],
