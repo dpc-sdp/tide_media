@@ -814,7 +814,7 @@ function tide_media_update_8044() {
       }
     }
     if ($type == 'json') {
-      $json_resourceFields = $json_config_read['resourceFields'];
+      $json_resourceFields = $new_config_read['resourceFields'];
       if ($existed_config) {
         $existed_config->set('resourceFields', $json_resourceFields);
         $existed_config->save();
