@@ -787,29 +787,38 @@ function tide_media_update_8044() {
   $storage = \Drupal::entityTypeManager()->getStorage('field_config');
   $config_entity = $storage->createFromStorageRecord($config_read);
   $config_entity->save();
-  // Update the form and view display.
+  // Update existed displays. field and json.
   $config_ids = [
-    'core.entity_form_display.paragraph.timeline.default',
-    'core.entity_view_display.paragraph.timeline.default',
+    'core.entity_form_display.paragraph.timeline.default' => 'display',
+    'core.entity_view_display.paragraph.timeline.default' => 'display',
+    'field.field.paragraph.timeline.field_paragraph_title' => 'field',
+    'jsonapi_extras.jsonapi_resource_config.paragraph--timeline' => 'json',
   ];
-  foreach ($config_ids as $config_id) {
-    $display_config = \Drupal::configFactory()->getEditable($config_id);
-    $display_config_read = _tide_read_config($config_id, $config_location, FALSE);
-    $fields_settings = $display_config_read['content'];
-    $dependencies = $display_config_read['dependencies']['config'];
-    if ($display_config) {
-      $display_config->set('content', $fields_settings);
-      $display_config->set('dependencies.config', $dependencies);
-      $display_config->save();
+  foreach ($config_ids as $config_id => $type) {
+    $existed_config = \Drupal::configFactory()->getEditable($config_id);
+    $new_config_read = _tide_read_config($config_id, $config_location, FALSE);
+    if ($type == 'display') {
+      $fields_settings = $new_config_read['content'];
+      $dependencies = $new_config_read['dependencies']['config'];
+      if ($existed_config) {
+        $existed_config->set('content', $fields_settings);
+        $existed_config->set('dependencies.config', $dependencies);
+        $existed_config->save();
+      }
     }
-  }
-  // Update the JSON api.
-  $json_id = 'jsonapi_extras.jsonapi_resource_config.paragraph--timeline';
-  $json_config = \Drupal::configFactory()->getEditable($json_id);
-  $json_config_read = _tide_read_config($json_id, $config_location, FALSE);
-  $json_resourceFields = $json_config_read['resourceFields'];
-  if ($json_config) {
-    $json_config->set('resourceFields', $json_resourceFields);
-    $json_config->save();
+    if ($type == 'field') {
+      $field_title_label = $new_config_read['label'];
+      if ($existed_config) {
+        $existed_config->set('label', $field_title_label);
+        $existed_config->save();
+      }
+    }
+    if ($type == 'json') {
+      $json_resourceFields = $json_config_read['resourceFields'];
+      if ($existed_config) {
+        $existed_config->set('resourceFields', $json_resourceFields);
+        $existed_config->save();
+      }
+    }
   }
 }
