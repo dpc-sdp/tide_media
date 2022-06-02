@@ -13,8 +13,10 @@ dependencies:
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
     - field.field.media.embedded_video.field_media_video_embed_field
+    - field.field.media.embedded_video.field_metatags_rtl
     - media.type.embedded_video
   module:
+    - metatag
     - text
     - user
     - video_embed_field
@@ -125,6 +127,13 @@ content:
       autoplay: false
     third_party_settings: {  }
     type: video_embed_field_video
+    region: content
+  field_metatags_rtl:
+    weight: 13
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   uid:
     label: hidden
