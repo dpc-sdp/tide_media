@@ -88,6 +88,11 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
       // Make "Embedded with Transcript" default view mode.
       if ($entity && in_array($entity->bundle(), $allowed_entity_types)) {
         $form['attributes']['data-entity-embed-display']['#default_value'] = 'view_mode:media.embedded_with_transcript';
+        // Add accessibility title tag to embedded media.
+        $form['attributes']['title'] = [
+          '#type' => 'hidden',
+          '#value' => $entity->getName(),
+        ];
       }
     }
   }
