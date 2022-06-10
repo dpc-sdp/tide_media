@@ -8,7 +8,7 @@ id: paragraph.timeline.field_paragraph_title
 field_name: field_paragraph_title
 entity_type: paragraph
 bundle: timeline
-label: Title
+label: Milestone title
 description: ''
 required: true
 translatable: true
