@@ -725,3 +725,100 @@ function tide_media_update_8042() {
   $views_config->set('display.embedded_video_browser.display_options.filters.name.operator', 'contains');
   $views_config->save();
 }
+
+/**
+ * Updates with new field_metatags_rtl field.
+ */
+function tide_media_update_8043() {
+  $configs = [
+    'field.storage.media.field_metatags_rtl' => 'field_storage_config',
+    'field.field.media.embedded_video.field_metatags_rtl' => 'field_config',
+  ];
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  // Check if field already exported to config/sync.
+  foreach ($configs as $config => $type) {
+    $config_read = _tide_read_config($config, $config_location, TRUE);
+    $storage = \Drupal::entityTypeManager()->getStorage($type);
+    $id = substr($config, strrpos($config, '.') + 1);
+    if ($storage->load($id) == NULL) {
+      $config_entity = $storage->createFromStorageRecord($config_read);
+      $config_entity->save();
+    }
+  }
+  $update_configs = [
+    'core.entity_view_display.media.embedded_video.default' => 'entity_view_display',
+    'core.entity_form_display.media.embedded_video.default' => 'entity_form_display',
+  ];
+  $config_settings = [
+    'dependencies',
+    'content',
+    'hidden',
+  ];
+  foreach ($update_configs as $update_config => $type) {
+    $config_read = _tide_read_config($update_config, $config_location, FALSE);
+    $config = \Drupal::configFactory()->getEditable($update_config);
+    if (!$config) {
+      continue;
+    }
+    $data = $config->getRawData();
+    foreach ($config_read as $key => $item) {
+      if (in_array($key, $config_settings)) {
+        NestedArray::setValue($data, [
+          $key,
+        ], NestedArray::getValue($config_read, [
+          $key,
+        ]));
+      }
+    }
+    $config->setData($data)->save();
+  }
+}
+
+/**
+ * Add current milestone field to timeline component.
+ */
+function tide_media_update_8044() {
+  $config = 'field.field.paragraph.timeline.field_current_milestone';
+  module_load_include('inc', 'tide_core', 'includes/helpers');
+  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  // Check if field already exported to config/sync.
+  $config_read = _tide_read_config($config, $config_location, TRUE);
+  $storage = \Drupal::entityTypeManager()->getStorage('field_config');
+  $config_entity = $storage->createFromStorageRecord($config_read);
+  $config_entity->save();
+  // Update existed displays. field and json.
+  $config_ids = [
+    'core.entity_form_display.paragraph.timeline.default' => 'display',
+    'core.entity_view_display.paragraph.timeline.default' => 'display',
+    'field.field.paragraph.timeline.field_paragraph_title' => 'field',
+    'jsonapi_extras.jsonapi_resource_config.paragraph--timeline' => 'json',
+  ];
+  foreach ($config_ids as $config_id => $type) {
+    $existed_config = \Drupal::configFactory()->getEditable($config_id);
+    $new_config_read = _tide_read_config($config_id, $config_location, FALSE);
+    if ($type == 'display') {
+      $fields_settings = $new_config_read['content'];
+      $dependencies = $new_config_read['dependencies']['config'];
+      if ($existed_config) {
+        $existed_config->set('content', $fields_settings);
+        $existed_config->set('dependencies.config', $dependencies);
+        $existed_config->save();
+      }
+    }
+    if ($type == 'field') {
+      $field_title_label = $new_config_read['label'];
+      if ($existed_config) {
+        $existed_config->set('label', $field_title_label);
+        $existed_config->save();
+      }
+    }
+    if ($type == 'json') {
+      $json_resourceFields = $new_config_read['resourceFields'];
+      if ($existed_config) {
+        $existed_config->set('resourceFields', $json_resourceFields);
+        $existed_config->save();
+      }
+    }
+  }
+}
