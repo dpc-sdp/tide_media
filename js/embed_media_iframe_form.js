@@ -12,13 +12,13 @@
     Drupal.behaviors.tide_media_media_form = {
       attach: function (context, settings) {
         const nameField = $('#views-exposed-form-tide-media-browser-media-browser input[name=name]')
-        const fromSubmit = $('#views-exposed-form-tide-media-browser-media-browser input[type=submit]')
+        const formSubmit = $('#views-exposed-form-tide-media-browser-media-browser input[type=submit]')
         $(document).ready(function () {
           // Retrieving value from session and setting it to the name field.
           nameField.val(localStorage.getItem("tideMediaBrowsernameFilterVal"))
         })
         // On every submit it will save the namefield value to the localstorage.
-        fromSubmit.click(function () {
+        formSubmit.click(function () {
           if (nameField.val() && nameField.val() !== "undefined") {
             localStorage.setItem("tideMediaBrowsernameFilterVal", nameField.val());
           }
