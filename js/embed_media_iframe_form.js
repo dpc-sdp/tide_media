@@ -11,7 +11,7 @@
 
     Drupal.behaviors.tide_media_media_form = {
       attach: function (context, settings) {
-        let nameField = $('#views-exposed-form-tide-media-browser-media-browser input[name=name]')
+        const nameField = $('#views-exposed-form-tide-media-browser-media-browser input[name=name]')
         const fromSubmit = $('#views-exposed-form-tide-media-browser-media-browser input[type=submit]')
         $(document).ready(function () {
           // Retrieving value from session and setting it to the name field.
