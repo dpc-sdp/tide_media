@@ -19,9 +19,7 @@
         })
         // On every submit it will save the namefield value to the localstorage.
         formSubmit.click(function () {
-          if (nameField.val() && nameField.val() !== "undefined") {
-            localStorage.setItem("tideMediaBrowsernameFilterVal", nameField.val());
-          }
+          localStorage.setItem("tideMediaBrowsernameFilterVal", nameField.val());
         })
       }
     };

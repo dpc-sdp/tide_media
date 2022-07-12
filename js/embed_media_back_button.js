@@ -25,7 +25,7 @@
           if ($("iframe") && $("iframe").length > 0) {
             for (let i = 0; i < $("iframe").length; i++) {
               if ($("iframe")[i].name && $("iframe")[i].name === iframeName) {
-                iframePath = $("iframe")[1].contentWindow.location.pathname
+                iframePath = $("iframe")[i].contentWindow.location.pathname
                 // Shows the back button when iframe is not in the first page.
                 if (iframePath && iframePath !== homePagePath) {
                   backButton.css("display", "block");
@@ -33,17 +33,6 @@
                 // Hides the back button for the first page.
                 if (iframePath && iframePath === homePagePath) {
                   backButton.css("display", "none");
-                }
-                // Get the filter values on iframe load.
-                itemName =  $(this).contents().find('#edit-name').val()
-                licenseType = $(this).contents().find('#edit-field-license-type-target-id-1 :selected').text()
-                mediaType = $(this).contents().find('#edit-bundle :selected').text()
-                published = $(this).contents().find('#edit-status :selected').text()
-                site = $(this).contents().find('#edit-field-media-site-target-id :selected').text()
-                // Trigger ajax call submit to retrive the user search for current session.
-                // Will only trigger if there is any filter value set for this session.
-                if (checkFilterValuesOnLoad (itemName, licenseType, mediaType, published, site)) {
-                  $(this).contents().find('#edit-submit-tide-media-browser').trigger('click');
                 }
               }
             }
@@ -56,11 +45,31 @@
         if (iframePath && iframePath !== homePagePath) {
           $("iframe")[1].contentWindow.history.back()
         }
+        $("iframe").on("load", function() {
+          if ($("iframe") && $("iframe").length > 0) {
+            for (let i = 0; i < $("iframe").length; i++) {
+              if ($("iframe")[i].name && $("iframe")[i].name === iframeName) {
+                // Get the filter values on iframe load.
+                itemName =  localStorage.getItem("tideMediaBrowsernameFilterVal")
+                $(this).contents().find('#edit-name').val(itemName)
+                licenseType = $(this).contents().find('#edit-field-license-type-target-id-1 :selected').text()
+                mediaType = $(this).contents().find('#edit-bundle :selected').text()
+                published = $(this).contents().find('#edit-status :selected').text()
+                site = $(this).contents().find('#edit-field-media-site-target-id :selected').text()
+                // Trigger ajax call submit to retrive the user search for current session.
+                // Will only trigger if there is any filter value set for this session.
+                if (checkFilterValuesOnLoad (itemName, licenseType, mediaType, published, site)) {
+                  $(this).contents().find('#edit-submit-tide-media-browser').trigger('click');
+                }
+              }
+            }
+          }
+        })
       });
       // Check filter values on load.
       function checkFilterValuesOnLoad (itemName, licenseType, mediaType, published, site) {
         const defaultValue = "- Any -"
-        if ((itemName && itemName !== defaultValue) ||
+        if ((itemName && itemName !== 'undefined') ||
           (licenseType && licenseType !== defaultValue) || 
           (mediaType && mediaType !== defaultValue) || 
           (published && published !== defaultValue) || 
