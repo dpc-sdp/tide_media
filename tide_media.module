@@ -398,11 +398,9 @@ function tide_media_field_widget_paragraphs_form_alter(&$element, FormStateInter
 
 /**
  * Implements hook_ENTITY_TYPE_presave() for file entities.
- * Sanitises file names with spaces.
  */
 function tide_media_file_presave(FileInterface $file) {
-  $bundle = $file->getMimeType();
-  $bun = $bundle;
+  // Sanitises file names with spaces.
   $filename_current = $file->getFilename();
   // Rename filename.
   $replacement = '-';
