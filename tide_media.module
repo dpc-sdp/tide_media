@@ -109,9 +109,27 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
       }
     }
   }
-  // Add check box to show or hide last updated date for embeded media items.
+
   $entity_element = $form_state->get('entity_element');
   if ($form_id === 'entity_embed_dialog') {
+    // Add back button for medie embed modal in CKEditor.
+    if ($form_state->get('step') == 'select') {
+      $form['entity-embed-dialog-tide-media-browser-home'] = [
+        '#title' => t('<< Previous'),
+        '#type' => 'link',
+        '#url' => Url::fromRoute('<none>'),
+        '#weight' => 0,
+        '#attributes' => [
+          'onclick' => "return false",
+          'id' => ["entity-embed-dialog-tide-media-browser-home"],
+          'style' => "display:none",
+        ],
+      ];
+      $form['#attached']['library'][] = 'tide_media/embed_media_back_button';
+      $form['#attached']['library'][] = 'tide_media/embed_media_back_button_style';
+
+    }
+    // Add check box to show or hide last updated date for embeded media items.
     if ($form_state->get('step') == 'embed') {
       $form['attributes']['data-show-last-updated'] = [
         '#type' => 'checkbox',
@@ -284,6 +302,7 @@ function tide_media_preprocess_image(&$variables) {
 function tide_media_views_pre_render(ViewExecutable $view) {
   if ($view->id() === 'tide_media_browser' && (($view->current_display === 'media_browser') || ($view->current_display === 'document_browser'))) {
     $view->element['#attached']['library'][] = 'tide_media/media_browser';
+    $view->element['#attached']['library'][] = 'tide_media/embed_media_iframe_form';
     foreach ($view->result as $value) {
       if (!empty($value->_relationship_entities['field_media_file_target_id'])) {
         $file_type = $value->_relationship_entities['field_media_file_target_id'];
