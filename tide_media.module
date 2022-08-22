@@ -13,7 +13,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\file\Entity\File;
+use Drupal\file\FileInterface;
 use Drupal\Core\Field\WidgetBase;
 
 /**
@@ -109,9 +109,27 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
       }
     }
   }
-  // Add check box to show or hide last updated date for embeded media items.
+
   $entity_element = $form_state->get('entity_element');
   if ($form_id === 'entity_embed_dialog') {
+    // Add back button for medie embed modal in CKEditor.
+    if ($form_state->get('step') == 'select') {
+      $form['entity-embed-dialog-tide-media-browser-home'] = [
+        '#title' => t('<< Previous'),
+        '#type' => 'link',
+        '#url' => Url::fromRoute('<none>'),
+        '#weight' => 0,
+        '#attributes' => [
+          'onclick' => "return false",
+          'id' => ["entity-embed-dialog-tide-media-browser-home"],
+          'style' => "display:none",
+        ],
+      ];
+      $form['#attached']['library'][] = 'tide_media/embed_media_back_button';
+      $form['#attached']['library'][] = 'tide_media/embed_media_back_button_style';
+
+    }
+    // Add check box to show or hide last updated date for embeded media items.
     if ($form_state->get('step') == 'embed') {
       $form['attributes']['data-show-last-updated'] = [
         '#type' => 'checkbox',
@@ -127,16 +145,6 @@ function tide_media_form_alter(&$form, FormStateInterface $form_state, $form_id)
  */
 function tide_media_form_media_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['#attached']['library'][] = 'tide_media/media_form';
-  // Media files and documents only for sanitisation.
-  $allowed_form_ids = [
-    "media_file_add_form",
-    "media_file_edit_form",
-    "media_document_add_form",
-    "media_document_edit_form",
-  ];
-  if (in_array($form_id, $allowed_form_ids)) {
-    $form['actions']['submit']['#submit'][] = '_tide_media_file_document_submit';
-  }
 }
 
 /**
@@ -294,6 +302,7 @@ function tide_media_preprocess_image(&$variables) {
 function tide_media_views_pre_render(ViewExecutable $view) {
   if ($view->id() === 'tide_media_browser' && (($view->current_display === 'media_browser') || ($view->current_display === 'document_browser'))) {
     $view->element['#attached']['library'][] = 'tide_media/media_browser';
+    $view->element['#attached']['library'][] = 'tide_media/embed_media_iframe_form';
     foreach ($view->result as $value) {
       if (!empty($value->_relationship_entities['field_media_file_target_id'])) {
         $file_type = $value->_relationship_entities['field_media_file_target_id'];
@@ -384,34 +393,6 @@ function tide_media_entity_bundle_field_info_alter(&$fields, EntityTypeInterface
 }
 
 /**
- * Submit handler for sanitise filename.
- */
-function _tide_media_file_document_submit($form, FormStateInterface &$form_state) {
-  $fid = $form_state->getValue('field_media_file');
-  if (!empty($fid)) {
-    $file = File::load($fid[0]['fids'][0]);
-    $filename_current = $file->getFilename();
-    // Rename filename.
-    $replacement = '-';
-    $tide_common_services = \Drupal::service('tide_core.common_services');
-    $filename_new = $tide_common_services->sanitiseFilename($filename_current, $replacement);
-    // Rename URI.
-    $uri = $file->getFileUri();
-    $new_uri = str_replace($filename_current, $filename_new, $uri);
-    // Rename filepath.
-    $stream_wrapper = \Drupal::service('stream_wrapper_manager')->getViaUri($uri);
-    $dir_path_current = $stream_wrapper->realpath();
-    $dir_path_new = str_replace($filename_current, $filename_new, $dir_path_current);
-    rename($dir_path_current, $dir_path_new);
-    // Complete the file.
-    $file->setFileUri($new_uri);
-    $file->setFilename($filename_new);
-    $file->setPermanent();
-    $file->save();
-  }
-}
-
-/**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  */
 function tide_media_field_widget_paragraphs_form_alter(&$element, FormStateInterface $form_state, $context) {
@@ -432,4 +413,29 @@ function tide_media_field_widget_paragraphs_form_alter(&$element, FormStateInter
       ];
     }
   }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for file entities.
+ */
+function tide_media_file_presave(FileInterface $file) {
+  // Sanitises file names with spaces.
+  $filename_current = $file->getFilename();
+  // Rename filename.
+  $replacement = '-';
+  // Helper to sanitise spaces in filename.
+  $tide_common_services = \Drupal::service('tide_core.common_services');
+  $filename_new = $tide_common_services->sanitiseFilename($filename_current, $replacement);
+  // Rename URI.
+  $uri = $file->getFileUri();
+  $new_uri = str_replace($filename_current, $filename_new, $uri);
+  // Rename filepath.
+  $stream_wrapper = \Drupal::service('stream_wrapper_manager')->getViaUri($uri);
+  $dir_path_current = $stream_wrapper->realpath();
+  $dir_path_new = str_replace($filename_current, $filename_new, $dir_path_current);
+  rename($dir_path_current, $dir_path_new);
+  // Complete the file.
+  $file->setFileUri($new_uri);
+  $file->setFilename($filename_new);
+  $file->setPermanent();
 }
