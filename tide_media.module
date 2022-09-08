@@ -15,6 +15,7 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\file\FileInterface;
 use Drupal\Core\Field\WidgetBase;
+use Drupal\Core\File\FileSystemInterface;
 
 /**
  * Implements hook_views_pre_view().
@@ -426,16 +427,13 @@ function tide_media_file_presave(FileInterface $file) {
   // Helper to sanitise spaces in filename.
   $tide_common_services = \Drupal::service('tide_core.common_services');
   $filename_new = $tide_common_services->sanitiseFilename($filename_current, $replacement);
-  // Rename URI.
-  $uri = $file->getFileUri();
-  $new_uri = str_replace($filename_current, $filename_new, $uri);
-  // Rename filepath.
-  $stream_wrapper = \Drupal::service('stream_wrapper_manager')->getViaUri($uri);
-  $dir_path_current = $stream_wrapper->realpath();
-  $dir_path_new = str_replace($filename_current, $filename_new, $dir_path_current);
-  rename($dir_path_current, $dir_path_new);
-  // Complete the file.
-  $file->setFileUri($new_uri);
-  $file->setFilename($filename_new);
-  $file->setPermanent();
+  if ($filename_new !== $filename_current) {
+    $uri = $file->getFileUri();
+    $path = pathinfo($uri);
+    /** @var \Drupal\Core\File\FileSystemInterface $file_service */
+    $file_service = \Drupal::service('file_system');
+    $file_service->move($file->getFileUri(), $path['dirname'] . '/' . $filename_new, FileSystemInterface::EXISTS_REPLACE);
+    $file->setFileUri($path['dirname'] . '/' . $filename_new);
+    $file->setFilename($filename_new);
+  }
 }
