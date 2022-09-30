@@ -46,7 +46,7 @@ function tide_media_install() {
 function tide_media_update_8002() {
   if (!Vocabulary::load('license_type')) {
     module_load_include('inc', 'tide_core', 'includes/helpers');
-    $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+    $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
     // Import new vocabulary.
     _tide_import_single_config('taxonomy.vocabulary.license_type', $config_location);
   }
@@ -78,7 +78,7 @@ function tide_media_update_8002() {
  */
 function tide_media_update_8003() {
   module_load_include('inc', 'tide_core', 'includes/helpers');
-  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
   // Import new field configs.
   _tide_import_single_config('field.storage.media.field_license_type', $config_location);
 
@@ -160,7 +160,7 @@ function tide_media_update_8005() {
   $new_field_name = 'field_license_type';
 
   module_load_include('inc', 'tide_core', 'includes/helpers');
-  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
 
   $bundles = [
     'audio',
@@ -606,7 +606,7 @@ function tide_media_update_8037() {
 function tide_media_update_8038() {
   // Get the new configs.
   $view = 'views.view.tide_media_browser';
-  $config_path = drupal_get_path('module', 'tide_media') . '/config/install';
+  $config_path = \Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install';
   $source = new FileStorage($config_path);
   if ($view) {
     $module_dependencies = $source->read($view)['dependencies']['module'];
@@ -629,7 +629,7 @@ function tide_media_update_8038() {
  */
 function tide_media_update_8039() {
   module_load_include('inc', 'tide_core', 'includes/helpers');
-  $icon_dir = drupal_get_path('module', 'tide_media') . DIRECTORY_SEPARATOR . 'icons';
+  $icon_dir = \Drupal::service('extension.list.module')->getPath('tide_media') . DIRECTORY_SEPARATOR . 'icons';
 
   $paragraphs = [
     'timelines' => 'Display short blocks of content in a chronological order.',
@@ -664,7 +664,7 @@ function tide_media_update_8041() {
     'field.field.media.embedded_video.field_is_streamed' => 'field_config',
   ];
   module_load_include('inc', 'tide_core', 'includes/helpers');
-  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
   // Check if field already exported to config/sync.
   foreach ($configs as $config => $type) {
     $config_read = _tide_read_config($config, $config_location, TRUE);
@@ -735,7 +735,7 @@ function tide_media_update_8043() {
     'field.field.media.embedded_video.field_metatags_rtl' => 'field_config',
   ];
   module_load_include('inc', 'tide_core', 'includes/helpers');
-  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
   // Check if field already exported to config/sync.
   foreach ($configs as $config => $type) {
     $config_read = _tide_read_config($config, $config_location, TRUE);
@@ -781,7 +781,7 @@ function tide_media_update_8043() {
 function tide_media_update_8044() {
   $config = 'field.field.paragraph.timeline.field_current_milestone';
   module_load_include('inc', 'tide_core', 'includes/helpers');
-  $config_location = [drupal_get_path('module', 'tide_media') . '/config/install'];
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
   // Check if field already exported to config/sync.
   $config_read = _tide_read_config($config, $config_location, TRUE);
   $storage = \Drupal::entityTypeManager()->getStorage('field_config');
