@@ -22,7 +22,6 @@
     "extra": {
         "patches": {
             "drupal/entity_usage": {
-                "Getting the base fields is not supported for entity type Block. - https://www.drupal.org/project/entity_usage/issues/3101451": "https://www.drupal.org/files/issues/2019-12-24/3101451-3.patch",
                 "fatal error after saveing the page not have a reuse entity. - https://www.drupal.org/project/entity_usage/issues/3098733#comment-14208957": "https://www.drupal.org/files/issues/2021-09-03/3098733-fatal-error-13.patch"
             }
         }
