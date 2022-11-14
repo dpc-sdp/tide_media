@@ -5,7 +5,7 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "drupal/crop": "^2.1",
-        "dpc-sdp/tide_core": "^3.0.1",
+        "dpc-sdp/tide_core": "dev-develop",
         "drupal/embed": "^1.1",
         "drupal/focal_point": "^1.5",
         "drupal/inline_entity_form": "^1.0-rc1",
