@@ -1,29 +1,29 @@
 {
-    "name": "dpc-sdp/tide_media",
-    "description": "Media and related configuration for Tide Drupal 8 distribution",
-    "type": "drupal-module",
-    "license": "GPL-2.0-or-later",
-    "require": {
-        "drupal/crop": "^2.1",
-        "dpc-sdp/tide_core": "dev-reference",
-        "drupal/embed": "^1.1",
-        "drupal/focal_point": "^1.5",
-        "drupal/inline_entity_form": "^1.0-rc1",
-        "drupal/svg_image": "^1.10",
-        "drupal/video_embed_field": "^2.0",
-        "drupal/entity_usage": "^2.0@beta"
-    },
-    "repositories": {
-        "drupal": {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        }
-    },
-    "extra": {
-        "patches": {
-            "drupal/entity_usage": {
-                "fatal error after saveing the page not have a reuse entity. - https://www.drupal.org/project/entity_usage/issues/3098733#comment-14208957": "https://www.drupal.org/files/issues/2021-09-03/3098733-fatal-error-13.patch"
-            }
-        }
+  "description": "Media and related configuration for Tide Drupal 8 distribution",
+  "extra": {
+    "patches": {
+      "drupal/entity_usage": {
+        "fatal error after saveing the page not have a reuse entity. - https://www.drupal.org/project/entity_usage/issues/3098733#comment-14208957": "https://www.drupal.org/files/issues/2021-09-03/3098733-fatal-error-13.patch"
+      }
     }
+  },
+  "license": "GPL-2.0-or-later",
+  "name": "dpc-sdp/tide_media",
+  "repositories": {
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  },
+  "require": {
+    "dpc-sdp/tide_core": "dev-reference",
+    "drupal/crop": "^2.1",
+    "drupal/embed": "^1.1",
+    "drupal/entity_usage": "^2.0@beta",
+    "drupal/focal_point": "^1.5",
+    "drupal/inline_entity_form": "^1.0-rc1",
+    "drupal/svg_image": "^1.10",
+    "drupal/video_embed_field": "^2.0"
+  },
+  "type": "drupal-module"
 }
