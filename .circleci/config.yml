@@ -12,7 +12,7 @@ aliases:
         
   # Re-usable job to run different types of builds.
   - &job-build
-    working_directory: /app
+    working_directory: &working-directory /app
     docker:
       - image: &builder-image singledigital/bay-ci-builder:4.x
         environment:
@@ -35,7 +35,6 @@ aliases:
       - store_artifacts:
           path: /tmp/artifacts
 
-  # Job to perform merge to reference branch after a merge to develop.
   # Job to perform merge to reference branch after a merge to develop.
   - &merge-to-reference
     working_directory: *working-directory
