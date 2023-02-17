@@ -10,26 +10,19 @@
         "drupal/focal_point": "^1.5",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.10",
+        "drupal/video_embed_field": "^2.0",
         "drupal/entity_usage": "^2.0@beta"
     },
     "repositories": {
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        },
-        "drupal/video_embed_field": {
-          "type": "vcs",
-          "no-api": true,
-          "url": "https://git.drupalcode.org/issue/video_embed_field-3311063.git"
         }
     },
     "extra": {
         "patches": {
             "drupal/entity_usage": {
                 "fatal error after saveing the page not have a reuse entity. - https://www.drupal.org/project/entity_usage/issues/3098733#comment-14208957": "https://www.drupal.org/files/issues/2021-09-03/3098733-fatal-error-13.patch"
-            },
-            "drupal/video_embed_field": {
-              "CKEditor 5 compatibility": "https://git.drupalcode.org/project/video_embed_field/-/merge_requests/6/diffs.patch"
             }
         }
     }
