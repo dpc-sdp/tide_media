@@ -1,3 +1,4 @@
+uuid: 4f2ff36b-37dd-4d9b-9541-8ca7ba4c7d0c
 langcode: en
 status: true
 dependencies:
@@ -7,10 +8,10 @@ dependencies:
     - field.field.media.file.field_media_department
     - field.field.media.file.field_media_file
     - field.field.media.file.field_media_restricted
+    - field.field.media.file.field_media_site
     - field.field.media.file.field_media_topic
     - media.type.file
   module:
-    - content_moderation
     - field_group
     - file
     - path
@@ -21,16 +22,18 @@ third_party_settings:
         - field_media_audience
         - field_media_department
         - field_media_topic
-      parent_name: ''
-      weight: 5
-      format_type: fieldset
-      format_settings:
-        id: ''
-        classes: ''
-        description: ''
-        required_fields: true
       label: Metadata
       region: content
+      parent_name: ''
+      weight: 3
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        id: ''
+        description: ''
+        required_fields: true
+_core:
+  default_config_hash: KSEBTfng2zzcdcJUZAGE8ltf2PMSiE3kPyFnAa-Kuk4
 id: media.file.default
 targetEntityType: media
 bundle: file
@@ -38,62 +41,71 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 8
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
   field_license_type:
+    type: options_select
     weight: 2
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_media_audience:
+    type: entity_reference_autocomplete
     weight: 10
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_media_department:
+    type: entity_reference_autocomplete
     weight: 11
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_media_file:
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
     type: file_generic
     weight: 1
     region: content
-  field_media_restricted:
-    weight: 4
     settings:
-      display_label: true
+      progress_indicator: throbber
     third_party_settings: {  }
-    type: boolean_checkbox
+  field_media_site:
+    type: options_buttons
+    weight: 8
     region: content
+    settings: {  }
+    third_party_settings: {  }
+    field_name: field_media_site
   field_media_topic:
+    type: entity_reference_autocomplete
     weight: 12
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+  media:
+    type: tide_site_restriction_field_widget
+    weight: 29
     region: content
+    settings: {  }
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 3
-    settings: {  }
     region: content
+    settings: {  }
     third_party_settings: {  }
   name:
     type: string_textfield
@@ -103,26 +115,34 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  node:
+    type: tide_site_restriction_field_widget
+    weight: 28
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   path:
     type: path
-    weight: 9
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
+    weight: 4
+    region: content
     settings:
       display_label: true
-    weight: 6
-    region: content
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 7
+    weight: 5
+    region: content
     settings:
       match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
-    region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_media_restricted: true

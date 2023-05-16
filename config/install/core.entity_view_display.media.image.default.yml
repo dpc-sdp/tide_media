@@ -1,3 +1,4 @@
+uuid: 6ffcde54-6f5a-42fb-b31d-dfa9ea463566
 langcode: en
 status: true
 dependencies:
@@ -9,91 +10,93 @@ dependencies:
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
     - field.field.media.image.field_media_restricted
+    - field.field.media.image.field_media_site
     - field.field.media.image.field_media_topic
     - media.type.image
   module:
     - options
     - svg_image
+_core:
+  default_config_hash: DAUgPekmUDlv4BVCUtfSw9Rsgs1COn1i7YM6pMuVnnk
 id: media.image.default
 targetEntityType: media
 bundle: image
 mode: default
 content:
   field_license_type:
-    weight: 9
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 7
     region: content
   field_media_alignment:
-    weight: 8
+    type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: list_default
+    weight: 6
     region: content
   field_media_audience:
-    weight: 4
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 2
     region: content
   field_media_caption:
-    weight: 7
+    type: string
     label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    weight: 5
     region: content
   field_media_department:
-    weight: 5
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 3
     region: content
   field_media_image:
+    type: image
     label: visually_hidden
     settings:
-      image_style: ''
       image_link: file
+      image_style: ''
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
-    type: image
     weight: 1
     region: content
-  field_media_restricted:
-    weight: 3
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    type: boolean
-    region: content
   field_media_topic:
-    weight: 6
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 4
     region: content
   name:
-    label: hidden
     type: string
-    weight: 0
-    region: content
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   created: true
+  field_media_restricted: true
+  field_media_site: true
+  search_api_excerpt: true
   thumbnail: true
   uid: true
