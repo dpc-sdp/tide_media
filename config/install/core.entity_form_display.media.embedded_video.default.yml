@@ -10,7 +10,6 @@ dependencies:
     - field.field.media.embedded_video.field_media_length
     - field.field.media.embedded_video.field_media_link
     - field.field.media.embedded_video.field_media_restricted
-    - field.field.media.embedded_video.field_media_site
     - field.field.media.embedded_video.field_media_summary
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
