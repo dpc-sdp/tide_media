@@ -168,12 +168,6 @@ resourceFields:
     enhancer:
       id: ''
     disabled: false
-  field_media_restricted:
-    fieldName: field_media_restricted
-    publicName: field_media_restricted
-    enhancer:
-      id: ''
-    disabled: false
   field_media_site:
     fieldName: field_media_site
     publicName: field_media_site
