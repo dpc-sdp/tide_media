@@ -827,7 +827,6 @@ function tide_media_update_8044() {
  * Remove the "Restricted" tickbox in media items.
  */
 function tide_media_update_8045() {
-  /** @var $entityFieldManager Drupal\Core\Entity\EntityFieldManager */
   $entityFieldManager = Drupal::service('entity_field.manager');
 
   $fields = $entityFieldManager->getFieldDefinitions('media', 'audio');
