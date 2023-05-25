@@ -833,7 +833,7 @@ function tide_media_update_8045() {
     'document',
     'embedded_video',
     'file',
-    'image'
+    'image',
   ];
 
   foreach ($mediaBundles as $bundle) {
