@@ -828,10 +828,20 @@ function tide_media_update_8044() {
  */
 function tide_media_update_8045() {
   $entityFieldManager = Drupal::service('entity_field.manager');
+  $mediaBundles = [
+    'audio',
+    'document',
+    'embedded_video',
+    'file',
+    'image'
+  ];
 
-  $fields = $entityFieldManager->getFieldDefinitions('media', 'audio');
+  foreach ($mediaBundles as $bundle) {
+    $fields = $entityFieldManager->getFieldDefinitions('media', $bundle);
 
-  if (isset($fields['field_media_restricted'])) {
-    $fields['field_media_restricted']->delete();
+    if (isset($fields['field_media_restricted'])) {
+      $fields['field_media_restricted']->delete();
+    }
   }
+
 }
