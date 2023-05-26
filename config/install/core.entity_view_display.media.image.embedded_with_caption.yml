@@ -8,7 +8,6 @@ dependencies:
     - field.field.media.image.field_media_caption
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
-    - field.field.media.image.field_media_restricted
     - field.field.media.image.field_media_topic
     - media.type.image
   module:
@@ -41,7 +40,6 @@ hidden:
   field_media_alignment: true
   field_media_audience: true
   field_media_department: true
-  field_media_restricted: true
   field_media_topic: true
   name: true
   thumbnail: true
