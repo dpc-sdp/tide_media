@@ -74,7 +74,6 @@ config_devel:
     - field.field.media.audio.field_media_department
     - field.field.media.audio.field_media_file
     - field.field.media.audio.field_media_length
-    - field.field.media.audio.field_media_restricted
     - field.field.media.audio.field_media_show_transcript
     - field.field.media.audio.field_media_summary
     - field.field.media.audio.field_media_topic
@@ -83,13 +82,11 @@ config_devel:
     - field.field.media.document.field_media_audience
     - field.field.media.document.field_media_department
     - field.field.media.document.field_media_file
-    - field.field.media.document.field_media_restricted
     - field.field.media.document.field_media_topic
     - field.field.media.embedded_video.field_license_type
     - field.field.media.embedded_video.field_media_audience
     - field.field.media.embedded_video.field_media_department
     - field.field.media.embedded_video.field_media_file
-    - field.field.media.embedded_video.field_media_restricted
     - field.field.media.embedded_video.field_media_topic
     - field.field.media.embedded_video.field_media_transcript
     - field.field.media.embedded_video.field_media_video_embed_field
@@ -97,7 +94,6 @@ config_devel:
     - field.field.media.file.field_media_audience
     - field.field.media.file.field_media_department
     - field.field.media.file.field_media_file
-    - field.field.media.file.field_media_restricted
     - field.field.media.file.field_media_topic
     - field.field.media.image.field_license_type
     - field.field.media.image.field_media_alignment
@@ -105,7 +101,6 @@ config_devel:
     - field.field.media.image.field_media_caption
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
-    - field.field.media.image.field_media_restricted
     - field.field.media.image.field_media_topic
     - field.field.media.video.field_license_type
     - field.field.media.video.field_media_link
@@ -113,7 +108,6 @@ config_devel:
     - field.field.media.video.field_media_department
     - field.field.media.video.field_media_file
     - field.field.media.video.field_media_length
-    - field.field.media.video.field_media_restricted
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
     - field.field.media.video.field_media_transcript
@@ -138,7 +132,6 @@ config_devel:
     - field.storage.media.field_media_image
     - field.storage.media.field_media_length
     - field.storage.media.field_media_link
-    - field.storage.media.field_media_restricted
     - field.storage.media.field_media_show_transcript
     - field.storage.media.field_media_summary
     - field.storage.media.field_media_topic
