@@ -28,7 +28,7 @@
     "extra": {
         "patches": {
             "drupal/embed": {
-                "CKEditor 5 compatibility - https://www.drupal.org/project/embed/issues/3309747": "https://git.drupalcode.org/project/embed/-/merge_requests/2/diffs.patch"
+                "CKEditor 5 compatibility - https://www.drupal.org/project/embed/issues/3309747": "./patches/embed/issues_3309747.patch"
             },
             "drupal/core": {
                 "Use CKEditor 5's native <ol type> and <ul type> UX - https://www.drupal.org/project/drupal/issues/3274635": "https://www.drupal.org/files/issues/2023-02-03/ckeditor-native-type-attr-on-ol-ul-ux-3274635-13.patch"
