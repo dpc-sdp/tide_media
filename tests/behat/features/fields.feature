@@ -19,10 +19,6 @@ Feature: Fields for different Media types
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
     And I should see an "select#edit-field-license-type" element
 
-    And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
-    And I should not see an "label[for=edit-field-media-restricted-value].required" element
-    And I should see an "input#edit-field-media-restricted-value" element
-
     And I should see "Audience" in the "label[for=edit-field-media-audience-0-target-id]" element
     And I should not see an "label[for=edit-field-media-audience-0-target-id].required" element
     And I should see an "input#edit-field-media-audience-0-target-id" element
@@ -51,10 +47,6 @@ Feature: Fields for different Media types
 
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
     And I should see an "select#edit-field-license-type" element
-
-    And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
-    And I should not see an "label[for=edit-field-media-restricted-value].required" element
-    And I should see an "input#edit-field-media-restricted-value" element
 
     And I should see "Audience" in the "label[for=edit-field-media-audience-0-target-id]" element
     And I should not see an "label[for=edit-field-media-audience-0-target-id].required" element
@@ -90,10 +82,6 @@ Feature: Fields for different Media types
 
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
     And I should see an "select#edit-field-license-type" element
-
-    And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
-    And I should not see an "label[for=edit-field-media-restricted-value].required" element
-    And I should see an "input#edit-field-media-restricted-value" element
 
     And I should see "Audience" in the "label[for=edit-field-media-audience-0-target-id]" element
     And I should not see an "label[for=edit-field-media-audience-0-target-id].required" element
@@ -144,10 +132,6 @@ Feature: Fields for different Media types
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
     And I should see an "select#edit-field-license-type" element
 
-    And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
-    And I should not see an "label[for=edit-field-media-restricted-value].required" element
-    And I should see an "input#edit-field-media-restricted-value" element
-
     And I should see text matching "Metadata"
 
     And I should see "Audience" in the "label[for=edit-field-media-audience-0-target-id]" element
@@ -186,10 +170,6 @@ Feature: Fields for different Media types
 
     And I should see "License Type" in the "label[for=edit-field-license-type]" element
     And I should see an "select#edit-field-license-type" element
-
-    And I should see "Restricted" in the "label[for=edit-field-media-restricted-value]" element
-    And I should not see an "label[for=edit-field-media-restricted-value].required" element
-    And I should see an "input#edit-field-media-restricted-value" element
 
     And I should see text matching "Metadata"
 
