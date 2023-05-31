@@ -10,7 +10,7 @@
         "drupal/focal_point": "^1.5",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.10",
-        "drupal/video_embed_field": "dev-8.x-2.x as 2.5.0",
+        "drupal/video_embed_field": "dev-8.x-2.x#a55fb9e1d3fb8940954affaa00f76643d129fdd6 as 2.5.0",
         "drupal/entity_usage": "^2.0@beta"
     },
     "repositories": {
