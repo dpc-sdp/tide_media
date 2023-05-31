@@ -11,7 +11,7 @@
 
   Drupal.behaviors.tide_media_browser_iframe = {
     attach: function (context, settings) {
-      if (!window.CKEDITOR) {
+      if (!window.CKEditor5) {
         return;
       }
       let iframePath, itemName, licenseType, mediaType, status, site
