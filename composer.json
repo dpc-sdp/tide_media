@@ -10,13 +10,29 @@
         "drupal/focal_point": "^1.5",
         "drupal/inline_entity_form": "^1.0-rc1",
         "drupal/svg_image": "^1.10",
-        "drupal/video_embed_field": "^2.0",
+        "drupal/video_embed_field": "dev-8.x-2.x as 2.5.0",
         "drupal/entity_usage": "^2.0@beta"
     },
     "repositories": {
         "drupal": {
             "type": "composer",
-            "url": "https://packages.drupal.org/8"
+            "url": "https://packages.drupal.org/8",
+            "canonical": false
+        },
+        "drupal/video_embed_field": {
+            "type": "vcs",
+            "no-api": true,
+            "url": "https://git.drupalcode.org/issue/video_embed_field-3311063.git"
+        }
+    },
+    "extra": {
+        "patches": {
+            "drupal/embed": {
+                "CKEditor 5 compatibility - https://www.drupal.org/project/embed/issues/3309747": "./patches/embed/issues_3309747.patch"
+            },
+            "drupal/core": {
+                "Use CKEditor 5's native <ol type> and <ul type> UX - https://www.drupal.org/project/drupal/issues/3274635": "https://www.drupal.org/files/issues/2023-02-03/ckeditor-native-type-attr-on-ol-ul-ux-3274635-13.patch"
+            }
         }
     }
 }

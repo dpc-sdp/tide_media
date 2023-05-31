@@ -6,7 +6,6 @@ dependencies:
     - field.field.media.file.field_media_audience
     - field.field.media.file.field_media_department
     - field.field.media.file.field_media_file
-    - field.field.media.file.field_media_restricted
     - field.field.media.file.field_media_topic
     - media.type.file
   module:
@@ -72,13 +71,6 @@ content:
     third_party_settings: {  }
     type: file_generic
     weight: 1
-    region: content
-  field_media_restricted:
-    weight: 4
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
     region: content
   field_media_topic:
     weight: 12
