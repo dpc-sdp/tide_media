@@ -845,3 +845,47 @@ function tide_media_update_8045() {
   }
 
 }
+/**
+ * Updates to have department field required.
+ */
+function tide_media_update_8046()
+{
+  $update_configs = [
+    'field.field.media.audio.field_media_department' => 'field_config',
+    'core.entity_form_display.media.audio.default' => 'entity_form_display',
+  ];
+  $skipped_settings = [
+    'uuid',
+    'langcode',
+    'status',
+    '_core',
+    'id',
+    'field_name',
+    'entity_type',
+    'bundle',
+    'label',
+    'description',
+    'required',
+    'translatable',
+    'field_type',
+  ];
+  foreach ($update_configs as $update_config => $type) {
+    $config_read = _tide_read_config($update_config, $config_location, FALSE);
+    $config = \Drupal::configFactory()->getEditable($update_config);
+    if (!$config) {
+      continue;
+    }
+    $data = $config->getRawData();
+    foreach ($config_read as $key => $item) {
+      if (in_array($key, $skipped_settings)) {
+        continue;
+      }
+      NestedArray::setValue($data, [
+        $key,
+      ], NestedArray::getValue($config_read, [
+        $key,
+      ]));
+    }
+    $config->setData($data)->save();
+  }
+}

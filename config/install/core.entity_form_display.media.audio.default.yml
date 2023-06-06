@@ -17,6 +17,7 @@ dependencies:
     - field_group
     - file
     - path
+    - select2
     - text
 third_party_settings:
   field_group:
