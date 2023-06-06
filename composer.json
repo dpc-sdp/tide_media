@@ -7,6 +7,9 @@
       },
       "drupal/embed": {
         "CKEditor 5 compatibility - https://www.drupal.org/project/embed/issues/3309747": "./patches/embed/issues_3309747.patch"
+      },
+      "drupal/video_embed_field": {
+        "Add support for Ckeditor 5 - https://www.drupal.org/project/video_embed_field/issues/3311063": "./patches/video_embed_field/video_embed_field_6.patch"
       }
     }
   },
@@ -14,14 +17,8 @@
   "name": "dpc-sdp/tide_media",
   "repositories": {
     "drupal": {
-      "canonical": false,
       "type": "composer",
       "url": "https://packages.drupal.org/8"
-    },
-    "drupal/video_embed_field": {
-      "no-api": true,
-      "type": "vcs",
-      "url": "https://git.drupalcode.org/issue/video_embed_field-3311063.git"
     }
   },
   "require": {
@@ -32,7 +29,7 @@
     "drupal/focal_point": "^1.5",
     "drupal/inline_entity_form": "^1.0-rc1",
     "drupal/svg_image": "^1.10",
-    "drupal/video_embed_field": "dev-8.x-2.x as 2.5.0"
+    "drupal/video_embed_field": "dev-2.x"
   },
   "type": "drupal-module"
 }
