@@ -845,11 +845,11 @@ function tide_media_update_8045() {
   }
 
 }
+
 /**
  * Updates to have department field required.
  */
-function tide_media_update_8046()
-{
+function tide_media_update_8046() {
   $update_configs = [
     'field.field.media.audio.field_media_department' => 'field_config',
     'core.entity_form_display.media.audio.default' => 'entity_form_display',
