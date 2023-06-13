@@ -24,7 +24,7 @@ Feature: Fields for different Media types
     And I should see an "input#edit-field-media-audience-0-target-id" element
 
     And I should see "Department" in the "label[for=edit-field-media-department-0-target-id]" element
-    And I should not see an "label[for=edit-field-media-department-0-target-id].required" element
+    And I should see an "label[for=edit-field-media-department-0-target-id].required" element
     And I should see an "input#edit-field-media-department-0-target-id" element
 
     And I should see "Topic" in the "label[for=edit-field-media-topic-0-target-id]" element
@@ -53,7 +53,7 @@ Feature: Fields for different Media types
     And I should see an "input#edit-field-media-audience-0-target-id" element
 
     And I should see "Department" in the "label[for=edit-field-media-department-0-target-id]" element
-    And I should not see an "label[for=edit-field-media-department-0-target-id].required" element
+    And I should see an "label[for=edit-field-media-department-0-target-id].required" element
     And I should see an "input#edit-field-media-department-0-target-id" element
 
     And I should see "Topic" in the "label[for=edit-field-media-topic-0-target-id]" element
@@ -88,7 +88,7 @@ Feature: Fields for different Media types
     And I should see an "input#edit-field-media-audience-0-target-id" element
 
     And I should see "Department" in the "label[for=edit-field-media-department-0-target-id]" element
-    And I should not see an "label[for=edit-field-media-department-0-target-id].required" element
+    And I should see an "label[for=edit-field-media-department-0-target-id].required" element
     And I should see an "input#edit-field-media-department-0-target-id" element
 
     And I should see "Topic" in the "label[for=edit-field-media-topic-0-target-id]" element
@@ -139,7 +139,7 @@ Feature: Fields for different Media types
     And I should see an "input#edit-field-media-audience-0-target-id" element
 
     And I should see "Department" in the "label[for=edit-field-media-department-0-target-id]" element
-    And I should not see an "label[for=edit-field-media-department-0-target-id].required" element
+    And I should see an "label[for=edit-field-media-department-0-target-id].required" element
     And I should see an "input#edit-field-media-department-0-target-id" element
 
     And I should see "Topic" in the "label[for=edit-field-media-topic-0-target-id]" element
@@ -178,7 +178,7 @@ Feature: Fields for different Media types
     And I should see an "input#edit-field-media-audience-0-target-id" element
 
     And I should see "Department" in the "label[for=edit-field-media-department-0-target-id]" element
-    And I should not see an "label[for=edit-field-media-department-0-target-id].required" element
+    And I should see an "label[for=edit-field-media-department-0-target-id].required" element
     And I should see an "input#edit-field-media-department-0-target-id" element
 
     And I should see "Topic" in the "label[for=edit-field-media-topic-0-target-id]" element
