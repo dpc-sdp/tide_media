@@ -850,6 +850,7 @@ function tide_media_update_8045() {
  * Updates to have department field required.
  */
 function tide_media_update_8046() {
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
   $update_configs = [
     'field.field.media.audio.field_media_department' => 'field_config',
     'core.entity_form_display.media.audio.default' => 'entity_form_display',
