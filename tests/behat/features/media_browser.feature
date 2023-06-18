@@ -10,7 +10,7 @@ Feature: Media browser
     And I save screenshot
 
     Then I see field "Title"
-    And I should see a "#cke_edit-body-0-value .cke_top .cke_button__tide_media" element
+    And I should see a "#edit-body-0-value .ck-sticky-panel" element
     And I click "Media"
     And I wait for AJAX to finish
     Then I should see the text "Select media item to embed"
