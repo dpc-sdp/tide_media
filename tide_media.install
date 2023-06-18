@@ -850,43 +850,24 @@ function tide_media_update_8045() {
  * Updates to have department field required.
  */
 function tide_media_update_8046() {
-  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
-  $update_configs = [
-    'field.field.media.audio.field_media_department' => 'field_config',
-    'core.entity_form_display.media.audio.default' => 'entity_form_display',
+  $entity_type = 'media';
+  $media_bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
+  $bundles = [
+    'audio',
+    'document',
+    'embedded_video',
+    'file',
+    'image',
   ];
-  $skipped_settings = [
-    'uuid',
-    'langcode',
-    'status',
-    '_core',
-    'id',
-    'field_name',
-    'entity_type',
-    'bundle',
-    'label',
-    'description',
-    'required',
-    'translatable',
-    'field_type',
-  ];
-  foreach ($update_configs as $update_config => $type) {
-    $config_read = _tide_read_config($update_config, $config_location, FALSE);
-    $config = \Drupal::configFactory()->getEditable($update_config);
-    if (!$config) {
-      continue;
-    }
-    $data = $config->getRawData();
-    foreach ($config_read as $key => $item) {
-      if (in_array($key, $skipped_settings)) {
-        continue;
+  if (!empty($media_bundles) && is_array($media_bundles)) {
+    foreach ($media_bundles as $name => $bundle) {
+      if (in_array($name, $bundles)) {
+        $field = FieldConfig::loadByName($entity_type, $name, 'field_media_department');
+        if (!empty($field)) {
+          $field->setRequired(TRUE);
+          $field->save();
+        }
       }
-      NestedArray::setValue($data, [
-        $key,
-      ], NestedArray::getValue($config_read, [
-        $key,
-      ]));
     }
-    $config->setData($data)->save();
   }
 }
