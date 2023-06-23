@@ -5,17 +5,17 @@
  * Tide Media install.
  */
 
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\FileStorage;
 use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\Media;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\Core\Config\FileStorage;
-use Drupal\image\Entity\ImageStyle;
-use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\tide_media\TideOperation;
-use Drupal\Component\Utility\NestedArray;
 
 /**
  * Implements hook_update_dependencies().
