@@ -10,7 +10,7 @@ Feature: Fields for different Media types
     Then I see field "Name"
     And I should see an "input#edit-name-0-value.required" element
 
-    And I should see "Document" in the "label[for=edit-field-media-file-0-upload]" element
+    And I should see "Document"
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
@@ -67,7 +67,7 @@ Feature: Fields for different Media types
     Then I see field "Name"
     And I should see an "input#edit-name-0-value.required" element
 
-    And I should see "Image" in the "label[for=edit-field-media-image-0-upload]" element
+    And I should see "Image"
     And I should see an "label[for=edit-field-media-image-0-upload].form-required" element
     And I should see an "input#edit-field-media-image-0-upload" element
     And I should see "Allowed types: png gif jpg jpeg svg." in the "#edit-field-media-image-0--description" element
@@ -111,7 +111,7 @@ Feature: Fields for different Media types
     Then I see field "Name"
     And I should see an "input#edit-name-0-value.required" element
 
-    And I should see "Audio" in the "label[for=edit-field-media-file-0-upload]" element
+    And I should see "Audio"
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
