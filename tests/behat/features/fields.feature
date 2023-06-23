@@ -10,7 +10,7 @@ Feature: Fields for different Media types
     Then I see field "Name"
     And I should see an "input#edit-name-0-value.required" element
 
-    And I should see "Document"
+    And I should see "Add a new file" in the "label[for=edit-field-media-file-0-upload]" element
     And I should see an "label[for=edit-field-media-file-0-upload].form-required" element
     And I should see an "input#edit-field-media-file-0-upload" element
 
