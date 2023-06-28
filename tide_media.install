@@ -5,17 +5,17 @@
  * Tide Media install.
  */
 
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\FileStorage;
 use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\Media;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\Core\Config\FileStorage;
-use Drupal\image\Entity\ImageStyle;
-use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\tide_media\TideOperation;
-use Drupal\Component\Utility\NestedArray;
 
 /**
  * Implements hook_update_dependencies().
@@ -844,4 +844,30 @@ function tide_media_update_8045() {
     }
   }
 
+}
+
+/**
+ * Updates to have department field required.
+ */
+function tide_media_update_8046() {
+  $entity_type = 'media';
+  $media_bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
+  $bundles = [
+    'audio',
+    'document',
+    'embedded_video',
+    'file',
+    'image',
+  ];
+  if (!empty($media_bundles) && is_array($media_bundles)) {
+    foreach ($media_bundles as $name => $bundle) {
+      if (in_array($name, $bundles)) {
+        $field = FieldConfig::loadByName($entity_type, $name, 'field_media_department');
+        if (!empty($field)) {
+          $field->setRequired(TRUE);
+          $field->save();
+        }
+      }
+    }
+  }
 }
