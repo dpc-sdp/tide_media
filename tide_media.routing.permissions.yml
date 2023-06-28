@@ -1,0 +1,45 @@
+'access tide_embedded_video_browser entity browser pages':
+  title: 'Access tide_embedded_video_browser entity browser pages'
+  description: 'Allows user to access tide_embedded_video_browser entity browser pages'
+# 'access image_browser entity browser pages':
+#   title: 'Access image browser entity browser pages':
+#   description: 'Allow user to access image browser entity browser pages':
+# 'access image_gallery_browser entity browser pages':
+#   title: 'Access image gallery browser entity browser pages':
+#   description: 'Allow user to access image gallery browser entity browser pages':
+'access tide_document_browser entity browser pages':
+  title: 'Access tide_document_browser entity browser pages':
+  description: 'Allow user to access tide_document_browser entity browser pages':
+'access tide_image_browser entity browser pages':
+  title: 'Access tide_image_browser entity browser pages':
+  description: 'Allow user to access tide_image_browser entity browser pages':
+'access tide_media_browser entity browser pages':
+  title: 'Access tide_media_browser entity browser pages':
+  description: 'Allow user to access tide_media_browser entity browser pages':
+'access tide_media_browser_iframe entity browser pages':
+  title: 'Access tide_media_browser_iframe entity browser pages':
+  description: 'Allow user to access tide_media_browser_iframe entity browser pages':
+# 'create image_gallery content':
+#   title: 'Create image gallery content':
+#   description: 'Allow user to create image gallery content':
+# 'delete any image_gallery content':
+#   title: 'Delete any image gallery content':
+#   description: 'Allow user to delete any image gallery content':
+# 'delete image_gallery revisions':
+#   title: 'Delete image gallery revisions':
+#   description: 'Allow user to delete image gallery revisions':
+# 'delete own image_gallery content':
+#   title: 'Delete own image gallery content':
+#   description: 'Allow user to delete own image gallery content':
+# 'edit any image_gallery content':
+#   title: 'Edit any image gallery content':
+#   description: 'Allow user to edit any image gallery content':
+# 'edit own image_gallery content':
+#   title: 'Edit own image gallery content':
+#   description: 'Allow user to edit own image gallery content':
+# 'revert image_gallery revisions':
+#   title: 'Revert image gallery revisions':
+#   description: 'Allow user to revert image gallery revisions':
+# 'view image_gallery revisions':
+#   title: 'View image gallery revisions':
+#   description: 'Allow user to view image gallery revisions':
