@@ -18,24 +18,10 @@ function tide_media_install() {
   $site_admin_contributor = ['site_admin', 'approver', 'editor', 'contributor'];
 
   $permissions = [
-    // 'access image_browser entity browser pages' => $site_admin_contributor, 
-    // 'access image_gallery_browser entity browser pages' => $site_admin_editor,
     'access tide_document_browser entity browser pages' => $site_admin_contributor,
-    'access tide_image_browser entity browser pages' => $site_admin_contributor ,
-    'access tide_media_browser entity browser pages' => $site_admin_contributor ,
-    'access tide_media_browser_iframe entity browser pages' => $site_admin_contributor ,
-  
-    // 'create image_gallery content' => $site_admin_editor ,
-  
-    // 'delete image_gallery revisions' => $site_admin_editor ,
-    // 'delete any image_gallery content' => $site_admin_editor ,
-    // 'delete own image_gallery content' => $site_admin_editor ,
-  
-    // 'edit any image_gallery content' => $site_admin_editor ,
-    // 'edit own image_gallery content' => $site_admin_editor ,
-  
-    // 'revert image_gallery revisions' => $site_admin_editor ,
-    // 'view image_gallery revisions' => $site_admin_editor ,
+    'access tide_image_browser entity browser pages' => $site_admin_contributor,
+    'access tide_media_browser entity browser pages' => $site_admin_contributor,
+    'access tide_media_browser_iframe entity browser pages' => $site_admin_contributor,
   ];
 
   /** @var \Drupal\user\RoleInterface[] $roles */
