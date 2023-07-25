@@ -85,4 +85,35 @@ class TideOperation {
     }
   }
 
+  /**
+   * Assign necessary permissions .
+   */
+  public static function assignNecessaryPermissions() {
+    $site_admin_contributor = [
+      'site_admin',
+      'approver',
+      'editor',
+      'contributor',
+    ];
+
+    $permissions = [
+      'access tide_document_browser entity browser pages' => $site_admin_contributor,
+      'access tide_image_browser entity browser pages' => $site_admin_contributor,
+      'access tide_media_browser entity browser pages' => $site_admin_contributor,
+      'access tide_media_browser_iframe entity browser pages' => $site_admin_contributor,
+    ];
+
+    /** @var \Drupal\user\RoleInterface[] $roles */
+    $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
+
+    foreach ($roles as $rid => $role) {
+      foreach ($permissions as $permission => $permission_rids) {
+        if (in_array($rid, $permission_rids)) {
+          $role->grantPermission($permission);
+        }
+      }
+      $role->save();
+    }
+  }
+
 }

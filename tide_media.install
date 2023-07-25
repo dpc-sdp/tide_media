@@ -13,52 +13,6 @@ use Drupal\tide_media\TideOperation;
 function tide_media_install() {
   TideOperation::enableStandaloneMedia();
   TideOperation::entityUsageDefaultSettings();
+  TideOperation::assignNecessaryPermissions();
 
-  $site_admin_editor = ['site_admin', 'approver', 'editor'];
-  $site_admin_contributor = ['site_admin', 'approver', 'editor', 'contributor'];
-
-  $permissions = [
-    'access tide_document_browser entity browser pages' => $site_admin_contributor,
-    'access tide_image_browser entity browser pages' => $site_admin_contributor,
-    'access tide_media_browser entity browser pages' => $site_admin_contributor,
-    'access tide_media_browser_iframe entity browser pages' => $site_admin_contributor,
-  ];
-
-  /** @var \Drupal\user\RoleInterface[] $roles */
-  $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
-
-  foreach ($roles as $rid => $role) {
-    foreach ($permissions as $permission => $permission_rids) {
-      if (in_array($rid, $permission_rids)) {
-        $role->grantPermission($permission);
-      }
-    }
-    $role->save();
-  }
-}
-
-/**
- * Updates to have department field required.
- */
-function tide_media_update_8046() {
-  $entity_type = 'media';
-  $media_bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
-  $bundles = [
-    'audio',
-    'document',
-    'embedded_video',
-    'file',
-    'image',
-  ];
-  if (!empty($media_bundles) && is_array($media_bundles)) {
-    foreach ($media_bundles as $name => $bundle) {
-      if (in_array($name, $bundles)) {
-        $field = FieldConfig::loadByName($entity_type, $name, 'field_media_department');
-        if (!empty($field)) {
-          $field->setRequired(TRUE);
-          $field->save();
-        }
-      }
-    }
-  }
 }
