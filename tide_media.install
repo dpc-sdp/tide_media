@@ -16,3 +16,29 @@ function tide_media_install() {
   TideOperation::assignNecessaryPermissions();
 
 }
+
+/**
+ * Updates to have department field required.
+ */
+function tide_media_update_10001() {
+  $entity_type = 'media';
+  $media_bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
+  $bundles = [
+    'audio',
+    'document',
+    'embedded_video',
+    'file',
+    'image',
+  ];
+  if (!empty($media_bundles) && is_array($media_bundles)) {
+    foreach ($media_bundles as $name => $bundle) {
+      if (in_array($name, $bundles)) {
+        $field = FieldConfig::loadByName($entity_type, $name, 'field_media_department');
+        if (!empty($field)) {
+          $field->setRequired(TRUE);
+          $field->save();
+        }
+      }
+    }
+  }
+}
