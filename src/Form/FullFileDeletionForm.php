@@ -183,7 +183,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
             '#type' => 'link',
             '#title' => $result->getFilename(),
             '#attributes' => ['target' => '_blank'],
-            '#url' => Url::fromUri(file_create_url($result->getFileUri())),
+            '#url' => Url::fromUri(\Drupal::service('file_url_generator')->generateAbsoluteString($result->getFileUri())),
           ];
           $parent['info'][$result->id()]['created'] = [
             '#markup' => $this->dateFormatter->format($result->created->value, 'custom', 'd/M/Y - H:i'),

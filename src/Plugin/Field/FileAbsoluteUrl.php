@@ -28,7 +28,7 @@ class FileAbsoluteUrl extends FieldItemList {
   protected function computeValue() {
     $url_list = [];
     foreach ($this->getEntity()->get('uri') as $delta => $uri_item) {
-      $url = file_create_url($uri_item->value);
+      $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri_item->value);
       $config = \Drupal::config('tide_media.settings');
       if ($config->get('force_https')) {
         $url = str_replace('http://', 'https://', $url);
