@@ -394,9 +394,9 @@ function tide_media_entity_bundle_field_info_alter(&$fields, EntityTypeInterface
 }
 
 /**
- * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
  */
-function tide_media_field_widget_paragraphs_form_alter(&$element, FormStateInterface $form_state, $context) {
+function tide_media_field_widget_single_element_paragraphs_form_alter(&$element, FormStateInterface $form_state, $context) {
   /** @var \Drupal\Core\Field\FieldItemListInterface $items */
   $items = $context['items'];
   $field_definition = $items->getFieldDefinition();
