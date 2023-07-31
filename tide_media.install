@@ -5,6 +5,7 @@
  * Tide Media install.
  */
 
+use Drupal\field\Entity\FieldConfig;
 use Drupal\tide_media\TideOperation;
 
 /**
