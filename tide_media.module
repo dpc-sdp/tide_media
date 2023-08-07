@@ -327,19 +327,19 @@ function tide_media_views_pre_render(ViewExecutable $view) {
           if ($file_mime == 'text/plain') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'plaintext');
           }
-          if ($file_mime == 'application/vnd.ms-excel.sheet.macroEnabled.12'){
+          if ($file_mime == 'application/vnd.ms-excel.sheet.macroEnabled.12') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'xlsm');
           }
-          if ($file_mime == 'text/csv'){
+          if ($file_mime == 'text/csv') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'csv');
           }
-          if ($file_mime == 'application/vnd.ms-powerpoint'){
+          if ($file_mime == 'application/vnd.ms-powerpoint') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'ppt');
           }
-          if ($file_mime == 'image/tiff'){
+          if ($file_mime == 'image/tiff') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'tiff');
           }
-          if ($file_mime == 'application/zip'){
+          if ($file_mime == 'application/zip') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'zip');
           }
         }
