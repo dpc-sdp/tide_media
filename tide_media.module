@@ -309,7 +309,7 @@ function tide_media_views_pre_render(ViewExecutable $view) {
         $file_type = $value->_relationship_entities['field_media_file_target_id'];
         $file_mime = $file_type->get('filemime')->value;
         if ($file_mime) {
-          if (strpos($file_mime, 'msword') || strpos($file_mime, 'wordprocessingml.document')) {
+          if (strpos($file_mime, 'msword') || $file_mime == 'application/rtf') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'msword');
           }
           if (strpos($file_mime, 'wordprocessingml.document')) {
@@ -341,6 +341,15 @@ function tide_media_views_pre_render(ViewExecutable $view) {
           }
           if ($file_mime == 'application/zip') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'zip');
+          }
+          if ($file_mime == 'application/postscript') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'eps');
+          }
+          if ($file_mime == 'application/vnd.ms-excel') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'xls');
+          }
+          if ($file_mime == 'application/vnd.openxmlformats-officedocument.wordprocessingml.template') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'dotx');
           }
         }
       }
