@@ -878,14 +878,10 @@ function tide_media_update_8046() {
 function tide_media_update_8047() {
   \Drupal::moduleHandler()->loadInclude('tide_core', 'inc', 'includes/helpers');
   $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
-  $storage = \Drupal::entityTypeManager()->getStorage('view');
-  $config_entity = $storage->load('tide_media_browser');
-  if ($config_entity !== NULL) {
-    $storage->delete([$config_entity]);
-  }
   $config_read = _tide_read_config('views.view.tide_media_browser', $config_location, FALSE);
-  $new_config_entity = $storage->createFromStorageRecord($config_read);
-  $new_config_entity->save();
+  $view_tide_media_browser = \Drupal::configFactory()->getEditable('views.view.tide_media_browser');
+  $view_tide_media_browser->set('display.media_browser.display_options.fields.thumbnail__target_id.alter', $config_read['display']['media_browser']['display_options']['fields']['thumbnail__target_id']['alter'])->save();
+  $view_tide_media_browser->set('display.document_browser.display_options.fields.thumbnail__target_id.alter', $config_read['display']['document_browser']['display_options']['fields']['thumbnail__target_id']['alter'])->save();
 }
 
 /**
