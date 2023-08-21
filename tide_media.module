@@ -5,17 +5,17 @@
  * Tide Media module functionality.
  */
 
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\views\ViewExecutable;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\file\FileInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Drupal\file\FileInterface;
+use Drupal\views\ViewExecutable;
 
 /**
  * Implements hook_views_pre_view().
@@ -301,7 +301,7 @@ function tide_media_preprocess_image(&$variables) {
  * Implements hook_views_pre_render().
  */
 function tide_media_views_pre_render(ViewExecutable $view) {
-  if ($view->id() === 'tide_media_browser' && (($view->current_display === 'media_browser') || ($view->current_display === 'document_browser'))) {
+  if (($view->id() === 'tide_media_browser' || $view->id() === 'media') && ($view->current_display === 'media_browser' || $view->current_display === 'document_browser' || $view->current_display === 'media_page_list')) {
     $view->element['#attached']['library'][] = 'tide_media/media_browser';
     $view->element['#attached']['library'][] = 'tide_media/embed_media_iframe_form';
     foreach ($view->result as $value) {
@@ -309,8 +309,11 @@ function tide_media_views_pre_render(ViewExecutable $view) {
         $file_type = $value->_relationship_entities['field_media_file_target_id'];
         $file_mime = $file_type->get('filemime')->value;
         if ($file_mime) {
-          if (strpos($file_mime, 'msword') || strpos($file_mime, 'wordprocessingml.document')) {
+          if (strpos($file_mime, 'msword') || $file_mime == 'application/rtf') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'msword');
+          }
+          if (strpos($file_mime, 'wordprocessingml.document')) {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'mswordx');
           }
           if (strpos($file_mime, 'pdf')) {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'pdf');
@@ -321,8 +324,32 @@ function tide_media_views_pre_render(ViewExecutable $view) {
           if (strpos($file_mime, 'presentation')) {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'presentation');
           }
-          if (strpos($file_mime, 'text/plain')) {
+          if ($file_mime == 'text/plain') {
             $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'plaintext');
+          }
+          if ($file_mime == 'application/vnd.ms-excel.sheet.macroEnabled.12') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'xlsm');
+          }
+          if ($file_mime == 'text/csv') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'csv');
+          }
+          if ($file_mime == 'application/vnd.ms-powerpoint') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'ppt');
+          }
+          if ($file_mime == 'image/tiff') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'tiff');
+          }
+          if ($file_mime == 'application/zip') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'zip');
+          }
+          if ($file_mime == 'application/postscript') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'eps');
+          }
+          if ($file_mime == 'application/vnd.ms-excel') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'xls');
+          }
+          if ($file_mime == 'application/vnd.openxmlformats-officedocument.wordprocessingml.template') {
+            $value->_relationship_entities['field_media_file_target_id']->set('filemime', 'dotx');
           }
         }
       }
@@ -394,9 +421,9 @@ function tide_media_entity_bundle_field_info_alter(&$fields, EntityTypeInterface
 }
 
 /**
- * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter().
  */
-function tide_media_field_widget_paragraphs_form_alter(&$element, FormStateInterface $form_state, $context) {
+function tide_media_field_widget_single_element_paragraphs_form_alter(&$element, FormStateInterface $form_state, $context) {
   /** @var \Drupal\Core\Field\FieldItemListInterface $items */
   $items = $context['items'];
   $field_definition = $items->getFieldDefinition();

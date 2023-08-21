@@ -5,17 +5,17 @@
  * Tide Media install.
  */
 
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\FileStorage;
 use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\Media;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\Core\Config\FileStorage;
-use Drupal\image\Entity\ImageStyle;
-use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\tide_media\TideOperation;
-use Drupal\Component\Utility\NestedArray;
 
 /**
  * Implements hook_update_dependencies().
@@ -844,4 +844,58 @@ function tide_media_update_8045() {
     }
   }
 
+}
+
+/**
+ * Updates to have department field required.
+ */
+function tide_media_update_8046() {
+  $entity_type = 'media';
+  $media_bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
+  $bundles = [
+    'audio',
+    'document',
+    'embedded_video',
+    'file',
+    'image',
+  ];
+  if (!empty($media_bundles) && is_array($media_bundles)) {
+    foreach ($media_bundles as $name => $bundle) {
+      if (in_array($name, $bundles)) {
+        $field = FieldConfig::loadByName($entity_type, $name, 'field_media_department');
+        if (!empty($field)) {
+          $field->setRequired(TRUE);
+          $field->save();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Update views.view.tide_media_browser.
+ */
+function tide_media_update_8047() {
+  \Drupal::moduleHandler()->loadInclude('tide_core', 'inc', 'includes/helpers');
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
+  $config_read = _tide_read_config('views.view.tide_media_browser', $config_location, FALSE);
+  $view_tide_media_browser = \Drupal::configFactory()->getEditable('views.view.tide_media_browser');
+  $view_tide_media_browser->set('display.media_browser.display_options.fields.thumbnail__target_id.alter', $config_read['display']['media_browser']['display_options']['fields']['thumbnail__target_id']['alter'])->save();
+  $view_tide_media_browser->set('display.document_browser.display_options.fields.thumbnail__target_id.alter', $config_read['display']['document_browser']['display_options']['fields']['thumbnail__target_id']['alter'])->save();
+}
+
+/**
+ * Update views.view.media.
+ */
+function tide_media_update_8048() {
+  \Drupal::moduleHandler()->loadInclude('tide_core', 'inc', 'includes/helpers');
+  $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/optional'];
+  $storage = \Drupal::entityTypeManager()->getStorage('view');
+  $config_entity = $storage->load('media');
+  if ($config_entity !== NULL) {
+    $storage->delete([$config_entity]);
+  }
+  $config_read = _tide_read_config('views.view.media', $config_location, FALSE);
+  $new_config_entity = $storage->createFromStorageRecord($config_read);
+  $new_config_entity->save();
 }

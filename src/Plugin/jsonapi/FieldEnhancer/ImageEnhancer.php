@@ -2,10 +2,10 @@
 
 namespace Drupal\tide_media\Plugin\jsonapi\FieldEnhancer;
 
-use Drupal\jsonapi_extras\Plugin\ResourceFieldEnhancerBase;
-use Shaper\Util\Context;
 use Drupal\crop\Entity\Crop;
 use Drupal\file\FileInterface;
+use Drupal\jsonapi_extras\Plugin\ResourceFieldEnhancerBase;
+use Shaper\Util\Context;
 
 /**
  * Adds image focal point values.
