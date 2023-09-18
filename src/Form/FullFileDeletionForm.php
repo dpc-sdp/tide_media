@@ -110,6 +110,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     $revision_ids = $this->mediaStorage->getQuery()
       ->allRevisions()
       ->condition('mid', $this->entity->id())
+      ->accessCheck(TRUE)
       ->execute();
     if ($revision_ids && count($revision_ids) > 1) {
       foreach ($revision_ids as $revision_id => $mid) {
