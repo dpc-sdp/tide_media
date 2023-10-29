@@ -38,6 +38,7 @@ function tide_media_update_dependencies() {
 function tide_media_install() {
   TideOperation::enableStandaloneMedia();
   TideOperation::entityUsageDefaultSettings();
+  _tide_media_create_license_type_terms();
 }
 
 /**
@@ -898,4 +899,36 @@ function tide_media_update_8048() {
   $config_read = _tide_read_config('views.view.media', $config_location, FALSE);
   $new_config_entity = $storage->createFromStorageRecord($config_read);
   $new_config_entity->save();
+}
+
+/**
+ * Creates terms for license_type vocabulary.
+ */
+function _tide_media_create_license_type_terms() {
+  $terms = [
+    'Copyright',
+    'Creative Commons Attribution 4.0',
+  ];
+  foreach ($terms as $term) {
+    $result = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties([
+        'name' => $term,
+        'vid'  => 'license_type',
+      ]);
+    if (empty($result)) {
+      Term::create([
+        'name' => $term,
+        'vid' => 'license_type',
+        'parent' => [],
+      ])->save();
+    }
+  }
+}
+
+/**
+ * Creates terms for license_type vocabulary for installed site.
+ */
+function tide_media_update_8049() {
+  _tide_media_create_license_type_terms();
 }
