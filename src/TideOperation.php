@@ -2,6 +2,7 @@
 
 namespace Drupal\tide_media;
 
+use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\Role;
 
 /**
@@ -113,6 +114,31 @@ class TideOperation {
         }
       }
       $role->save();
+    }
+  }
+
+  /**
+   * Creates terms for license_type vocabulary.
+   */
+  public static function createLicenseTypeTerms() {
+    $terms = [
+      'Copyright',
+      'Creative Commons Attribution 4.0',
+    ];
+    foreach ($terms as $term) {
+      $result = \Drupal::entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->loadByProperties([
+          'name' => $term,
+          'vid'  => 'license_type',
+        ]);
+      if (empty($result)) {
+        Term::create([
+          'name' => $term,
+          'vid' => 'license_type',
+          'parent' => [],
+        ])->save();
+      }
     }
   }
 

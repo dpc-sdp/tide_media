@@ -15,6 +15,7 @@ function tide_media_install() {
   TideOperation::enableStandaloneMedia();
   TideOperation::entityUsageDefaultSettings();
   TideOperation::assignNecessaryPermissions();
+  TideOperation::createLicenseTypeTerms();
 
 }
 
@@ -42,4 +43,11 @@ function tide_media_update_10001() {
       }
     }
   }
+}
+
+/**
+ * Creates terms for license_type vocabulary for installed site.
+ */
+function tide_media_update_10002() {
+  TideOperation::createLicenseTypeTerms();
 }
