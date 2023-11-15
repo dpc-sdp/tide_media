@@ -110,6 +110,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
     $revision_ids = $this->mediaStorage->getQuery()
       ->allRevisions()
       ->condition('mid', $this->entity->id())
+      ->accessCheck(TRUE)
       ->execute();
     if ($revision_ids && count($revision_ids) > 1) {
       foreach ($revision_ids as $revision_id => $mid) {
@@ -183,7 +184,7 @@ abstract class FullFileDeletionForm extends ContentEntityConfirmFormBase {
             '#type' => 'link',
             '#title' => $result->getFilename(),
             '#attributes' => ['target' => '_blank'],
-            '#url' => Url::fromUri(file_create_url($result->getFileUri())),
+            '#url' => Url::fromUri(\Drupal::service('file_url_generator')->generateAbsoluteString($result->getFileUri())),
           ];
           $parent['info'][$result->id()]['created'] = [
             '#markup' => $this->dateFormatter->format($result->created->value, 'custom', 'd/M/Y - H:i'),

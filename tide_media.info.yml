@@ -2,7 +2,7 @@ name: Tide Media
 description: 'Provides Media and related configuration. '
 type: module
 package: Tide
-core_version_requirement: ^8.9 || ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - crop:crop
   - drupal:field
