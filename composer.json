@@ -1,6 +1,6 @@
 {
     "name": "dpc-sdp/tide_media",
-    "description": "Media and related configuration for Tide distribution",
+    "description": "Media and related configuration for Tide Drupal 10 distribution",
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
     "require": {
