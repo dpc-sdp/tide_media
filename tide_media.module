@@ -177,7 +177,7 @@ function tide_media_preprocess_file_link(&$variables) {
 
   $config = \Drupal::config('tide_media.settings');
   if ($config->get('file_absolute_url')) {
-    $url = file_create_url($file->getFileUri());
+    $url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
     if ($config->get('force_https')) {
       $url = str_replace('http://', 'https://', $url);
     }
@@ -289,7 +289,7 @@ function tide_media_preprocess_image(&$variables) {
   if (!empty($variables['uri'])) {
     $config = \Drupal::config('tide_media.settings');
     if ($config->get('file_absolute_url')) {
-      $variables['attributes']['src'] = file_create_url($variables['uri']);
+      $variables['attributes']['src'] = \Drupal::service('file_url_generator')->generateAbsoluteString($variables['uri']);
       if ($config->get('force_https')) {
         $variables['attributes']['src'] = str_replace('http://', 'https://', $variables['attributes']['src']);
       }

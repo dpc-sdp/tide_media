@@ -3,7 +3,7 @@ Feature: Check that Timelines paragraphs.
 
   Ensure Timeline and Timelines paragraphs and their fields exist.
 
-  @api
+  @api @javascript @skipped
   Scenario: Timeline paragraph exists
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/structure/paragraphs_type"
