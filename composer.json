@@ -1,5 +1,5 @@
 {
-  "description": "Media and related configuration for Tide Drupal 8 distribution",
+  "description": "Media and related configuration for Tide Drupal 10 distribution",
   "extra": {
     "patches": {
       "drupal/core": {
@@ -20,13 +20,13 @@
   },
   "require": {
     "dpc-sdp/tide_core": "dev-reference",
-    "drupal/crop": "^2.1",
-    "drupal/embed": "^1.1",
+    "drupal/crop": "^2.3",
+    "drupal/embed": "^1.6",
     "drupal/entity_usage": "^2.0@beta",
-    "drupal/focal_point": "^1.5",
-    "drupal/inline_entity_form": "^1.0-rc1",
-    "drupal/svg_image": "^1.10",
-    "drupal/video_embed_field": "dev-2.x"
+    "drupal/focal_point": "^2.0",
+    "drupal/inline_entity_form": "^1.0@RC",
+    "drupal/svg_image": "^3.0",
+    "drupal/video_embed_field": "2.5"
   },
   "type": "drupal-module"
 }
