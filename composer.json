@@ -21,9 +21,6 @@
     },
     "extra": {
         "patches": {
-            "drupal/core": {
-                "Use CKEditor 5's native <ol type> and <ul type> UX - https://www.drupal.org/project/drupal/issues/3274635": "https://www.drupal.org/files/issues/2023-02-03/ckeditor-native-type-attr-on-ol-ul-ux-3274635-13.patch"
-            },
             "drupal/video_embed_field": {
                 "Add support for Ckeditor 5 - https://www.drupal.org/project/video_embed_field/issues/3311063": "./patches/video_embed_field/video_embed_field_6.patch"
             }
