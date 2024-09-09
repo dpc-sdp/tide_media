@@ -12,6 +12,7 @@ dependencies:
   - drupal:user
   - dpc-sdp:tide_core
   - drupal:datetime
+  - drupal/private_files_download_permission
   - field_group:field_group
   - inline_entity_form:inline_entity_form
   - embed:embed
@@ -30,6 +31,7 @@ config_devel:
     - core.entity_form_display.media.embedded_video.default
     - core.entity_form_display.media.file.default
     - core.entity_form_display.media.image.default
+    - core.entity_form_display.media.secure_file.default
     - core.entity_form_display.media.video.default
     - core.entity_form_display.paragraph.call_to_action_image.default
     - core.entity_view_display.media.audio.default
@@ -48,6 +50,7 @@ config_devel:
     - core.entity_view_display.media.image.embedded
     - core.entity_view_display.media.image.embedded_with_caption
     - core.entity_view_display.media.image.media_browser_preview
+    - core.entity_view_display.media.secure_file.default
     - core.entity_view_display.media.video.default
     - core.entity_view_display.media.video.embedded
     - core.entity_view_display.media.video.embedded_with_transcript
@@ -111,6 +114,9 @@ config_devel:
     - field.field.media.video.field_media_summary
     - field.field.media.video.field_media_topic
     - field.field.media.video.field_media_transcript
+    - field.field.media.file.field_secure_file
+    - field.field.media.secure_file.field_media_site
+    - field.field.media.secure_file.field_secure_file
     - field.field.paragraph.call_to_action_image.field_paragraph_cta
     - field.field.paragraph.call_to_action_image.field_paragraph_media
     - field.field.paragraph.timeline.field_paragraph_body
@@ -137,6 +143,7 @@ config_devel:
     - field.storage.media.field_media_topic
     - field.storage.media.field_media_transcript
     - field.storage.media.field_media_video_embed_field
+    - field.storage.media.field_secure_file
     - field.storage.node.field_node_timeline
     - field.storage.paragraph.field_paragraph_media
     - field.storage.paragraph.field_timeline
@@ -145,10 +152,15 @@ config_devel:
     - media.type.embedded_video
     - media.type.file
     - media.type.image
+    - media.type.secure_file
     - media.type.video
     - paragraphs.paragraphs_type.call_to_action_image
+    - pfdp.pfdp_directory.secure
+    - system.action.user_add_role_action.dtf_secure_file_user
+    - system.action.user_remove_role_action.dtf_secure_file_user
     - taxonomy.vocabulary.license_type
     - tide_media.settings
+    - user.role.dtf_secure_file_user
     - views.view.tide_media_browser
   optional:
     - jsonapi_extras.jsonapi_resource_config.paragraph--call_to_action_image

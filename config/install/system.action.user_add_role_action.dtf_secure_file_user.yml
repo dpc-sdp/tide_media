@@ -1,0 +1,14 @@
+uuid: f7dcb4ad-f860-459c-9879-bff03e487367
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.dtf_secure_file_user
+  module:
+    - user
+id: user_add_role_action.dtf_secure_file_user
+label: 'Add the DTF Secure File User role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: dtf_secure_file_user

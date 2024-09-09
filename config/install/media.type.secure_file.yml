@@ -1,0 +1,13 @@
+uuid: bf8f2d6e-6e78-4490-8c3e-8960ca18c719
+langcode: en
+status: true
+dependencies: {  }
+id: secure_file
+label: 'Secure file'
+description: ''
+source: file
+queue_thumbnail_downloads: false
+new_revision: false
+source_configuration:
+  source_field: field_secure_file
+field_map: {  }

@@ -9,6 +9,7 @@
         "drupal/embed": "^1.6",
         "drupal/focal_point": "^2.0",
         "drupal/inline_entity_form": "^1.0@RC",
+        "drupal/private_files_download_permission": "^3.1",
         "drupal/svg_image": "^3.0",
         "drupal/video_embed_field": "2.5",
         "drupal/entity_usage": "^2.0@beta"

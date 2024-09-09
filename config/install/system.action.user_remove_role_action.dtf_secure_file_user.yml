@@ -1,0 +1,14 @@
+uuid: 67405d04-414b-4f14-bed3-3efe670f78cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.dtf_secure_file_user
+  module:
+    - user
+id: user_remove_role_action.dtf_secure_file_user
+label: 'Remove the DTF Secure File User role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: dtf_secure_file_user
