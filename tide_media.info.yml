@@ -12,7 +12,7 @@ dependencies:
   - drupal:user
   - dpc-sdp:tide_core
   - drupal:datetime
-  - drupal:private_files_download_permission
+  - private_files_download_permission:private_files_download_permission
   - field_group:field_group
   - inline_entity_form:inline_entity_form
   - embed:embed
