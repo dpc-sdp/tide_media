@@ -20,6 +20,7 @@ dependencies:
   - entity_browser:entity_browser_entity_form
   - entity_usage:entity_usage
   - focal_point:focal_point
+  - pfdp:pfdp
   - svg_image:svg_image
   - video_embed_field:video_embed_field
   - video_embed_field:video_embed_media
@@ -30,6 +31,7 @@ config_devel:
     - core.entity_form_display.media.embedded_video.default
     - core.entity_form_display.media.file.default
     - core.entity_form_display.media.image.default
+    - core.entity_form_display.media.secure_file.default
     - core.entity_form_display.media.video.default
     - core.entity_form_display.paragraph.call_to_action_image.default
     - core.entity_view_display.media.audio.default
@@ -48,6 +50,7 @@ config_devel:
     - core.entity_view_display.media.image.embedded
     - core.entity_view_display.media.image.embedded_with_caption
     - core.entity_view_display.media.image.media_browser_preview
+    - core.entity_view_display.media.secure_file.default
     - core.entity_view_display.media.video.default
     - core.entity_view_display.media.video.embedded
     - core.entity_view_display.media.video.embedded_with_transcript
@@ -102,6 +105,7 @@ config_devel:
     - field.field.media.image.field_media_department
     - field.field.media.image.field_media_image
     - field.field.media.image.field_media_topic
+    - field.field.media.secure_file.field_secure_file
     - field.field.media.video.field_license_type
     - field.field.media.video.field_media_link
     - field.field.media.video.field_media_audience
@@ -132,6 +136,7 @@ config_devel:
     - field.storage.media.field_media_image
     - field.storage.media.field_media_length
     - field.storage.media.field_media_link
+    - field.storage.media.field_secure_file
     - field.storage.media.field_media_show_transcript
     - field.storage.media.field_media_summary
     - field.storage.media.field_media_topic
@@ -145,11 +150,16 @@ config_devel:
     - media.type.embedded_video
     - media.type.file
     - media.type.image
+    - media.type.secure_file
     - media.type.video
     - paragraphs.paragraphs_type.call_to_action_image
+    - pfdp.pfdp_directory.secure
     - taxonomy.vocabulary.license_type
     - tide_media.settings
     - views.view.tide_media_browser
+    - system.action.user_add_role_action.dtf_secure_file_user
+    - system.action.user_remove_role_action.dtf_secure_file_user
+    - user.role.dtf_secure_file_user
   optional:
     - jsonapi_extras.jsonapi_resource_config.paragraph--call_to_action_image
     - jsonapi_extras.jsonapi_resource_config.paragraph--timeline
