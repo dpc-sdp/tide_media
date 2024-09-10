@@ -7,7 +7,7 @@ bypass: false
 grant_file_owners: false
 users: {  }
 roles:
-  dtf_secure_file_user: dtf_secure_file_user
+  secure_file_user: secure_file_user
   anonymous: '0'
   authenticated: '0'
   administrator: '0'

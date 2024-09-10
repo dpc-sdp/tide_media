@@ -6,8 +6,8 @@ dependencies:
   module:
     - field_permissions
     - media
-id: dtf_secure_file_user
-label: 'DTF Secure File User'
+id: secure_file_user
+label: 'Secure File User'
 weight: 102
 is_admin: null
 permissions:
