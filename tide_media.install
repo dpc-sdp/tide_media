@@ -6,6 +6,8 @@
  */
 
 use Drupal\field\Entity\FieldConfig;
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\FileStorage;
 use Drupal\tide_media\TideOperation;
 
 /**
@@ -70,17 +72,22 @@ function tide_media_update_10004() {
     $module_installer = \Drupal::service('module_installer');
     $module_installer->install(['pfdp']);
 
-    // Creates new secure file user role.
-    $secure_file_role = 'user.role.secure_file_user';
-    $config_path = drupal_get_path('module', 'tide_core') . '/config/install';
+    $configs = [
+      'pfdp.pfdp_directory.secure',
+      'media.type.secure_file',
+      'user.role.secure_file_user',
+    ];
+
+    $config_path = \Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install';
     $source = new FileStorage($config_path);
     $config_storage = \Drupal::service('config.storage');
-    $config_storage->write($secure_file_role, $source->read($secure_file_role));
+
+    foreach ($configs as $config) {
+      $config_storage->write($config, $source->read($config));
+    }
 
     // Add field.
-    $configs = [
-      'pfdp.pfdp_directory.secure' => 'field_config',
-      'media.type.secure_file' => 'field_config',
+    $field_configs = [
       'field.storage.media.field_secure_file' => 'field_storage_config',
       'field.field.media.secure_file.field_secure_file' => 'field_config',
     ];
@@ -88,7 +95,7 @@ function tide_media_update_10004() {
     $config_location = [\Drupal::service('extension.list.module')->getPath('tide_media') . '/config/install'];
 
     // Check if field already exported to config/sync.
-    foreach ($configs as $config => $type) {
+    foreach ($field_configs as $config => $type) {
       $config_read = _tide_read_config($config, $config_location, TRUE);
       $storage = \Drupal::entityTypeManager()->getStorage($type);
       $id = substr($config, strrpos($config, '.') + 1);
