@@ -113,16 +113,8 @@ function tide_media_update_10004() {
       'uuid',
       'langcode',
       'status',
-      '_core',
       'id',
-      'field_name',
-      'entity_type',
       'bundle',
-      'label',
-      'description',
-      'required',
-      'translatable',
-      'field_type',
     ];
     foreach ($update_configs as $update_config => $type) {
       $config_read = _tide_read_config($update_config, $config_location, FALSE);
