@@ -15,8 +15,8 @@ function tide_media_secure_files_uninstall() {
 
   $secure_file_media_type = 'secure_file';
   $ids = \Drupal::entityQuery('media')
-  ->condition('bundle', $secure_file_media_type)
-  ->accessCheck(FALSE)
+    ->condition('bundle', $secure_file_media_type)
+    ->accessCheck(FALSE)
     ->execute();
   $storageHandler = \Drupal::entityTypeManager()->getStorage('media');
   $entities = $storageHandler->loadMultiple($ids);
@@ -26,9 +26,9 @@ function tide_media_secure_files_uninstall() {
     }
   }
 
-$media_type = \Drupal::entityTypeManager()
-  ->getStorage('media_type')
-  ->load($secure_file_media_type);
+  $media_type = \Drupal::entityTypeManager()
+    ->getStorage('media_type')
+    ->load($secure_file_media_type);
   if ($media_type) {
     $media_type->delete();
   }
