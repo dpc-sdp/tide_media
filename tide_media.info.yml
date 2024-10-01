@@ -39,7 +39,7 @@ config_devel:
     - core.entity_view_display.media.document.default
     - core.entity_view_display.media.document.embedded
     - core.entity_view_display.media.document.media_browser_preview
-    - core.entity_view_display.media.embedded_video.defailt
+    - core.entity_view_display.media.embedded_video.default
     - core.entity_view_display.media.embedded_video.embedded
     - core.entity_view_display.media.embedded_video.embedded_with_transcript
     - core.entity_view_display.media.embedded_video.media_browser_preview
